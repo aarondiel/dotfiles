@@ -6,5 +6,8 @@ zmodload zsh/complist
 compinit
 
 alias ls='ls --color=auto --group-directories-first'
-alias grep='grep --color=auto'
+alias grep='grep -E --color=auto'
 alias mkdir='mkdir -p'
+
+# syntax highlighting (requires zsh-syntax-highlighting)
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
