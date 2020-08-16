@@ -93,4 +93,4 @@ endfunction
 
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
-command! -nargs=0 Format :call CocAction(':CocCommand prettier.formatFile')
+command! -nargs=0 Format :CocCommand prettier.formatFile
