@@ -16,7 +16,7 @@ case $1 in
 
     local)
         # update local dotfiles
-        echo "$(difference "." "$HOME")"
+        echo "$(difference "$HOME" ".")"
         read -rp "do you want to update your local dotfiles [Y/n]? " response
         case "$response" in
             [yY][eE][sS]|[yY])
@@ -30,7 +30,7 @@ case $1 in
 
     repository)
         # update the dotfiles in the repository
-        echo "$(difference "$HOME" ".")"
+        echo "$(difference "." "$HOME")"
         read -rp "do you want to update your local dotfiles [Y/n]? " response
         case "$response" in
             [yY][eE][sS]|[yY])
