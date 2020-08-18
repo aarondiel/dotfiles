@@ -8,6 +8,7 @@ compinit
 alias ls='ls --color=auto --group-directories-first'
 alias grep='grep -E --color=auto'
 alias mkdir='mkdir -p'
+alias vim='nvim'
 
 # syntax highlighting (requires zsh-syntax-highlighting)
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
