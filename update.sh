@@ -2,7 +2,7 @@
 
 difference() {
     echo "----vimrc----" && \
-    diff --color=always "${1}/.vimrc" "${2}/.vimrc"
+    diff --color=always -r "${1}/.config/nvim" "${2}/.config/nvim"
     echo "----zshrc----" && \
     diff --color=always "${1}/.zshrc" "${2}/.zshrc"
 }
@@ -20,10 +20,8 @@ case $1 in
         read -rp "do you want to update your local dotfiles [Y/n]? " response
         case "$response" in
             [yY][eE][sS]|[yY])
-                cp .vimrc ~/.vimrc
+                cp -rf .config/nvim/* ~/.config/nvim/
                 cp .zshrc ~/.zshrc
-                break;;
-            *)
                 break;;
         esac
         break;;
@@ -34,10 +32,8 @@ case $1 in
         read -rp "do you want to update your local dotfiles [Y/n]? " response
         case "$response" in
             [yY][eE][sS]|[yY])
-                cp ~/.vimrc .vimrc
+                cp -rf ~/.config/nvim/* .config/nvim/
                 cp ~/.zshrc .zshrc
-                break;;
-            *)
                 break;;
         esac
         break;;

@@ -1,0 +1,7 @@
+{
+    "html.autoClosingTags": true,
+    "prettier.trailingComma": "none",
+    "prettier.singleQuote": true,
+    "python.pythonPath": "python3",
+    "python.jediEnabled": true
+}
