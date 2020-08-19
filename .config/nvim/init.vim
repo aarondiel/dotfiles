@@ -29,6 +29,7 @@ Plug 'preservim/nerdcommenter'
 Plug 'ryanoasis/vim-devicons'
 call plug#end()
 
+let g:netrw_banner = 0
 let g:coc_global_extensions = [
   \ 'coc-clangd',
   \ 'coc-css',
@@ -51,6 +52,8 @@ nnoremap <leader>k :wincmd k<CR>
 nnoremap <leader>l :wincmd l<CR>
 nnoremap <Leader>+ :vertical resize +5<CR>
 nnoremap <Leader>- :vertical resize -5<CR>
+nnoremap <Leader>sv :Vex!<CR>
+nnoremap <Leader>sh :Sex!<CR>
 
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
