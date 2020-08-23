@@ -30,7 +30,6 @@ Plug 'ryanoasis/vim-devicons'
 call plug#end()
 
 let g:NERDTreeMapCustomOpen = "l"
-let g:netrw_banner = 0
 let g:coc_global_extensions = [
   \ 'coc-clangd',
   \ 'coc-css',

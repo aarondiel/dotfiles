@@ -10,5 +10,7 @@ alias grep='grep -E --color=auto'
 alias mkdir='mkdir -p'
 alias vim='nvim'
 
+# autosuggestions (requires zsh-autosuggestions)
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 # syntax highlighting (requires zsh-syntax-highlighting)
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
