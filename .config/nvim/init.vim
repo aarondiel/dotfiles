@@ -55,6 +55,7 @@ nnoremap <Leader>- :vertical resize -5<CR>
 nnoremap <Leader>e :edit .<CR>
 nnoremap <Leader>sv :vs <bar> :wincmd l <bar> :edit .<CR>
 nnoremap <Leader>sh :sp <bar> :wincmd j <bar> :edit .<CR>
+tnoremap <Esc> <C-\><C-n>
 
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -62,6 +63,11 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 nmap <leader>rn <Plug>(coc-rename)
+
+augroup Terminal
+    autocmd!
+    autocmd TermOpen * setlocal nonumber norelativenumber
+augroup END
 
 highlight clear SignColumn
 if has("patch-8.1.1564")
