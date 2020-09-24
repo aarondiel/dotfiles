@@ -10,6 +10,8 @@ alias grep='grep -E --color=auto'
 alias mkdir='mkdir -p'
 alias vim='nvim'
 
+export PATH=$PATH:/home/aaron/.local/bin
+
 # autosuggestions (requires zsh-autosuggestions)
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 # syntax highlighting (requires zsh-syntax-highlighting)

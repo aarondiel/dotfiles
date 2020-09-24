@@ -4,7 +4,6 @@ syntax on
 set noerrorbells
 set tabstop=4 softtabstop=4
 set shiftwidth=4
-set expandtab
 set smartindent
 set nu
 set nowrap
@@ -39,7 +38,8 @@ let g:coc_global_extensions = [
   \ 'coc-prettier',
   \ 'coc-python',
   \ 'coc-tsserver',
-  \ 'coc-vimtex'
+  \ 'coc-vimtex',
+  \ 'coc-vetur'
   \ ]
 
 vmap ++ <plug>NERDCommenterToggle
@@ -67,6 +67,18 @@ nmap <leader>rn <Plug>(coc-rename)
 augroup Terminal
     autocmd!
     autocmd TermOpen * setlocal nonumber norelativenumber
+augroup END
+
+function Shorttab()
+    setlocal tabstop=2 softtabstop=2 shiftwidth=2
+endfunction
+
+augroup Tab
+    autocmd!
+    autocmd FileType javascript call Shorttab()
+	autocmd FileType html call Shorttab()
+	autocmd FileType css call Shorttab()
+	autocmd BufEnter,BufNew *.vue call Shorttab()
 augroup END
 
 highlight clear SignColumn
