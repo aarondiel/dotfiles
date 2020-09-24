@@ -23,11 +23,13 @@ set shortmess+=c
 
 call plug#begin('~/.vim/plugged')
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'lervag/vimtex'
 Plug 'preservim/nerdtree'
 Plug 'preservim/nerdcommenter'
 Plug 'ryanoasis/vim-devicons'
 call plug#end()
 
+let g:tex_flavor='latex'
 let g:NERDTreeMapCustomOpen = "l"
 let g:coc_global_extensions = [
   \ 'coc-clangd',
