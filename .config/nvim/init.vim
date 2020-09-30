@@ -27,6 +27,8 @@ Plug 'lervag/vimtex'
 Plug 'preservim/nerdtree'
 Plug 'preservim/nerdcommenter'
 Plug 'ryanoasis/vim-devicons'
+Plug 'tpope/vim-fugitive'
+Plug 'vim-airline/vim-airline'
 call plug#end()
 
 let g:tex_flavor='latex'
@@ -47,16 +49,18 @@ let g:coc_global_extensions = [
 vmap ++ <plug>NERDCommenterToggle
 nmap ++ <plug>NERDCommenterToggle
 
-nmap <C-n> :NERDTreeToggle<CR>
-nnoremap <leader>h :wincmd h<CR>
-nnoremap <leader>j :wincmd j<CR>
-nnoremap <leader>k :wincmd k<CR>
-nnoremap <leader>l :wincmd l<CR>
-nnoremap <Leader>+ :vertical resize +5<CR>
-nnoremap <Leader>- :vertical resize -5<CR>
-nnoremap <Leader>e :edit .<CR>
-nnoremap <Leader>sv :vs <bar> :wincmd l <bar> :edit .<CR>
-nnoremap <Leader>sh :sp <bar> :wincmd j <bar> :edit .<CR>
+nmap <leader>gh :diffget //3<CR>
+nmap <leader>gu :diffget //2<CR>
+nmap <leader>gs :G<CR>
+nmap <leader>h :wincmd h<CR>
+nmap <leader>j :wincmd j<CR>
+nmap <leader>k :wincmd k<CR>
+nmap <leader>l :wincmd l<CR>
+nmap <Leader>+ :vertical resize +5<CR>
+nmap <Leader>- :vertical resize -5<CR>
+nmap <Leader>e :edit .<CR>
+nmap <Leader>sv :vs <bar> :wincmd l <bar> :edit .<CR>
+nmap <Leader>sh :sp <bar> :wincmd j <bar> :edit .<CR>
 tnoremap <Esc> <C-\><C-n>
 
 nmap <silent> gd <Plug>(coc-definition)
@@ -80,7 +84,7 @@ augroup Tab
     autocmd FileType javascript call Shorttab()
 	autocmd FileType html call Shorttab()
 	autocmd FileType css call Shorttab()
-	autocmd BufEnter,BufNew *.vue call Shorttab()
+	autocmd FileType vue call Shorttab()
 augroup END
 
 highlight clear SignColumn
@@ -101,12 +105,6 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-if exists('*complete_info')
-  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-else
-  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-endif
-
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
@@ -116,5 +114,6 @@ function! s:show_documentation()
 endfunction
 
 autocmd CursorHold * silent call CocActionAsync('highlight')
+inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 command! -nargs=0 Format :CocCommand prettier.formatFile
