@@ -1,5 +1,6 @@
 {
     "html.autoClosingTags": true,
+	"prettier.useTabs": true,
     "prettier.trailingComma": "none",
     "prettier.singleQuote": true,
     "python.pythonPath": "python3",

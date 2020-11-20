@@ -2,6 +2,7 @@ let mapleader=" "
 syntax on
 
 set noerrorbells
+set noexpandtab
 set tabstop=4 softtabstop=4
 set shiftwidth=4
 set smartindent
@@ -29,10 +30,15 @@ Plug 'preservim/nerdcommenter'
 Plug 'ryanoasis/vim-devicons'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
+Plug 'morhetz/gruvbox'
+Plug 'arcticicestudio/nord-vim'
 call plug#end()
 
+colorscheme gruvbox
+set background=dark
+
 let g:tex_flavor='latex'
-let g:NERDTreeMapCustomOpen = "l"
+let g:NERDTreeMapCustomOpen="l"
 let g:coc_global_extensions = [
   \ 'coc-clangd',
   \ 'coc-css',
@@ -61,6 +67,7 @@ nmap <Leader>- :vertical resize -5<CR>
 nmap <Leader>e :edit .<CR>
 nmap <Leader>sv :vs <bar> :wincmd l <bar> :edit .<CR>
 nmap <Leader>sh :sp <bar> :wincmd j <bar> :edit .<CR>
+nmap <Leader>t :tabedit <bar> :edit .<CR>
 tnoremap <Esc> <C-\><C-n>
 
 nmap <silent> gd <Plug>(coc-definition)
@@ -76,11 +83,11 @@ augroup Terminal
 augroup END
 
 function Shorttab()
-    setlocal tabstop=2 softtabstop=2 shiftwidth=2
+	setlocal tabstop=2 softtabstop=2 shiftwidth=2
 endfunction
 
 augroup Tab
-    autocmd!
+	autocmd!
     autocmd FileType javascript call Shorttab()
 	autocmd FileType html call Shorttab()
 	autocmd FileType css call Shorttab()
@@ -89,9 +96,9 @@ augroup END
 
 highlight clear SignColumn
 if has("patch-8.1.1564")
-  set signcolumn=number
+	set signcolumn=number
 else
-  set signcolumn=yes
+	set signcolumn=yes
 endif
 
 inoremap <silent><expr> <TAB>
@@ -101,8 +108,8 @@ inoremap <silent><expr> <TAB>
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+	let col = col('.') - 1
+	return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
 function! s:show_documentation()
