@@ -55,8 +55,8 @@ let g:coc_global_extensions = [
 vmap ++ <plug>NERDCommenterToggle
 nmap ++ <plug>NERDCommenterToggle
 
-nmap <leader>gh :diffget //3<CR>
-nmap <leader>gu :diffget //2<CR>
+nmap <leader>gh :diffget //2<CR>
+nmap <leader>gl :diffget //3<CR>
 nmap <leader>gs :G<CR>
 nmap <leader>h :wincmd h<CR>
 nmap <leader>j :wincmd j<CR>
@@ -86,13 +86,11 @@ function Shorttab()
 	setlocal tabstop=2 softtabstop=2 shiftwidth=2
 endfunction
 
-augroup Tab
-	autocmd!
-    autocmd FileType javascript call Shorttab()
-	autocmd FileType html call Shorttab()
-	autocmd FileType css call Shorttab()
-	autocmd FileType vue call Shorttab()
-augroup END
+autocmd FileType html call Shorttab()
+autocmd FileType html call Shorttab()
+autocmd FileType css call Shorttab()
+autocmd FileType vue call Shorttab()
+autocmd FileType json call Shorttab()
 
 highlight clear SignColumn
 if has("patch-8.1.1564")

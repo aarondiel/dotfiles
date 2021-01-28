@@ -6,9 +6,10 @@ zmodload zsh/complist
 compinit
 
 alias ls='ls --color=auto --group-directories-first'
-alias grep='grep -E --color=auto'
+alias grep='grep -P --color=auto'
 alias mkdir='mkdir -p'
 alias vim='nvim'
+alias cp='cp -r'
 
 export PATH=$PATH:/home/aaron/.local/bin
 
