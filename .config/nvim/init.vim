@@ -87,7 +87,7 @@ function Shorttab()
 endfunction
 
 autocmd FileType html call Shorttab()
-autocmd FileType html call Shorttab()
+autocmd FileType javascript call Shorttab()
 autocmd FileType css call Shorttab()
 autocmd FileType vue call Shorttab()
 autocmd FileType json call Shorttab()
