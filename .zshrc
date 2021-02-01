@@ -1,6 +1,14 @@
 PS1="%B「%U%F{#d70022}%n%f%u@%U%F{#00feff}%m%f%u%  %c」%b"
 
-autoload -U compinit
+precmd() {
+	print -Pn "\e]2;%c\a"
+}
+
+preexec() {
+	print -Pn "\e]2;$1\a"
+}
+
+autoload -Uz compinit
 zstyle ':completion:*' menu select
 zmodload zsh/complist
 compinit
