@@ -52,6 +52,11 @@ let g:coc_global_extensions = [
   \ 'coc-vetur'
   \ ]
 
+function Nerdremap()
+	nnoremap <Buffer>ZQ :echo "test"<CR>
+	nnoremap <Buffer>ZZ :NERDTreeClose<CR>
+endfunction
+
 vmap ++ <plug>NERDCommenterToggle
 nmap ++ <plug>NERDCommenterToggle
 
@@ -64,9 +69,9 @@ nmap <leader>k :wincmd k<CR>
 nmap <leader>l :wincmd l<CR>
 nmap <Leader>+ :vertical resize +5<CR>
 nmap <Leader>- :vertical resize -5<CR>
-nmap <Leader>e :edit .<CR>
-nmap <Leader>sv :vs <bar> :wincmd l <bar> :edit .<CR>
-nmap <Leader>sh :sp <bar> :wincmd j <bar> :edit .<CR>
+nmap <Leader>e :edit . <bar> :call Nerdremap()<CR>
+nmap <Leader>sv :vs <bar> :wincmd l <bar> :call Nerdremap()<CR>
+nmap <Leader>sh :sp <bar> :wincmd j <bar> :call Nerdremap()<CR>
 nmap <Leader>t :tabedit <bar> :edit .<CR>
 tnoremap <Esc> <C-\><C-n>
 
