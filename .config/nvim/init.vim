@@ -53,8 +53,8 @@ let g:coc_global_extensions = [
   \ ]
 
 function Nerdremap()
-	nnoremap <Buffer>ZQ :echo "test"<CR>
-	nnoremap <Buffer>ZZ :NERDTreeClose<CR>
+	nnoremap <buffer>ZQ :NERDTreeClose<CR>
+	nnoremap <buffer>ZZ :NERDTreeClose<CR>
 endfunction
 
 vmap ++ <plug>NERDCommenterToggle
