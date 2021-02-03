@@ -11,6 +11,12 @@ shiftkey = "Shift"
 local keys = {}
 
 keys.globalkeys = gears.table.join(
+	awful.key({modkey}, "d",
+		function()
+			awful.spawn.with_shell("rofi -matching fuzzy -show combi")
+		end,
+		{description = "rofi launcher", group = "launcher"}
+	),
 	awful.key(
 		{modkey},
 		"s",

@@ -22,6 +22,7 @@ alias grep='grep -P --color=auto'
 alias mkdir='mkdir -p'
 alias vim='nvim'
 alias cp='cp -r'
+alias less='less -r'
 
 export PATH=$PATH:/home/aaron/.local/bin
 

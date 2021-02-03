@@ -1,11 +1,13 @@
--- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
 require("awful.autofocus")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 local naughty = require("naughty")
+
 local keys = require("keys")
+local theme = require("theme")
+beautiful.init(theme)
 
 -- startup error handling
 if awesome.startup_errors then
@@ -35,7 +37,6 @@ do
 end
 
 -- variable definitions
-beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 terminal = "kitty -1"
 editor = "nvim"
 editor_cmd = terminal .. " -e " .. editor
@@ -67,7 +68,7 @@ awful.screen.connect_for_each_screen(function(s)
 		awful.layout.suit.fair,
 	}
 
-	local tagnames = beautiful.tagnames or {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"}
+	local tagnames = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"}
 
 	awful.tag(tagnames, s, layouts)
 end)
