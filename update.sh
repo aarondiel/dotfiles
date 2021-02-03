@@ -7,6 +7,8 @@ difference() {
 	diff --color=always "${1}/.zshrc" "${2}/.zshrc"
 	echo "----kitty----" && \
 	diff --color=always "${1}/.config/kitty" "${2}/.config/kitty"
+	echo "----awesome----" && \
+	diff --color=always "${1}/.config/awesome" "${2}/.config/awesome"
 }
 
 case $1 in
@@ -25,6 +27,7 @@ case $1 in
 				cp -rf .config/nvim/* ~/.config/nvim/
 				cp .zshrc ~/.zshrc
 				cp -rf .config/kitty/* ~/.config/kitty/
+				cp -rf .config/awesome/* ~/.config/awesome/
 				break;;
 		esac
 		break;;
@@ -38,6 +41,7 @@ case $1 in
 				cp -rf ~/.config/nvim/* .config/nvim/
 				cp ~/.zshrc .zshrc
 				cp -rf ~/.config/kitty/* ./.config/kitty/
+				cp -rf ~/.config/awesome/* ./.config/awesome/
 				break;;
 		esac
 		break;;
