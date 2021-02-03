@@ -1,0 +1,31 @@
+Xft.dpi: 102
+Xft.antialias: true
+Xft.hinting: true
+Xft.rgba: rgb
+Xft.autohint: false
+Xft.hintstyle: hintfull
+Xft.lcdfilter: lcddefault
+
+xcursor.theme: Vanilla-DMZ
+xscreensaver.fade:   false
+xscreensaver.unfade: false
+
+*background:	#1D1F28
+*foreground:	#FDFDFD
+*cursorColor:	#C574DD
+*color0:	#272727
+*color1:	#cc231c
+*color2:	#989719
+*color3:	#d79920
+*color4:	#448488
+*color5:	#b16185
+*color6:	#689d69
+*color7:	#a89983
+*color8:	#928373
+*color9:	#fb4833
+*color1:	#b8ba25
+*color1:	#fabc2e
+*color1:	#83a597
+*color1:	#d3859a
+*color1:	#8ec07b
+*color1:	#ebdbb2

@@ -5,6 +5,8 @@ difference() {
 	diff --color=always -r "${1}/.config/nvim" "${2}/.config/nvim"
 	echo "----zshrc----" && \
 	diff --color=always "${1}/.zshrc" "${2}/.zshrc"
+	echo "----Xresources----" && \
+	diff --color=always "${1}/.Xresources" "${2}/.Xresources"
 	echo "----kitty----" && \
 	diff --color=always "${1}/.config/kitty" "${2}/.config/kitty"
 	echo "----awesome----" && \
@@ -26,6 +28,7 @@ case $1 in
 			[yY][eE][sS]|[yY]|*)
 				cp -rf .config/nvim/* ~/.config/nvim/
 				cp .zshrc ~/.zshrc
+				cp .Xresources ~/.Xresources
 				cp -rf .config/kitty/* ~/.config/kitty/
 				cp -rf .config/awesome/* ~/.config/awesome/
 				break;;
@@ -40,6 +43,7 @@ case $1 in
 			[yY][eE][sS]|[yY]|*)
 				cp -rf ~/.config/nvim/* .config/nvim/
 				cp ~/.zshrc .zshrc
+				cp ~/.Xresources .Xresources
 				cp -rf ~/.config/kitty/* ./.config/kitty/
 				cp -rf ~/.config/awesome/* ./.config/awesome/
 				break;;
