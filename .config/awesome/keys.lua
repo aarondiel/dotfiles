@@ -1,6 +1,7 @@
 local gears = require("gears")
 local awful = require("awful")
 local hotkeys_popup = require("awful.hotkeys_popup")
+local util = require("util")
 require("awful.hotkeys_popup.keys")
 
 modkey = "Mod4"
@@ -11,7 +12,9 @@ shiftkey = "Shift"
 local keys = {}
 
 keys.globalkeys = gears.table.join(
-	awful.key({modkey}, "d",
+	awful.key(
+		{modkey},
+		"d",
 		function()
 			awful.spawn.with_shell("rofi -matching fuzzy -show combi")
 		end,
@@ -22,6 +25,22 @@ keys.globalkeys = gears.table.join(
 		"s",
 		hotkeys_popup.show_help,
 		{description="show help", group="awesome"}
+	),
+	awful.key(
+		{},
+		"XF86AudioLowerVolume",
+		function()
+			util.volume_control(-5)
+		end,
+		{description = "lower volume", group = "volume"}
+	),
+	awful.key(
+		{},
+		"XF86AudioRaiseVolume",
+		function()
+			util.volume_control(5)
+		end,
+		{description = "raise volume", group = "volume"}
 	),
 	awful.key(
 		{modkey},
