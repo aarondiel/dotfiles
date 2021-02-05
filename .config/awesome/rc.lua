@@ -8,6 +8,7 @@ local naughty = require("naughty")
 local keys = require("keys")
 local theme = require("theme")
 beautiful.init(theme)
+local titlebar = require("titlebar")
 
 -- startup error handling
 if awesome.startup_errors then
@@ -76,7 +77,7 @@ end)
 -- rules
 awful.rules.rules = {
 	{
-		rule = { },
+		rule = {},
 		properties = {
 			border_width = beautiful.border_width,
 			border_color = beautiful.border_normal,
@@ -88,41 +89,20 @@ awful.rules.rules = {
 			placement = awful.placement.no_overlap+awful.placement.no_offscreen
 		}
 	},
-
 	{
 		rule_any = {
 			instance = {
-				"DTA",	-- Firefox addon DownThemAll.
-				"copyq",	-- Includes session name in class.
-				"pinentry",
-			},
-			class = {
-				"Arandr",
-				"Blueman-manager",
-				"Gpick",
-				"Kruler",
-				"MessageWin",  -- kalarm.
-				"Sxiv",
-				"Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
-				"Wpa_gui",
-				"veromix",
-				"xtightvncviewer"
-			},
-
-			name = {
-				"Event Tester",  -- xev.
+				"copyq"
 			},
 			role = {
-				"AlarmWindow",	-- Thunderbird's calendar.
-				"ConfigManager",	-- Thunderbird's about:config.
-				"pop-up",		  -- e.g. Google Chrome's (detached) Developer Tools.
+				"pop-up"
 			}
+		},
+		properties = {floating = true}
 	},
-	properties = {floating = true}},
-
 	{
-		rule_any = {type = {"normal", "dialog"}},
-		properties = { titlebars_enabled = true }
+		rule_any = {type = {"normal"}},
+		properties = { titlebars_enabled = false }
 	}
 }
 
@@ -131,42 +111,6 @@ client.connect_signal("manage", function(c)
 	if awesome.startup and not c.size_hints.user_position and not c.size_hints.program_position then
 		awful.placement.no_offscreen(c)
 	end
-end)
-
--- titlebar
-client.connect_signal("request::titlebars", function(c)
-	local buttons = gears.table.join(
-		awful.button({}, 1, function()
-			c:emit_signal("request::activate", "titlebar", {raise = true})
-			awful.mouse.client.move(c)
-		end),
-		awful.button({}, 3, function()
-			c:emit_signal("request::activate", "titlebar", {raise = true})
-			awful.mouse.client.resize(c)
-		end)
-	)
-
-	awful.titlebar(c):setup {
-		{ -- left
-			awful.titlebar.widget.iconwidget(c),
-			buttons = buttons,
-			layout	= wibox.layout.fixed.horizontal
-		},
-		{ -- middle
-			{ -- title
-				align  = "center",
-				widget = awful.titlebar.widget.titlewidget(c)
-			},
-			buttons = buttons,
-			layout	= wibox.layout.flex.horizontal
-		},
-		{ -- right
-			awful.titlebar.widget.maximizedbutton(c),
-			awful.titlebar.widget.closebutton	 (c),
-			layout = wibox.layout.fixed.horizontal()
-		},
-		layout = wibox.layout.align.horizontal
-	}
 end)
 
 -- Enable sloppy focus, so that focus follows mouse.

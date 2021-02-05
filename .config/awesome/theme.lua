@@ -32,20 +32,18 @@ theme.border_normal = xrdb.background
 theme.border_focus  = xrdb.background
 theme.border_radius = dpi(6)
 
-theme.titlebars_enabled = true
+theme.titlebars_enabled = false
 theme.titlebar_size = dpi(32)
 theme.titlebar_title_enabled = false
 theme.titlebar_font = "sans bold 9"
--- Window title alignment: left, right, center
 theme.titlebar_title_align = "center"
 theme.titlebar_position = "top"
 theme.titlebar_bg = xrdb.color0
--- theme.titlebar_bg = xrdb.background
--- theme.titlebar_bg_focus = xrdb.color12
--- theme.titlebar_bg_normal = xrdb.color8
+theme.titlebar_bg = xrdb.background
+theme.titlebar_bg_focus = xrdb.color12
+theme.titlebar_bg_normal = xrdb.color8
 theme.titlebar_fg_focus = xrdb.background
 theme.titlebar_fg_normal = xrdb.color8
---theme.titlebar_fg = xrdb.color7
 
 theme.notification_position = "top_right"
 theme.notification_border_width = dpi(0)
