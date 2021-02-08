@@ -91,9 +91,6 @@ awful.rules.rules = {
 	},
 	{
 		rule_any = {
-			instance = {
-				"copyq"
-			},
 			role = {
 				"pop-up"
 			}
