@@ -5,10 +5,10 @@ set noerrorbells
 set noexpandtab
 set tabstop=4 softtabstop=4
 set shiftwidth=4
-set smartindent
 set nu
 set nowrap
 set smartcase
+set smartindent
 set noswapfile
 set undodir=~/.vim/undodir
 set undofile
@@ -21,6 +21,7 @@ set nowritebackup
 set cmdheight=2
 set updatetime=300
 set shortmess+=c
+set ignorecase
 
 call plug#begin('~/.vim/plugged')
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -31,17 +32,22 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
 Plug 'morhetz/gruvbox'
-Plug 'arcticicestudio/nord-vim'
+Plug 'posva/vim-vue'
 call plug#end()
 
 colorscheme gruvbox
 set background=dark
 
-let g:tex_flavor='latex'
-let g:NERDTreeMapCustomOpen="l"
+let g:NERDSpaceDelims = 1
+let g:NERDCompactSexyComs = 1
+let g:NERDCommentEmptyLines = 1
+let g:NERDTrimTrailingWhitespace = 1
+let g:tex_flavor = 'latex'
+let g:NERDTreeMapCustomOpen = "l"
 let g:coc_global_extensions = [
   \ 'coc-clangd',
   \ 'coc-css',
+  \ 'coc-eslint',
   \ 'coc-html',
   \ 'coc-json',
   \ 'coc-lua',
@@ -50,7 +56,6 @@ let g:coc_global_extensions = [
   \ 'coc-python',
   \ 'coc-tsserver',
   \ 'coc-vimtex',
-  \ 'coc-vetur'
   \ ]
 
 function Nerdremap()
@@ -125,6 +130,9 @@ function! s:show_documentation()
 endfunction
 
 autocmd CursorHold * silent call CocActionAsync('highlight')
-inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+"\<C-G>u breaks the undo chain
+"<C-R>= inserts the result of an expression at the cursor
+"coc#on_enter triggers coc formatting
+inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<C-G>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 command! -nargs=0 Format :CocCommand prettier.formatFile

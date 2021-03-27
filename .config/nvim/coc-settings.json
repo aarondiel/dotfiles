@@ -3,6 +3,8 @@
 	"prettier.useTabs": true,
 	"prettier.trailingComma": "none",
 	"prettier.singleQuote": true,
+	"prettier.semi": true,
+	"prettier.eslintIntegration": true,
 	"python.pythonPath": "python3",
 	"python.jediEnabled": true
 }

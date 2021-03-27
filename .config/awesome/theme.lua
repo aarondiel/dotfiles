@@ -9,7 +9,7 @@ local xrdb = xresources.get_current_theme()
 
 local theme = {}
 
-theme.font = "SourceCodePro 11"
+theme.font = "Source Code Pro 11"
 theme.icon_theme = "/usr/share/icons/Papirus-Dark"
 
 theme.bg_dark       = xrdb.background
