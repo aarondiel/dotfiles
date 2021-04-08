@@ -14,6 +14,10 @@ preexec() {
 	print -Pn '\e]2;$1\a'
 }
 
+customFind() {
+	find $1 2>/dev/null | grep --color=always "$2"
+}
+
 setopt prompt_subst
 PROMPT='%B「%U%F{#cc231c}%n%f%u@%U%F{#689d69}%m%f%u%  %c${vcs_info_msg_0_}」%b'
 
@@ -23,6 +27,7 @@ alias mkdir='mkdir -p'
 alias vim='nvim'
 alias cp='cp -r'
 alias less='less -r'
+alias find='customFind'
 
 export PATH=$PATH:/home/aaron/.local/bin
 

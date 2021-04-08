@@ -45,23 +45,19 @@ let g:NERDTrimTrailingWhitespace = 1
 let g:tex_flavor = 'latex'
 let g:NERDTreeMapCustomOpen = "l"
 let g:coc_global_extensions = [
-  \ 'coc-clangd',
-  \ 'coc-css',
-  \ 'coc-eslint',
-  \ 'coc-html',
-  \ 'coc-json',
-  \ 'coc-lua',
-  \ 'coc-pairs',
-  \ 'coc-prettier',
-  \ 'coc-python',
-  \ 'coc-tsserver',
-  \ 'coc-vimtex',
-  \ ]
-
-function Nerdremap()
-	nnoremap <buffer>ZQ :NERDTreeClose<CR>
-	nnoremap <buffer>ZZ :NERDTreeClose<CR>
-endfunction
+ \	'coc-clangd',
+ \	'coc-css',
+ \	'coc-eslint',
+ \	'coc-html',
+ \	'coc-json',
+ \	'coc-lua',
+ \	'coc-pairs',
+ \	'coc-prettier',
+ \	'coc-python',
+ \	'coc-tsserver',
+ \	'coc-vetur',
+ \	'coc-vimtex',
+ \	]
 
 vmap ++ <plug>NERDCommenterToggle
 nmap ++ <plug>NERDCommenterToggle
@@ -75,9 +71,9 @@ nmap <leader>k :wincmd k<CR>
 nmap <leader>l :wincmd l<CR>
 nmap <Leader>+ :vertical resize +5<CR>
 nmap <Leader>- :vertical resize -5<CR>
-nmap <Leader>e :edit . <bar> :call Nerdremap()<CR>
-nmap <Leader>sv :vs <bar> :wincmd l <bar> :edit . <bar> :call Nerdremap()<CR>
-nmap <Leader>sh :sp <bar> :wincmd j <bar> :edit . <bar> :call Nerdremap()<CR>
+nmap <Leader>e :edit .<CR>
+nmap <Leader>sv :vs <bar> :wincmd l <bar> :edit .<CR>
+nmap <Leader>sh :sp <bar> :wincmd j <bar> :edit .<CR>
 nmap <Leader>t :tabedit <bar> :edit .<CR>
 tnoremap <Esc> <C-\><C-n>
 

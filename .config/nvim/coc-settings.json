@@ -6,5 +6,6 @@
 	"prettier.semi": true,
 	"prettier.eslintIntegration": true,
 	"python.pythonPath": "python3",
-	"python.jediEnabled": true
+	"python.jediEnabled": true,
+	"vetur.format.options.useTabs": true
 }
