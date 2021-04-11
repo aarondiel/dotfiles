@@ -25,14 +25,12 @@ set ignorecase
 
 call plug#begin('~/.vim/plugged')
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'lervag/vimtex'
 Plug 'preservim/nerdtree'
 Plug 'preservim/nerdcommenter'
 Plug 'ryanoasis/vim-devicons'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
 Plug 'morhetz/gruvbox'
-Plug 'posva/vim-vue'
 call plug#end()
 
 colorscheme gruvbox
@@ -42,74 +40,66 @@ let g:NERDSpaceDelims = 1
 let g:NERDCompactSexyComs = 1
 let g:NERDCommentEmptyLines = 1
 let g:NERDTrimTrailingWhitespace = 1
-let g:tex_flavor = 'latex'
 let g:NERDTreeMapCustomOpen = "l"
 let g:coc_global_extensions = [
- \	'coc-clangd',
- \	'coc-css',
- \	'coc-eslint',
- \	'coc-html',
- \	'coc-json',
- \	'coc-lua',
- \	'coc-pairs',
- \	'coc-prettier',
- \	'coc-python',
- \	'coc-tsserver',
- \	'coc-vetur',
- \	'coc-vimtex',
- \	]
+	\ 'coc-clangd',
+	\ 'coc-css',
+	\ 'coc-eslint',
+	\ 'coc-html',
+	\ 'coc-json',
+	\ 'coc-lua',
+	\ 'coc-pairs',
+	\ 'coc-python',
+	\ 'coc-vetur',
+	\ 'coc-vimtex',
+	\ ]
 
-vmap ++ <plug>NERDCommenterToggle
-nmap ++ <plug>NERDCommenterToggle
+nnoremap ++ <plug>NERDCommenterToggle
+nnoremap <leader>gh :diffget //2<CR>
+nnoremap <leader>gl :diffget //3<CR>
+nnoremap <leader>gs :G<CR>
+nnoremap <leader>h :wincmd h<CR>
+nnoremap <leader>j :wincmd j<CR>
+nnoremap <leader>k :wincmd k<CR>
+nnoremap <leader>l :wincmd l<CR>
+nnoremap <Leader>+ :vertical resize +5<CR>
+nnoremap <Leader>- :vertical resize -5<CR>
+nnoremap <Leader>e :edit .<CR>
+nnoremap <Leader>sv :vs <bar> :wincmd l <bar> :edit .<CR>
+nnoremap <Leader>sh :sp <bar> :wincmd j <bar> :edit .<CR>
+nnoremap <Leader>t :tabedit <bar> :edit .<CR>
+nnoremap <silent><leader>gd <Plug>(coc-definition)
+nnoremap <silent><leader>gy <Plug>(coc-type-definition)
+nnoremap <silent><leader>gi <Plug>(coc-implementation)
+nnoremap <silent><leader>gr <Plug>(coc-references)
+nnoremap <silent><leader>K :call <SID>show_documentation()<CR>
+nnoremap <leader>rn <Plug>(coc-rename)
+nnoremap <silent><expr> ZZ or(expand('%:t') !~ '^NERD.*', winnr('$') == 1) ? ':wq<CR>' : ':NERDTreeClose<CR>'
+nnoremap <silent><expr> ZQ or(expand('%:t') !~ '^NERD.*', winnr('$') == 1) ? ':q!<CR>' : ':NERDTreeClose<CR>'
 
-nmap <leader>gh :diffget //2<CR>
-nmap <leader>gl :diffget //3<CR>
-nmap <leader>gs :G<CR>
-nmap <leader>h :wincmd h<CR>
-nmap <leader>j :wincmd j<CR>
-nmap <leader>k :wincmd k<CR>
-nmap <leader>l :wincmd l<CR>
-nmap <Leader>+ :vertical resize +5<CR>
-nmap <Leader>- :vertical resize -5<CR>
-nmap <Leader>e :edit .<CR>
-nmap <Leader>sv :vs <bar> :wincmd l <bar> :edit .<CR>
-nmap <Leader>sh :sp <bar> :wincmd j <bar> :edit .<CR>
-nmap <Leader>t :tabedit <bar> :edit .<CR>
 tnoremap <Esc> <C-\><C-n>
-
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-nmap <leader>rn <Plug>(coc-rename)
-
-augroup Terminal
-    autocmd!
-    autocmd TermOpen * setlocal nonumber norelativenumber
-augroup END
+vnoremap ++ <plug>NERDCommenterToggle
+inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<C-G>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 function Shorttab()
 	setlocal tabstop=2 softtabstop=2 shiftwidth=2
 endfunction
 
-autocmd FileType html call Shorttab()
-autocmd FileType javascript call Shorttab()
-autocmd FileType css call Shorttab()
-autocmd FileType vue call Shorttab()
-autocmd FileType json call Shorttab()
-
-highlight clear SignColumn
-if has("patch-8.1.1564")
-	set signcolumn=number
-else
-	set signcolumn=yes
-endif
+augroup custom
+	autocmd!
+	autocmd TermOpen * setlocal nonumber norelativenumber
+	autocmd FileType html call Shorttab()
+	autocmd FileType javascript call Shorttab()
+	autocmd FileType css call Shorttab()
+	autocmd FileType vue call Shorttab()
+	autocmd FileType json call Shorttab()
+	autocmd CursorHold * silent call CocActionAsync('highlight')
+augroup END
 
 inoremap <silent><expr> <TAB>
-  \ pumvisible() ? "\<C-n>" :
-  \ <SID>check_back_space() ? "\<TAB>" :
-  \ coc#refresh()
+	\ pumvisible() ? "\<C-n>" :
+	\ <SID>check_back_space() ? "\<TAB>" :
+	\ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
@@ -118,17 +108,9 @@ function! s:check_back_space() abort
 endfunction
 
 function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
+	if (index(['vim','help'], &filetype) >= 0)
+		execute 'h '.expand('<cword>')
+	else
+		call CocAction('doHover')
+	endif
 endfunction
-
-autocmd CursorHold * silent call CocActionAsync('highlight')
-"\<C-G>u breaks the undo chain
-"<C-R>= inserts the result of an expression at the cursor
-"coc#on_enter triggers coc formatting
-inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<C-G>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
-command! -nargs=0 Format :CocCommand prettier.formatFile

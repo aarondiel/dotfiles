@@ -21,6 +21,7 @@ customFind() {
 setopt prompt_subst
 PROMPT='%B「%U%F{#cc231c}%n%f%u@%U%F{#689d69}%m%f%u%  %c${vcs_info_msg_0_}」%b'
 
+alias vim='nvim'
 alias ls='ls --color=auto --group-directories-first'
 alias grep='grep -P --color=auto'
 alias mkdir='mkdir -p'
