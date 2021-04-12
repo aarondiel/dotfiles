@@ -3,12 +3,12 @@ syntax on
 
 set noerrorbells
 set noexpandtab
-set tabstop=4 softtabstop=4
+set tabstop=4
+set softtabstop=4
 set shiftwidth=4
 set nu
 set nowrap
 set smartcase
-set smartindent
 set noswapfile
 set undodir=~/.vim/undodir
 set undofile
@@ -47,11 +47,9 @@ let g:coc_global_extensions = [
 	\ 'coc-eslint',
 	\ 'coc-html',
 	\ 'coc-json',
-	\ 'coc-lua',
 	\ 'coc-pairs',
 	\ 'coc-python',
 	\ 'coc-vetur',
-	\ 'coc-vimtex',
 	\ ]
 
 nnoremap ++ <plug>NERDCommenterToggle
@@ -79,10 +77,13 @@ nnoremap <silent><expr> ZQ or(expand('%:t') !~ '^NERD.*', winnr('$') == 1) ? ':q
 
 tnoremap <Esc> <C-\><C-n>
 vnoremap ++ <plug>NERDCommenterToggle
-inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<C-G>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() :
+	\ getline('.')[col('.') - 2] =~ "[{\[\'\"]" ? "<CR><ESC>O<TAB>" : "<CR>"
 
 function Shorttab()
-	setlocal tabstop=2 softtabstop=2 shiftwidth=2
+	setlocal tabstop=2
+	setlocal softtabstop=2
+	setlocal shiftwidth=2
 endfunction
 
 augroup custom
