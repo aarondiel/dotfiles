@@ -1,11 +1,10 @@
 let mapleader=" "
-syntax on
 
 set noerrorbells
 set noexpandtab
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
 set nu
 set nowrap
 set smartcase
@@ -31,11 +30,28 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
 Plug 'morhetz/gruvbox'
+Plug 'lervag/vimtex'
 call plug#end()
 
 colorscheme gruvbox
 set background=dark
 
+let g:vimtex_view_general_viewer = "evince"
+let g:vimtex_compiler_latexmk = {
+	\	'build_dir' : 'build',
+	\	'callback' : 0,
+	\	'continuous' : 1,
+	\	'executable' : 'latexmk',
+	\	'hooks' : [],
+	\	'options' : [
+	\		'-verbose',
+	\		'-file-line-error',
+	\		'-synctex=1',
+	\		'-interaction=nonstopmode',
+	\	],
+	\ }
+let g:build_dir = "build"
+let g:callback = 0
 let g:NERDSpaceDelims = 1
 let g:NERDCompactSexyComs = 1
 let g:NERDCommentEmptyLines = 1
@@ -49,7 +65,9 @@ let g:coc_global_extensions = [
 	\ 'coc-json',
 	\ 'coc-pairs',
 	\ 'coc-python',
+	\ 'coc-sql',
 	\ 'coc-vetur',
+	\ 'coc-vimtex'
 	\ ]
 
 nnoremap ++ <plug>NERDCommenterToggle
@@ -79,21 +97,17 @@ tnoremap <Esc> <C-\><C-n>
 vnoremap ++ <plug>NERDCommenterToggle
 inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() :
 	\ getline('.')[col('.') - 2] =~ "[{\[\'\"]" ? "<CR><ESC>O<TAB>" : "<CR>"
+inoremap <silent><expr> <C-Space> pumvisible() ? coc#refresh() : ""
 
-function Shorttab()
-	setlocal tabstop=2
-	setlocal softtabstop=2
-	setlocal shiftwidth=2
+function Longtab()
+	setlocal tabstop=4
+	setlocal softtabstop=4
+	setlocal shiftwidth=4
 endfunction
 
 augroup custom
 	autocmd!
 	autocmd TermOpen * setlocal nonumber norelativenumber
-	autocmd FileType html call Shorttab()
-	autocmd FileType javascript call Shorttab()
-	autocmd FileType css call Shorttab()
-	autocmd FileType vue call Shorttab()
-	autocmd FileType json call Shorttab()
 	autocmd CursorHold * silent call CocActionAsync('highlight')
 augroup END
 
