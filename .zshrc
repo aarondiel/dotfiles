@@ -31,3 +31,5 @@ export PATH=$PATH:/home/aaron/.local/bin
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 # syntax highlighting (requires zsh-syntax-highlighting)
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+alias luamake=/home/aaron/.local/share/lua-language-server/3rd/luamake/luamake
