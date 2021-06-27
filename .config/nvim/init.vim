@@ -87,10 +87,10 @@ nmap <silent><Leader>- :vertical resize -5<cr>
 nmap <silent><Leader>sv :vs <cr> :wincmd l <bar> :edit .<cr>
 nmap <silent><Leader>sh :sp <bar> :wincmd j <bar> :edit .<cr>
 nmap <silent><Leader>t :tabedit <bar> :edit .<cr>
-nmap <silent><leader>gd <plug>coc-definition
-nmap <silent><leader>gy <plug>coc-type-definition
-nmap <silent><leader>gi <plug>coc-implementation
-nmap <silent><leader>gr <plug>coc-references
+nmap <silent><leader>gd <plug>(coc-definition)
+nmap <silent><leader>gy <plug>(coc-type-definition)
+nmap <silent><leader>gi <plug>(coc-implementation)
+nmap <silent><leader>gr <plug>(coc-references)
 nmap <silent><leader>K :call <SID>show_documentation()<cr>
 nmap <leader>rn <plug>(coc-rename)
 nmap <silent><expr> ZZ or(expand('%:t') !~ '^NERD.*', winnr('$') == 1) ? ':wq<cr>' : ':NERDTreeClose<cr>'
