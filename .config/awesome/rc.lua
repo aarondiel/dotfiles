@@ -1,14 +1,11 @@
-local gears = require("gears")
-local awful = require("awful")
 require("awful.autofocus")
-local wibox = require("wibox")
+local awful = require("awful")
 local beautiful = require("beautiful")
 local naughty = require("naughty")
 
 local keys = require("keys")
 local theme = require("theme")
 beautiful.init(theme)
-local titlebar = require("titlebar")
 
 -- startup error handling
 if awesome.startup_errors then
@@ -38,9 +35,6 @@ do
 end
 
 -- variable definitions
-terminal = "kitty -1"
-editor = "nvim"
-editor_cmd = terminal .. " -e " .. editor
 awful.layout.layouts = {
 	awful.layout.suit.tile,
 	awful.layout.suit.floating,

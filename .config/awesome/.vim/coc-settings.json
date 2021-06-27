@@ -1,0 +1,14 @@
+{
+	"Lua.workspace.library": {
+		"/usr/share/awesome/lib": true
+	},
+	"Lua.diagnostics.globals": [
+		"awesome",
+		"client",
+		"drawable",
+		"mousegrabber",
+		"root",
+		"screen",
+		"tag"
+	]
+}

@@ -21,6 +21,7 @@ set cmdheight=2
 set updatetime=300
 set shortmess+=c
 set ignorecase
+filetype plugin on
 
 call plug#begin('~/.vim/plugged')
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -50,19 +51,21 @@ let g:vimtex_compiler_latexmk = {
 	\		'-interaction=nonstopmode',
 	\	],
 	\ }
-let g:build_dir = "build"
+let g:build_dir = 'build'
 let g:callback = 0
 let g:NERDSpaceDelims = 1
 let g:NERDCompactSexyComs = 1
 let g:NERDCommentEmptyLines = 1
 let g:NERDTrimTrailingWhitespace = 1
-let g:NERDTreeMapCustomOpen = "l"
+let g:NERDTreeMapCustomOpen = 'l'
+let g:NERDCreateDefaultMappings = 0
 let g:coc_global_extensions = [
 	\ 'coc-clangd',
 	\ 'coc-css',
 	\ 'coc-eslint',
 	\ 'coc-html',
 	\ 'coc-json',
+	\ 'coc-lua',
 	\ 'coc-pairs',
 	\ 'coc-python',
 	\ 'coc-sql',
@@ -70,34 +73,34 @@ let g:coc_global_extensions = [
 	\ 'coc-vimtex'
 	\ ]
 
-nnoremap ++ <plug>NERDCommenterToggle
-nnoremap <leader>gh :diffget //2<CR>
-nnoremap <leader>gl :diffget //3<CR>
-nnoremap <leader>gs :G<CR>
-nnoremap <leader>h :wincmd h<CR>
-nnoremap <leader>j :wincmd j<CR>
-nnoremap <leader>k :wincmd k<CR>
-nnoremap <leader>l :wincmd l<CR>
-nnoremap <Leader>+ :vertical resize +5<CR>
-nnoremap <Leader>- :vertical resize -5<CR>
-nnoremap <Leader>e :edit .<CR>
-nnoremap <Leader>sv :vs <bar> :wincmd l <bar> :edit .<CR>
-nnoremap <Leader>sh :sp <bar> :wincmd j <bar> :edit .<CR>
-nnoremap <Leader>t :tabedit <bar> :edit .<CR>
-nnoremap <silent><leader>gd <Plug>(coc-definition)
-nnoremap <silent><leader>gy <Plug>(coc-type-definition)
-nnoremap <silent><leader>gi <Plug>(coc-implementation)
-nnoremap <silent><leader>gr <Plug>(coc-references)
-nnoremap <silent><leader>K :call <SID>show_documentation()<CR>
-nnoremap <leader>rn <Plug>(coc-rename)
-nnoremap <silent><expr> ZZ or(expand('%:t') !~ '^NERD.*', winnr('$') == 1) ? ':wq<CR>' : ':NERDTreeClose<CR>'
-nnoremap <silent><expr> ZQ or(expand('%:t') !~ '^NERD.*', winnr('$') == 1) ? ':q!<CR>' : ':NERDTreeClose<CR>'
+nmap ++ <plug>NERDCommenterComment
+nmap <silent><leader>gh :diffget //2<cr>
+nmap <silent><leader>gl :diffget //3<cr>
+nmap <silent><leader>gs :G<cr>
+nmap <silent><Leader>e :edit .<cr>
+nmap <silent><leader>h :wincmd h<cr>
+nmap <silent><leader>j :wincmd j<cr>
+nmap <silent><leader>k :wincmd k<cr>
+nmap <silent><leader>l :wincmd l<cr>
+nmap <silent><Leader>+ :vertical resize +5<cr>
+nmap <silent><Leader>- :vertical resize -5<cr>
+nmap <silent><Leader>sv :vs <cr> :wincmd l <bar> :edit .<cr>
+nmap <silent><Leader>sh :sp <bar> :wincmd j <bar> :edit .<cr>
+nmap <silent><Leader>t :tabedit <bar> :edit .<cr>
+nmap <silent><leader>gd <plug>coc-definition
+nmap <silent><leader>gy <plug>coc-type-definition
+nmap <silent><leader>gi <plug>coc-implementation
+nmap <silent><leader>gr <plug>coc-references
+nmap <silent><leader>K :call <SID>show_documentation()<cr>
+nmap <leader>rn <plug>(coc-rename)
+nmap <silent><expr> ZZ or(expand('%:t') !~ '^NERD.*', winnr('$') == 1) ? ':wq<cr>' : ':NERDTreeClose<cr>'
+nmap <silent><expr> ZQ or(expand('%:t') !~ '^NERD.*', winnr('$') == 1) ? ':q!<cr>' : ':NERDTreeClose<cr>'
 
-tnoremap <Esc> <C-\><C-n>
-vnoremap ++ <plug>NERDCommenterToggle
-inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() :
-	\ getline('.')[col('.') - 2] =~ "[{\[\'\"]" ? "<CR><ESC>O<TAB>" : "<CR>"
-inoremap <silent><expr> <C-Space> pumvisible() ? coc#refresh() : ""
+tmap <Esc> <C-\><C-n>
+vmap ++ <plug>NERDCommenterToggle
+imap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() :
+	\ getline('.')[col('.') - 2] =~ "[{\[\'\"]" ? "<cr><ESC>O<TAB>" : "<cr>"
+imap <silent><expr> <C-Space> pumvisible() ? coc#refresh() : ""
 
 function Longtab()
 	setlocal tabstop=4
