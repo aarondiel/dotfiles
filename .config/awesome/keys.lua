@@ -145,7 +145,7 @@ keys.globalkeys = gears.table.join(
 		{modkey},
 		"Return",
 		function()
-			awful.spawn(terminal)
+			awful.spawn("kitty -1")
 		end,
 		{description = "open a terminal", group = "launcher"}
 	),

@@ -32,6 +32,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
 Plug 'morhetz/gruvbox'
 Plug 'lervag/vimtex'
+Plug 'leafOfTree/vim-svelte-plugin'
 call plug#end()
 
 colorscheme gruvbox
@@ -69,11 +70,14 @@ let g:coc_global_extensions = [
 	\ 'coc-pairs',
 	\ 'coc-python',
 	\ 'coc-sql',
+	\ 'coc-svelte',
+	\ 'coc-tsserver',
 	\ 'coc-vetur',
 	\ 'coc-vimtex'
 	\ ]
 
 nmap ++ <plug>NERDCommenterComment
+nmap Y y$
 nmap <silent><leader>gh :diffget //2<cr>
 nmap <silent><leader>gl :diffget //3<cr>
 nmap <silent><leader>gs :G<cr>
@@ -98,6 +102,15 @@ nmap <silent><expr> ZQ or(expand('%:t') !~ '^NERD.*', winnr('$') == 1) ? ':q!<cr
 
 tmap <Esc> <C-\><C-n>
 vmap ++ <plug>NERDCommenterToggle
+vmap <silent> <leader>' <cmd>s/\%V\(.*\)/'\1'/g<cr><cmd>let @/ = ""<cr><esc>
+vmap <silent> <leader>" <cmd>s/\%V\(.*\)/"\1"/g<cr><cmd>let @/ = ""<cr><esc>
+vmap <silent> <leader>( <cmd>s/\%V\(.*\)/(\1)/g<cr><cmd>let @/ = ""<cr><esc>
+vmap <silent> <leader>) <cmd>s/\%V\(.*\)/(\1)/g<cr><cmd>let @/ = ""<cr><esc>
+vmap <silent> <leader>[ <cmd>s/\%V\(.*\)/[\1]/g<cr><cmd>let @/ = ""<cr><esc>
+vmap <silent> <leader>] <cmd>s/\%V\(.*\)/[\1]/g<cr><cmd>let @/ = ""<cr><esc>
+vmap <silent> <leader>{ <cmd>s/\%V\(.*\)/{\1}/g<cr><cmd>let @/ = ""<cr><esc>
+vmap <silent> <leader>} <cmd>s/\%V\(.*\)/{\1}/g<cr><cmd>let @/ = ""<cr><esc>
+vmap <silent> <leader>y "+y
 imap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() :
 	\ getline('.')[col('.') - 2] =~ "[{\[\'\"]" ? "<cr><ESC>O<TAB>" : "<cr>"
 imap <silent><expr> <C-Space> pumvisible() ? coc#refresh() : ""

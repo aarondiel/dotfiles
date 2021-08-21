@@ -16,14 +16,15 @@ difference() {
 case $1 in
 	diff)
 		# display changes between local dotfiles and those from the repository
-		echo "$(difference "." "$HOME")"
+		difference "." "$HOME"
 		# | less -r
-		break;;
+		;;
 
 	local)
 		# update local dotfiles
-		echo "$(difference "$HOME" ".")"
-		read -rp "do you want to update your local dotfiles [Y/n]? " response
+		difference "$HOME" "."
+		printf "do you want to update your local dotfiles [Y/n]? " 
+		read -r response
 		case "$response" in
 			[yY][eE][sS]|[yY]|*)
 				cp -rf .config/nvim/* ~/.config/nvim/
@@ -31,14 +32,15 @@ case $1 in
 				cp .Xresources ~/.Xresources
 				cp -rf .config/kitty/* ~/.config/kitty/
 				cp -rf .config/awesome/* ~/.config/awesome/
-				break;;
+				;;
 		esac
-		break;;
+		;;
 
 	repository)
 		# update the dotfiles in the repository
-		echo "$(difference "." "$HOME")"
-		read -rp "do you want to update your local dotfiles [Y/n]? " response
+		difference "." "$HOME"
+		printf "do you want to update your local dotfiles [Y/n]? " 
+		read -r response
 		case "$response" in
 			[yY][eE][sS]|[yY]|*)
 				cp -rf ~/.config/nvim/* .config/nvim/
@@ -46,9 +48,9 @@ case $1 in
 				cp ~/.Xresources .Xresources
 				cp -rfT ~/.config/kitty ./.config/kitty
 				cp -rfT ~/.config/awesome ./.config/awesome
-				break;;
+				;;
 		esac
-		break;;
+		;;
 
 	*)
 		echo ----usage----
@@ -60,5 +62,5 @@ case $1 in
 		echo
 		echo repository:
 		echo "	update the dotfiles inside the repository to the ones present on the local machine"
-		break;;
+		;;
 esac
