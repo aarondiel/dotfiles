@@ -1,17 +1,17 @@
 local packer_present, packer = pcall(require, 'packer')
+local sync_pending = false
 local packer_install_dir = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 
 if not packer_present then
 	local repository = 'wbthomason/packer.nvim'
-	local ssh_git_dest = vim.fn.substitute(
-		repository,
-		'\\v(.*)\\/(.*)',
-		'git@github.com:\\1/\\2.git',
-		'g'
+	local git_dest = string.format(
+		'https://github.com/%s',
+		repository
 	)
 
 	vim.fn.delete(packer_install_dir, 'rf')
-	vim.fn.system({ 'git', 'clone', ssh_git_dest, packer_install_dir })
+	vim.fn.system({ 'git', 'clone', git_dest, packer_install_dir })
+	sync_pending = true
 
 	vim.cmd('packadd packer.nvim')
 
@@ -70,3 +70,9 @@ packer.startup(function(use)
 		'nvim-lua/completion-nvim',
 	}
 end)
+
+if sync_pending then
+	vim.cmd('PackerSync')
+else
+	vim.cmd('PackerInstall')
+end
