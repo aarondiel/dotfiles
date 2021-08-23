@@ -20,4 +20,7 @@ map('n', '<leader>j', '<cmd>wincmd j<cr>', {})
 map('n', '<leader>k', '<cmd>wincmd k<cr>', {})
 map('n', '<leader>l', '<cmd>wincmd l<cr>', {})
 
+map('n', 'ZZ', 'exists("b:NERDTree") ? "<cmd>NERDTreeClose<cr>" : "ZZ"', { expr = true })
+map('n', 'ZQ', 'exists("b:NERDTree") ? "<cmd>NERDTreeClose<cr>" : "ZQ"', { expr = true })
+
 map('n', '<leader>r', '<cmd>%so <bar> PackerSync<cr>', {})
