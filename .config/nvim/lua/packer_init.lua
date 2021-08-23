@@ -69,6 +69,14 @@ packer.startup(function(use)
 	use {
 		'nvim-lua/completion-nvim',
 	}
+
+	use {
+		'preservim/nerdtree'
+	}
+
+	use {
+		'ryanoasis/vim-devicons'
+	}
 end)
 
 if sync_pending then
