@@ -1,7 +1,0 @@
-{
-	"html.autoClosingTags": true,
-	"python.pythonPath": "python3",
-	"python.jediEnabled": true,
-	"vetur.format.options.useTabs": true,
-	"Lua.telemetry.enable": false
-}
