@@ -74,6 +74,10 @@ packer.startup(function(use)
 	use {
 		'preservim/nerdtree'
 	}
+
+	use {
+		'nvim-treesitter/playground'
+	}
 end)
 
 if sync_pending then

@@ -1,3 +1,5 @@
+TERM='kitty'
+
 Xft.dpi: 102
 Xft.antialias: true
 Xft.hinting: true

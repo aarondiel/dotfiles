@@ -26,3 +26,4 @@ map('n', 'ZQ', 'exists("b:NERDTree") ? "<cmd>NERDTreeClose<cr>" : "ZQ"', { expr 
 map('n', '<leader>r', '<cmd>so ' .. vim.fn.stdpath('config') .. '/init.lua' .. ' <bar> PackerSync<cr>', {})
 
 map('v', '++', '<cmd>lua commenter_comment_visual()<cr>', {})
+map('n', '++', '<cmd>lua doStuff()<cr>', {})
