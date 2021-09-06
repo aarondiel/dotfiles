@@ -23,4 +23,6 @@ map('n', '<leader>l', '<cmd>wincmd l<cr>', {})
 map('n', 'ZZ', 'exists("b:NERDTree") ? "<cmd>NERDTreeClose<cr>" : "ZZ"', { expr = true })
 map('n', 'ZQ', 'exists("b:NERDTree") ? "<cmd>NERDTreeClose<cr>" : "ZQ"', { expr = true })
 
-map('n', '<leader>r', '<cmd>%so <bar> PackerSync<cr>', {})
+map('n', '<leader>r', '<cmd>so ' .. vim.fn.stdpath('config') .. '/init.lua' .. ' <bar> PackerSync<cr>', {})
+
+map('v', '++', '<cmd>lua commenter_comment_visual()<cr>', {})

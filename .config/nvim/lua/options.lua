@@ -19,5 +19,6 @@ vim.opt.undodir = vim.fn.expand('~/.vim/undodir')
 
 vim.opt.shortmess:append({ c = true })
 vim.opt.completeopt = 'menuone,noinsert,noselect'
+vim.opt.signcolumn = 'number'
 
 vim.g.NERDTreeMapCustomOpen = 'l'

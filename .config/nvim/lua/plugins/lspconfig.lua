@@ -44,6 +44,13 @@ local function on_attach(client, bufnr)
 			{ 'i', '<s-tab>', 'pumvisible() ? "\\<c-p>" : "\\<s-tab>"', expr_option}
 		)
 
+		vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
+			vim.lsp.diagnostic.on_publish_diagnostics,
+			{
+				update_in_insert = true
+			}
+		)
+
 		completion.on_attach()
 	end
 
@@ -106,10 +113,7 @@ end
 setup_servers()
 
 -- reload after :LspInstall <server>
-lspinstall.post_install_hook = function()
-	setup_servers()
-	vim.cmd('bufdo e')
-end
+lspinstall.post_install_hook = setup_servers
 
 -- replace the default lsp diagnostic symbols
 local lspSymbols = {

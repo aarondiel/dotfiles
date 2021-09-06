@@ -1,6 +1,7 @@
 local packer_present, packer = pcall(require, 'packer')
 local sync_pending = false
 local packer_install_dir = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
+require('plugins.commenter')
 
 if not packer_present then
 	local repository = 'wbthomason/packer.nvim'
@@ -72,10 +73,6 @@ packer.startup(function(use)
 
 	use {
 		'preservim/nerdtree'
-	}
-
-	use {
-		'ryanoasis/vim-devicons'
 	}
 end)
 

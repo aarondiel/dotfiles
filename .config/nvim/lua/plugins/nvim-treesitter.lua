@@ -5,7 +5,7 @@ end
 
 ts_config.setup {
 	ensure_installed = {
-		'lua'
+		'lua', 'typescript', 'c', 'html', 'python', 'json', 'cpp', 'vue', 'latex', 'css', 'regex', 'svelte', 'vim', 'bash', 'cmake', 'javascript', 'gdscript', 'scss'
 	},
 	highlight = {
 		enable = true,
