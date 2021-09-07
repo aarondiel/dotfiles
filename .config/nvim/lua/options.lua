@@ -1,5 +1,6 @@
 vim.cmd('colorscheme faber')
 vim.cmd('autocmd TextYankPost * silent! lua vim.highlight.on_yank({ timeout = 400 })')
+vim.opt.termguicolors = false
 
 vim.opt.number = true
 vim.opt.relativenumber = true

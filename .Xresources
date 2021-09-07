@@ -1,4 +1,5 @@
-TERM='kitty'
+export TERM=kitty
+export EDITOR=nvim
 
 Xft.dpi: 102
 Xft.antialias: true
