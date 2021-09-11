@@ -68,15 +68,26 @@ packer.startup(function(use)
 	}
 
 	use {
+		'nvim-telescope/telescope.nvim',
+		requires = {
+			'nvim-lua/plenary.nvim',
+			'kyazdani42/nvim-web-devicons',
+			'nvim-treesitter/nvim-treesitter'
+		}
+	}
+
+	use {
 		'nvim-lua/completion-nvim',
 	}
 
 	use {
-		'preservim/nerdtree'
+		'kyazdani42/nvim-tree.lua',
+		requires = 'kyazdani42/nvim-web-devicons'
 	}
 
 	use {
-		'nvim-treesitter/playground'
+		'nvim-treesitter/playground',
+		requires = 'nvim-treesitter/nvim-treesitter'
 	}
 end)
 
