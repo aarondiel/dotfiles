@@ -26,7 +26,7 @@ vim.opt.completeopt = 'menuone,noinsert,noselect'
 vim.opt.signcolumn = 'number'
 
 vim.g.nvim_tree_auto_close = 1
-vim.g.nvim_quit_on_open = 1
+vim.g.nvim_tree_quit_on_open = 1
 vim.g.nvim_tree_highlight_opened_files = 1
 vim.g.nvim_tree_group_empty = 1
 vim.g.nvim_tree_lsp_diagnostics = 1
@@ -69,4 +69,5 @@ vim.g.nvim_tree_bindings = {
 	{ key = 'g?', cb = tree_cb('toggle_help') }
 }
 
-vim.cmd('autocmd BufEnter * if (isdirectory(expand("%"))) | execute("NvimTreeFocus") | endif')
+vim.cmd('autocmd BufEnter * if (isdirectory(expand("%"))) | execute("cd expand("%")") | bd | execute("NvimTreeFocus") | endif')
+vim.cmd('autocmd FileType text setlocal spell spelllang=en')

@@ -1,24 +1,28 @@
 local colors = {
-	black = {'0', '#1e1818'},
-	red = { '1', '#ef1f4f' },
-	green = { '2', '#18a848' },
-	yellow = { '3', '#ddcc22' },
-	blue = { '4', '#4b7bfb' },
-	magenta = { '5', '#e838e8' },
-	cyan = { '6', '#38c9c9' },
-	lighgrey = { '7', '#e3e3e3' },
-	darkgrey = { '8', '#6d6464' },
-	lightred = { '9', '#b0173b' },
-	lightgreen = { '10', '#0e662c' },
-	lightyellow = { '11', '#d2a212' },
-	lightblue = { '12', '#274eb7' },
-	lightmagenta = { '13', '#bd2dbd' },
-	lightcyan = { '14', '#30B0B0' },
-	white = { '15', '#b3b3b3' },
+	black = {'0', '#282a2e'},
+	red = { '1', '#a54242' },
+	green = { '2', '#8c9440' },
+	yellow = { '3', '#de935f' },
+	blue = { '4', '#5f819d' },
+	magenta = { '5', '#85678f' },
+	cyan = { '6', '#5e8d87' },
+	lighgrey = { '7', '#707880' },
+	darkgrey = { '8', '#373b41' },
+	lightred = { '9', '#cc6666' },
+	lightgreen = { '10', '#b5bd68' },
+	lightyellow = { '11', '#f0c674' },
+	lightblue = { '12', '#81a2be' },
+	lightmagenta = { '13', '#b294bb' },
+	lightcyan = { '14', '#8abeb7' },
+	white = { '15', '#c5c8c6' },
 }
 
 local highlight_groups = {
-	{ group = 'String', style='italic', fg = colors.red, bg = nil }
+	{ group='String', style='italic', fg=colors.lightmagenta, bg=nil },
+	{ group='TSKeyword', style='italic', fg=colors.lightgreen, bg=nil },
+	{ group='TSParameter', style=nil, fg=colors.blue, bg=nil },
+	{ group='TSVariable', style=nil, fg=colors.lightblue, bg=nil },
+	{ group='TSMethod', style=nil, fg=colors.lightmagenta, bg=nil }
 }
 
 for _, highlight_group in pairs(highlight_groups) do
