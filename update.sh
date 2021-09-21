@@ -27,11 +27,12 @@ case $1 in
 		read -r response
 		case "$response" in
 			[yY][eE][sS]|[yY]|*)
-				cp -rf .config/nvim/* ~/.config/nvim/
+				cp -T .config/nvim/* ~/.config/nvim/
 				cp .zshrc ~/.zshrc
 				cp .Xresources ~/.Xresources
-				cp -rf .config/kitty/* ~/.config/kitty/
-				cp -rf .config/awesome/* ~/.config/awesome/
+				cp -T .config/kitty/* ~/.config/kitty/
+				cp -T .config/awesome/* ~/.config/awesome/
+				cp ./aaron /usr/share/X11/xkb/symbol/aaron
 				;;
 		esac
 		;;
@@ -43,11 +44,12 @@ case $1 in
 		read -r response
 		case "$response" in
 			[yY][eE][sS]|[yY]|*)
-				cp -rf ~/.config/nvim/* .config/nvim/
+				cp -T ~/.config/nvim .config/nvim
 				cp ~/.zshrc .zshrc
 				cp ~/.Xresources .Xresources
-				cp -rfT ~/.config/kitty ./.config/kitty
-				cp -rfT ~/.config/awesome ./.config/awesome
+				cp -T ~/.config/kitty ./.config/kitty
+				cp -T ~/.config/awesome ./.config/awesome
+				cp /usr/share/X11/xkb/symbol/aaron ./aaron
 				;;
 		esac
 		;;
