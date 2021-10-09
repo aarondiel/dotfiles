@@ -73,14 +73,14 @@ xkb_symbols "basic" {
 	key <AB07>	{ [ m,						M																													]	};
 	key <AB08>	{ [ comma,				less,					periodcentered,				guillemotleft					]	};
 	key <AB09>	{ [ period,				greater,			ellipsis,							guillemotright				]	};
-	key <AB10>	{ [ slash,				question																									]	};
+	key <AB10>	{ [ slash,				question,			U30b7																				]	};
 
 	key <BKSL>	{ [ backslash,		bar,					brokenbar,						paragraph							]	};
 	key <LSGT>	{ [ less,					greater,			lessthanequal,				greaterthanequal			] };
-	key <TAB>		{ [ tab,					U21b9																											] };
+	key <TAB>		{ [ tab,					VoidSymbol,		U21b9																				] };
 	key <UP>		{ [ Up,						uparrow																										] };
 	key <RGHT>	{ [ Right,				rightarrow																								] };
 	key <DOWN>	{ [ Down,					downarrow																									] };
 	key <LEFT>	{ [ Left,					leftarrow																									] };
-	key <SPCE>	{ [ Space,				nobreakspace,	signifblank,					U237d									] };
+	key <SPCE>	{ [ Space,				VoidSymbol,		nobreakspace,					signifblank						] };
 };

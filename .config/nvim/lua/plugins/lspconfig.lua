@@ -46,9 +46,7 @@ local function on_attach(client, bufnr)
 
 		vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
 			vim.lsp.diagnostic.on_publish_diagnostics,
-			{
-				update_in_insert = true
-			}
+			{ update_in_insert = true }
 		)
 
 		completion.on_attach()
@@ -137,8 +135,7 @@ vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
 			spacing = 0
 		},
 		signs = true,
-		underline = true,
-		update_in_insert = false
+		underline = true
 	}
 )
 
