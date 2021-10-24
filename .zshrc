@@ -25,8 +25,10 @@ alias mkdir='mkdir -p'
 alias vim='nvim'
 alias cp='cp -r'
 alias less='less -r'
+alias ranger='TERM=kitty ranger'
 
 export PATH=$PATH:/home/aaron/.local/bin
+export EDITRO=nvim
 
 # autosuggestions (requires zsh-autosuggestions)
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh

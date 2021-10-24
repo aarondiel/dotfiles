@@ -31,27 +31,6 @@ local function on_attach(client, bufnr)
 		table.insert(buffer_mappings, { 'n', '<leader>f', '<cmd>lua vim.lsp.buf.range_formatting()<cr>', {} })
 	end
 
-	local completion_present, completion = pcall(require, 'completion')
-	if completion_present then
-		local expr_option = { expr = true }
-
-		table.insert(
-			buffer_mappings,
-			{ 'i', '<tab>', 'pumvisible() ? "\\<c-n>" : "\\<tab>"', expr_option}
-		)
-		table.insert(
-			buffer_mappings,
-			{ 'i', '<s-tab>', 'pumvisible() ? "\\<c-p>" : "\\<s-tab>"', expr_option}
-		)
-
-		vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
-			vim.lsp.diagnostic.on_publish_diagnostics,
-			{ update_in_insert = true }
-		)
-
-		completion.on_attach()
-	end
-
 	for _, mapping in pairs(buffer_mappings) do
 		local config = { noremap = true, silent = true }
 
@@ -68,17 +47,40 @@ local function on_attach(client, bufnr)
 	end
 end
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-
 local function setup_servers()
 	lspinstall.setup()
 	local servers = lspinstall.installed_servers()
+
+	local cmp_present, cmp = pcall(require, 'cmp')
+	local capabilities
+
+	if cmp_present then
+		cmp.setup({
+			mapping = {
+				[ '<tab>' ] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+				[ '<s-tab>' ] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+				[ '<c-d>' ] = cmp.mapping.scroll_docs(-4),
+				[ '<c-f>' ] = cmp.mapping.scroll_docs(4),
+				[ '<c-space>' ] = cmp.mapping.complete(),
+				[ '<c-e>' ] = cmp.mapping.close(),
+				[ '<cr>' ] = cmp.mapping.confirm({ select = true })
+			},
+			sources = {
+				{ name = 'nvim_lsp' },
+				{ name = 'path' },
+				{ name = 'calc' },
+				{ name = 'buffer' }
+			}
+		})
+
+		capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+	end
 
 	for _, lang in pairs(servers) do
 		if (lang == 'lua') then
 			lspconfig[lang].setup {
 				on_attach = on_attach,
+				capabilities = capabilities,
 
 				settings = {
 					Lua = {
@@ -87,8 +89,8 @@ local function setup_servers()
 						},
 						workspace = {
 							library = {
-								[vim.fn.expand('$VIMRUNTIME/lua')] = true,
-								[vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true
+								[ vim.fn.expand('$VIMRUNTIME/lua') ] = true,
+								[ vim.fn.expand('$VIMRUNTIME/lua/vim/lsp') ] = true
 							},
 							maxPreload = 100000,
 							preloadFileSize = 10000
