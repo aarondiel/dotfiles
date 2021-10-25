@@ -96,6 +96,10 @@ packer.startup(function(use)
 		'nvim-treesitter/playground',
 		requires = 'nvim-treesitter/nvim-treesitter'
 	}
+
+	use {
+		'tpope/vim-fugitive'
+	}
 end)
 
 if sync_pending then
