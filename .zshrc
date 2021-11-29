@@ -26,6 +26,7 @@ alias vim='nvim'
 alias cp='cp -r'
 alias less='less -r'
 alias ranger='TERM=kitty ranger'
+alias resolution='ffprobe -v warning -select_streams v:0 -show_entries format=filename:stream=width,height -of csv=s=x:p=0'
 
 export PATH=$PATH:/home/aaron/.local/bin
 export EDITOR=nvim

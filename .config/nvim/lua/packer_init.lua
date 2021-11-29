@@ -45,7 +45,7 @@ packer.startup(function(use)
 	}
 
 	use {
-		'kabouzeid/nvim-lspinstall',
+		'williamboman/nvim-lsp-installer'
 	}
 
 	use {

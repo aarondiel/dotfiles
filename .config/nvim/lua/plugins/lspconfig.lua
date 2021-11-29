@@ -1,5 +1,5 @@
 local lspconfig_present, lspconfig = pcall(require, 'lspconfig')
-local lspinstall_present, lspinstall = pcall(require, 'lspinstall')
+local lspinstall_present, lspinstall = pcall(require, 'nvim-lsp-installer')
 if not (lspconfig_present or lspinstall_present) then
 	return
 end
@@ -47,9 +47,8 @@ local function on_attach(client, bufnr)
 	end
 end
 
-local function setup_servers()
-	lspinstall.setup()
-	local servers = lspinstall.installed_servers()
+lspinstall.on_server_ready(function(server)
+	local lspinstall_servers = require('nvim-lsp-installer.servers')
 
 	local cmp_present, cmp = pcall(require, 'cmp')
 	local capabilities
@@ -76,44 +75,41 @@ local function setup_servers()
 		capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 	end
 
-	for _, lang in pairs(servers) do
-		if (lang == 'lua') then
-			lspconfig[lang].setup {
-				on_attach = on_attach,
-				capabilities = capabilities,
+	for _, lang in pairs(lspinstall_servers.get_installed_servers()) do
+		lang:on_ready(function (server)
+			if (server.name == 'sumneko_lua') then
+				server:setup({
+					on_attach = on_attach,
+					capabilities = capabilities,
 
-				settings = {
-					Lua = {
-						diagnostics = {
-							globals = { 'vim' }
-						},
-						workspace = {
-							library = {
-								[ vim.fn.expand('$VIMRUNTIME/lua') ] = true,
-								[ vim.fn.expand('$VIMRUNTIME/lua/vim/lsp') ] = true
+					settings = {
+						Lua = {
+							diagnostics = {
+								globals = { 'vim' }
 							},
-							maxPreload = 100000,
-							preloadFileSize = 10000
-						},
-						telemetry = {
-							enable = false
+							workspace = {
+								library = {
+									[ vim.fn.expand('$VIMRUNTIME/lua') ] = true,
+									[ vim.fn.expand('$VIMRUNTIME/lua/vim/lsp') ] = true
+								},
+								maxPreload = 100000,
+								preloadFileSize = 10000
+							},
+							telemetry = {
+								enable = false
+							}
 						}
 					}
-				}
-			}
-		else
-			lspconfig[lang].setup {
+				})
+			end
+
+			server:setup({
 				on_attach = on_attach,
 				capabilities = capabilities
-			}
-		end
+			})
+		end)
 	end
-end
-
-setup_servers()
-
--- reload after :LspInstall <server>
-lspinstall.post_install_hook = setup_servers
+end)
 
 -- replace the default lsp diagnostic symbols
 local lspSymbols = {

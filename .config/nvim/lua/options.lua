@@ -28,7 +28,8 @@ vim.opt.signcolumn = 'number'
 local nvim_tree_present, nvim_tree = pcall(require, 'nvim-tree')
 if nvim_tree_present then
 	vim.g.nvim_tree_quit_on_open = 1
-	vim.g.nvim_tree_highlight_opened_files = 1
+	vim.g.nvim_tree_highlight_opened_files = 3
+	vim.g.nvim_tree_git_hl = true
 	vim.g.nvim_tree_group_empty = 1
 	vim.g.nvim_tree_disable_window_picker = 1
 
@@ -75,8 +76,8 @@ if nvim_tree_present then
 	end
 
 	nvim_tree.setup({
-		hijack_cursor = true,
 		auto_close = true,
+		open_on_setup = false,
 		update_cwd = true,
 		view = {
 			mappings = {
