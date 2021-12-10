@@ -20,6 +20,8 @@ map('n', '<leader>j', '<cmd>wincmd j<cr>', {})
 map('n', '<leader>k', '<cmd>wincmd k<cr>', {})
 map('n', '<leader>l', '<cmd>wincmd l<cr>', {})
 
+map('n', '<esc>', '<cmd>noh<cr>', {})
+
 map('n', '<leader>r', '<cmd>so ' .. vim.fn.stdpath('config') .. '/init.lua' .. ' <bar> PackerSync<cr>', {})
 
 map('n', '<leader>fg', '<cmd>Telescope live_grep<cr>', {})

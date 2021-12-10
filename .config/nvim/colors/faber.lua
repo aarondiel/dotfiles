@@ -6,7 +6,7 @@ local colors = {
 	blue = { '4', '#5f819d' },
 	magenta = { '5', '#85678f' },
 	cyan = { '6', '#5e8d87' },
-	lighgrey = { '7', '#707880' },
+	lightgrey = { '7', '#707880' },
 	darkgrey = { '8', '#373b41' },
 	lightred = { '9', '#cc6666' },
 	lightgreen = { '10', '#b5bd68' },
@@ -22,7 +22,14 @@ local highlight_groups = {
 	{ group='TSKeyword', style='italic', fg=colors.lightgreen, bg=nil },
 	{ group='TSParameter', style=nil, fg=colors.blue, bg=nil },
 	{ group='TSVariable', style=nil, fg=colors.lightblue, bg=nil },
-	{ group='TSMethod', style=nil, fg=colors.lightmagenta, bg=nil }
+	{ group='TSMethod', style=nil, fg=colors.lightmagenta, bg=nil },
+	{ group='NormalFloat', style=nil, fg=colors.white, bg=colors.black },
+	{ group='PMenu', style=nil, fg=colors.white, bg=colors.black },
+	{ group='PMenuSel', style=nil, fg=colors.black, bg=colors.white },
+	{ group='LineNr', style=nil, fg=colors.white, bg=nil },
+	{ group='LineNrBelow', style=nil, fg=colors.lightgrey, bg=nil },
+	{ group='LineNrAbove', style=nil, fg=colors.lightgrey, bg=nil },
+	{ group='Comment', style=nil, fg=colors.lightgrey, bg=nil }
 }
 
 for _, highlight_group in pairs(highlight_groups) do

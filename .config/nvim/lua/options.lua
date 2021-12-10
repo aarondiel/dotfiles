@@ -29,7 +29,6 @@ local nvim_tree_present, nvim_tree = pcall(require, 'nvim-tree')
 if nvim_tree_present then
 	vim.g.nvim_tree_quit_on_open = 1
 	vim.g.nvim_tree_highlight_opened_files = 3
-	vim.g.nvim_tree_git_hl = true
 	vim.g.nvim_tree_group_empty = 1
 	vim.g.nvim_tree_disable_window_picker = 1
 
@@ -77,8 +76,9 @@ if nvim_tree_present then
 
 	nvim_tree.setup({
 		auto_close = true,
-		open_on_setup = false,
+		open_on_setup = true,
 		update_cwd = true,
+		open_on_tab = true,
 		view = {
 			mappings = {
 				custom_only = vim.fn.empty(nvim_tree_mappings) == 0,

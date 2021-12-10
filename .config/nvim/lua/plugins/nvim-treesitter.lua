@@ -4,9 +4,7 @@ if not present then
 end
 
 ts_config.setup {
-	ensure_installed = {
-		'lua', 'typescript', 'c', 'html', 'python', 'json', 'cpp', 'vue', 'latex', 'css', 'regex', 'svelte', 'vim', 'bash', 'cmake', 'javascript', 'gdscript', 'scss'
-	},
+	ensure_installed = 'maintained',
 	highlight = {
 		enable = true,
 		use_languagetree = true

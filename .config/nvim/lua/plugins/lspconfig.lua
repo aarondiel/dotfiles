@@ -55,6 +55,11 @@ lspinstall.on_server_ready(function(server)
 
 	if cmp_present then
 		cmp.setup({
+			snippet = {
+				expand = function(args)
+					vim.fn["vsnip#anonymous"](args.body)
+				end
+			},
 			mapping = {
 				[ '<tab>' ] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
 				[ '<s-tab>' ] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
@@ -66,6 +71,8 @@ lspinstall.on_server_ready(function(server)
 			},
 			sources = {
 				{ name = 'nvim_lsp' },
+				{ name = 'nvim_lua' },
+				{ name = 'vsnip' },
 				{ name = 'path' },
 				{ name = 'calc' },
 				{ name = 'buffer' }
@@ -75,40 +82,36 @@ lspinstall.on_server_ready(function(server)
 		capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 	end
 
-	for _, lang in pairs(lspinstall_servers.get_installed_servers()) do
-		lang:on_ready(function (server)
-			if (server.name == 'sumneko_lua') then
-				server:setup({
-					on_attach = on_attach,
-					capabilities = capabilities,
+	local options = {
+		on_attach = on_attach,
+		capabilities = capabilities,
+		settings = {}
+	}
 
-					settings = {
-						Lua = {
-							diagnostics = {
-								globals = { 'vim' }
-							},
-							workspace = {
-								library = {
-									[ vim.fn.expand('$VIMRUNTIME/lua') ] = true,
-									[ vim.fn.expand('$VIMRUNTIME/lua/vim/lsp') ] = true
-								},
-								maxPreload = 100000,
-								preloadFileSize = 10000
-							},
-							telemetry = {
-								enable = false
-							}
-						}
-					}
-				})
-			end
+	local server_options = {
+		['sumneko_lua'] = {
+			Lua = {
+				diagnostics = {
+					globals = { 'vim' }
+				},
+				workspace = {
+					library = {
+						[ vim.fn.expand('$VIMRUNTIME/lua') ] = true,
+						[ vim.fn.expand('$VIMRUNTIME/lua/vim/lsp') ] = true
+					},
+					maxPreload = 100000,
+					preloadFileSize = 10000
+				},
+				telemetry = {
+					enable = false
+				}
+			}
+		}
+	}
 
-			server:setup({
-				on_attach = on_attach,
-				capabilities = capabilities
-			})
-		end)
-	end
+	options.settings = server_options[server.name] or {}
+
+	server:setup(options)
 end)
 
 -- replace the default lsp diagnostic symbols
