@@ -1,35 +1,29 @@
-local colors = {
-	black = {'0', '#282a2e'},
-	red = { '1', '#a54242' },
-	green = { '2', '#8c9440' },
-	yellow = { '3', '#de935f' },
-	blue = { '4', '#5f819d' },
-	magenta = { '5', '#85678f' },
-	cyan = { '6', '#5e8d87' },
-	lightgrey = { '7', '#707880' },
-	darkgrey = { '8', '#373b41' },
-	lightred = { '9', '#cc6666' },
-	lightgreen = { '10', '#b5bd68' },
-	lightyellow = { '11', '#f0c674' },
-	lightblue = { '12', '#81a2be' },
-	lightmagenta = { '13', '#b294bb' },
-	lightcyan = { '14', '#8abeb7' },
-	white = { '15', '#c5c8c6' },
-}
+local colors = require('colors')
 
 local highlight_groups = {
-	{ group='String', style='italic', fg=colors.lightmagenta, bg=nil },
+	{ group='String', style='italic', fg=colors.yellow, bg=nil },
 	{ group='TSKeyword', style='italic', fg=colors.lightgreen, bg=nil },
 	{ group='TSParameter', style=nil, fg=colors.blue, bg=nil },
+	{ group='TSProperty', style=nil, fg=colors.cyan, bg=nil },
+	{ group='TSOperator', style=nil, fg=colors.lightgreen, bg=nil },
 	{ group='TSVariable', style=nil, fg=colors.lightblue, bg=nil },
+	{ group='TSFunction', style=nil, fg=colors.lightred, bg=nil },
+	{ group='TSKeywordFunction', style=nil, fg=colors.lightcyan, bg=nil },
+	{ group='TSConditional', style=nil, fg=colors.red, bg=nil },
 	{ group='TSMethod', style=nil, fg=colors.lightmagenta, bg=nil },
+	{ group='TSConstructor', style=nil, fg=colors.white, bg=nil },
+	{ group='TSPunctDelimiter', style=nil, fg=colors.white, bg=nil },
+	{ group='TSPunctBracket', style=nil, fg=colors.lightcyan, bg=nil },
+	{ group='TSParameter', style=nil, fg=colors.white, bg=nil },
 	{ group='NormalFloat', style=nil, fg=colors.white, bg=colors.black },
 	{ group='PMenu', style=nil, fg=colors.white, bg=colors.black },
 	{ group='PMenuSel', style=nil, fg=colors.black, bg=colors.white },
+	{ group='EndOfBuffer', style=nil, fg=colors.darkgrey, bg=nil },
 	{ group='LineNr', style=nil, fg=colors.white, bg=nil },
 	{ group='LineNrBelow', style=nil, fg=colors.lightgrey, bg=nil },
 	{ group='LineNrAbove', style=nil, fg=colors.lightgrey, bg=nil },
-	{ group='Comment', style=nil, fg=colors.lightgrey, bg=nil }
+	{ group='Comment', style=nil, fg=colors.lightgrey, bg=nil },
+	{ group='ErrorMsg', style=nil, fg=colors.white, bg=colors.red }
 }
 
 for _, highlight_group in pairs(highlight_groups) do

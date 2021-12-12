@@ -66,7 +66,12 @@ packer.startup(function(use)
 		requires = 'nvim-treesitter/nvim-treesitter'
 	}
 
+	use 'tpope/vim-fugitive'
+
 	use {
-		'tpope/vim-fugitive'
+		'famiu/feline.nvim',
+		config = function()
+			require('plugins.statusline')
+		end
 	}
 end)
