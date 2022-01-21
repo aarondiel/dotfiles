@@ -1,61 +1,153 @@
 #!/bin/sh
 
-difference() {
-	echo "----vimrc----" && \
-	diff --color=always -r "${1}/.config/nvim" "${2}/.config/nvim"
-	echo "----zshrc----" && \
-	diff --color=always "${1}/.zshrc" "${2}/.zshrc"
-	echo "----Xresources----" && \
-	diff --color=always "${1}/.Xresources" "${2}/.Xresources"
-	echo "----kitty----" && \
-	diff --color=always "${1}/.config/kitty" "${2}/.config/kitty"
-	echo "----awesome----" && \
-	diff --color=always -r "${1}/.config/awesome" "${2}/.config/awesome"
+[ -d '.backup' ] || mkdir '.backup'
+CWD=$(dirname "$PWD/$0")
+PACKAGES_CASH=''
+
+print_headline() {
+	columns=$(tput cols)
+	text_length=${#1}
+	spaces=$(((columns - text_length) / 2 - 1))
+
+	i=0
+	while [ $i -lt $spaces ]
+	do
+		printf '#'
+		i=$((i+1))
+	done
+
+	printf " %s " "$1"
+
+	i=0
+	while [ $i -lt $spaces ]
+	do
+		printf '#'
+		i=$((i+1))
+	done
+}
+
+get_permission() {
+	printf "%s" "$1"
+
+	read -r response
+	case $response in
+		[yY][eE][sS]|[yY]|*)
+			return 0
+			;;
+	esac
+
+	return 1
+}
+
+pacman_install() {
+	[ -z "$PACKAGES_CASH" ] && PACKAGES_CASH=$(sudo pacman -Q)
+
+	echo "$PACKAGES_CASH" | grep -q "$1" || sudo pacman -S "$1"
+	return 0
+}
+
+is_true() {
+	[ "$1" = 'false' ] && return 1
+	[ -z "$1" ] && return 1
+
+	[ "$1" = 'true' ] && return 0
+	exit 1
+}
+
+update_zshrc() {
+	case "$1" in
+		local)
+			difference=$(diff --color=always --tabsize=2 -trNd "$CWD/.zshrc" "$HOME/.zshrc")
+			[ -z "$difference" ] && return 1
+
+			print_headline 'zshrc'
+			echo "$difference"
+			is_true "$2" ||
+				get_permission 'do you want to update your zshrc [Y/n]? ' ||
+				return 1
+
+			pacman_install 'zsh-autosuggestions'
+			pacman_install 'zsh-syntax-highlighting'
+
+			[ -e "$HOME/.zshrc" ] && mv "$HOME/.zshrc" "$CWD/.backup/.zshrc"
+			cp "$CWD/.zshrc" "$HOME/.zshrc"
+			;;
+
+		repository)
+			difference=$(diff --color=always --tabsize=2 -trNd "$HOME/.zshrc" "$CWD/.zshrc")
+			[ -z "$difference" ] && return 1
+
+			print_headline 'zshrc'
+			echo "$difference"
+
+			is_true "$2" ||
+				get_permission 'do you want to update the zshrc inside the repository [Y/n]? ' ||
+				return 1
+
+			rm "$CWD/.zshrc"
+			cp "$HOME/.zshrc" "$CWD/.zshrc"
+			;;
+	esac
+}
+
+update_vimrc() {
+	case "$1" in
+		local)
+			difference=$(diff --color=always --tabsize=2 -trNdr "$CWD/.zshrc" "$HOME/.zshrc")
+			[ -z "$difference" ] && return 1
+
+			print_headline 'vimrc'
+			echo "$difference"
+
+			is_true "$2" ||
+				get_permission 'do you want to update your vimrc [Y/n]? ' ||
+				return 1
+
+			pacman_install 'unzip'
+			pacman_install 'wget'
+			pacman_install 'git'
+			pacman_install 'python-pip'
+			pacman_install 'npm'
+			pacman_install 'xclip'
+
+			[ -e "$HOME/.config/nvim" ] && mv "$HOME/.config/nvim" "$CWD/.backup/nvim"
+			cp "$CWD/nvim" "$HOME/.config/nvim"
+			;;
+
+		repository)
+			difference=$(diff --color=always --tabsize=2 -trNd "$HOME/.zshrc" "$CWD/.zshrc")
+			[ -z "$difference" ] && return 1
+
+			print_headline 'vimrc'
+			echo "$difference"
+
+			is_true "$2" ||
+				get_permission 'do you want to update the vimrc inside the repository [Y/n]? ' ||
+				return 1
+
+			rm -r "$CWD/nvim"
+			cp -r "$HOME/.config/nvim" "$CWD/nvim"
+			;;
+	esac
 }
 
 case $1 in
 	diff)
-		# display changes between local dotfiles and those from the repository
-		difference "." "$HOME"
-		# | less -r
+		diff --color=always --tabsize=2 -trNd "$CWD/.zshrc" "$HOME/.zshrc"
 		;;
 
 	local)
-		# update local dotfiles
-		difference "$HOME" "."
-		printf "do you want to update your local dotfiles [Y/n]? " 
-		read -r response
-		case "$response" in
-			[yY][eE][sS]|[yY]|*)
-				cp -Tr .config/nvim ~/.config/nvim/
-				cp .zshrc ~/.zshrc
-				cp .Xresources ~/.Xresources
-				cp -Tr .config/kitty ~/.config/kitty/
-				cp -Tr .config/awesome ~/.config/awesome/
-				cp ./aaron /usr/share/X11/xkb/symbols
-				;;
-		esac
+		update_zshrc 'local'
+		update_vimrc 'local'
 		;;
 
 	repository)
-		# update the dotfiles in the repository
-		difference "." "$HOME"
-		printf "do you want to update your local dotfiles [Y/n]? " 
-		read -r response
-		case "$response" in
-			[yY][eE][sS]|[yY]|*)
-				cp -Tr ~/.config/nvim .config/nvim
-				cp ~/.zshrc .zshrc
-				cp ~/.Xresources .Xresources
-				cp -Tr ~/.config/kitty ./.config/kitty
-				cp -Tr ~/.config/awesome ./.config/awesome
-				sudo cp /usr/share/X11/xkb/symbols/aaron ./
-				;;
-		esac
+		update_zshrc 'repository'
+		update_vimrc 'repository'
 		;;
 
 	*)
-		echo ----usage----
+		print_headline 'usage'
 		echo diff:
 		echo "	display changes between local dotfiles and those from the repository"
 		echo
