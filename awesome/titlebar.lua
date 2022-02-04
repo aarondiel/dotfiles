@@ -1,22 +1,29 @@
 local awful = require('awful')
 local wibox = require('wibox')
-local utils = require('utils')
+
+local function move_window(target_client)
+	return function()
+		client.focus = target_client
+		target_client:raise()
+		awful.mouse.client.move(target_client)
+	end
+end
 
 client.connect_signal('request::titlebars', function(target_client)
 	local buttons = {
-		awful.button({}, 1, utils.click_on_window),
+		awful.button({}, 1, move_window(target_client))
 	}
 
 	local left_widgets = {
 		buttons = buttons,
-		layout	= wibox.layout.fixed.horizontal,
+		layout = wibox.layout.fixed.horizontal,
 
 		awful.titlebar.widget.iconwidget(target_client)
 	}
 
 	local middle_widgets = {
 			buttons = buttons,
-			layout	= wibox.layout.flex.horizontal,
+			layout = wibox.layout.flex.horizontal,
 
 			{
 				align = 'center',
@@ -25,13 +32,13 @@ client.connect_signal('request::titlebars', function(target_client)
 	}
 
 	local right_widgets = {
-			layout = wibox.layout.fixed.horizontal(),
+		buttons = buttons,
+		layout = wibox.layout.fixed.horizontal(),
 
-			awful.titlebar.widget.floatingbutton(target_client),
-			awful.titlebar.widget.maximizedbutton(target_client),
-			awful.titlebar.widget.stickybutton(target_client),
-			awful.titlebar.widget.ontopbutton(target_client),
-			awful.titlebar.widget.closebutton(target_client)
+		awful.titlebar.widget.floatingbutton(target_client),
+		awful.titlebar.widget.maximizedbutton(target_client),
+		awful.titlebar.widget.ontopbutton(target_client),
+		awful.titlebar.widget.closebutton(target_client)
 	}
 
 	awful.titlebar(target_client).widget = {

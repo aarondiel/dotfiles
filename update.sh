@@ -95,7 +95,7 @@ update_awesome() {
 update_keyboard_layout() {
 	case "$1" in
 		local)
-			print_headline_and_difference 'keyboard layout' "$CWD/keyboard_layout" '/usr/share/xkb/faber' || return 1
+			print_headline_and_difference 'keyboard layout' "$CWD/keyboard_layout" '/usr/share/X11/xkb/symbols/faber' || return 1
 
 			is_true "$2" ||
 				get_permission 'do you want to update your keyboard layout [Y/n]? ' ||
@@ -193,7 +193,7 @@ case "$1" in
 	diff)
 			print_headline_and_difference 'vimrc' "$CWD/nvim" "$HOME/.config/nvim"
 			print_headline_and_difference 'vimrc' "$CWD/.zshrc" "$HOME/.zshrc"
-			print_headline_and_difference 'keyboard layout' "$CWD/keyboard_layout" '/usr/share/xkb/faber'
+			print_headline_and_difference 'keyboard layout' "$CWD/keyboard_layout" '/usr/share/X11/xkb/symbols/faber'
 			print_headline_and_difference 'awesomewm' "$CWD/awesome" "$HOME/.config/awesome"
 		;;
 

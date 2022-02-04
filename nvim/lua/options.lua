@@ -1,3 +1,5 @@
+local utils = require('utils')
+
 vim.cmd('colorscheme faber')
 vim.cmd('autocmd TextYankPost * silent! lua vim.highlight.on_yank({ timeout = 400 })')
 vim.opt.termguicolors = true
@@ -26,8 +28,7 @@ vim.opt.completeopt = 'menuone,noinsert,noselect'
 vim.opt.signcolumn = 'number'
 vim.opt.updatetime = 100
 
-local nvim_tree_present, nvim_tree = pcall(require, 'nvim-tree')
-if nvim_tree_present then
+utils.import('nvim-tree', function(nvim_tree)
 	vim.g.nvim_tree_quit_on_open = 1
 	vim.g.nvim_tree_highlight_opened_files = 3
 	vim.g.nvim_tree_group_empty = 1
@@ -35,8 +36,7 @@ if nvim_tree_present then
 
 	local nvim_tree_mappings = {}
 
-	local nvim_tree_config_present, nvim_tree_config = pcall(require, 'nvim-tree.config')
-	if nvim_tree_config_present then
+	utils.import('nvim-tree.config', function(nvim_tree_config)
 		local tree_cb = nvim_tree_config.nvim_tree_callback
 
 		nvim_tree_mappings = {
@@ -73,7 +73,7 @@ if nvim_tree_present then
 			{ key = 'q', cb = tree_cb('close') },
 			{ key = 'g?', cb = tree_cb('toggle_help') }
 		}
-	end
+	end)
 
 	nvim_tree.setup({
 		auto_close = true,
@@ -87,6 +87,6 @@ if nvim_tree_present then
 			}
 		}
 	})
-end
+end)
 
 vim.cmd('autocmd FileType text setlocal spell spelllang=en')
