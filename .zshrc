@@ -16,7 +16,8 @@ chpwd() {
 	pwd_contains_comp_file &&
 		fpath=($fpath $PWD) &&
 		compinit &&
-		return 1
+		return 1 ||
+		return 0
 }
 
 precmd() {
@@ -43,7 +44,7 @@ export KEYTIMEOUT=1
 export PATH=$PATH:/home/aaron/.local/bin
 
 alias vim='nvim'
-alias ls='ls --color=auto --group-directories-first'
+alias ls='exa'
 alias grep='grep -P --color=auto'
 alias mkdir='mkdir -p'
 alias vim='nvim'
