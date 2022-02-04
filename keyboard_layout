@@ -22,7 +22,7 @@
 
 default
 xkb_symbols "basic" {
-	name[Group1] = "aaron";
+	name[Group1] = "faber";
 	include "level3(ralt_switch)"
 
 	key <TLDE>	{ [ grave,				asciitilde																								]	};
