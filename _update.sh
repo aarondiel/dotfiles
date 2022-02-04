@@ -1,9 +1,7 @@
 #compdef update.sh
 
-args=(
-	'local:copy files from this folder to your local files'
-	'repository:copy files from your local files to this folder'
-	'diff:display differences between your local files and this folder'
-)
+configs=( 'vimrc' 'zshrc' 'keyboard_layout' )
 
-_describe 'update.sh' args
+_arguments \
+	'1:action:((diff\:"display differences" local\:"update local files" repository\:"copy files to this folder"))' \
+	"2:specific config:($configs)"
