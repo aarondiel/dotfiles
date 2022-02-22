@@ -1,7 +1,26 @@
 #compdef update.sh
 
-configs=( 'vimrc' 'zshrc' 'keyboard_layout' )
+local state
 
 _arguments \
-	'1:action:((diff\:"display differences" local\:"update local files" repository\:"copy files to this folder"))' \
-	"2:specific config:($configs)"
+	'(-h --help)'{-h,--help}'[display usage information]' \
+	'--only[list of dotfiles to target]:configs:->configs' \
+	'1:action:->action'
+
+case "$state" in
+	configs)
+		_values -s ',' 'actions' \
+			'vimrc' 'zshrc' 'keyboard_layout' 'awesome'
+		;;
+
+	action)
+		local -a actions
+		actions=(
+			'diff:print difference'
+			'local:target local dotfiles'
+			'repository:target dotfiles inside repository'
+		)
+
+		_describe 'actions' actions
+		;;
+esac

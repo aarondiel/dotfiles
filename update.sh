@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 [ -d '.backup' ] || mkdir '.backup'
 CWD=$(dirname "$PWD/$0")
 PACKAGES_CASH=''
@@ -24,6 +26,27 @@ print_headline() {
 		printf '#'
 		i=$((i+1))
 	done
+}
+
+print_help() {
+	print_headline 'usage'
+	printf 'update.sh [local | repository | diff] [OPTIONS]\n'
+	printf '\n'
+	printf 'diff:\n'
+	printf "	display changes between local dotfiles and those from the repository\n"
+	printf '\n'
+	printf 'local:\n'
+	printf '	update local dotfiles\n'
+	printf '\n'
+	printf 'repository:\n'
+	printf '	update the dotfiles inside the repository to the ones present on the local machine\n'
+	printf '\n'
+
+	print_headline 'arguments'
+	printf '--only config_names\n'
+	printf '	config_names is a comma-sperated string, listing the dotfiles that will be targeted\n'
+	printf '	by default config_names contains all available options:\n'
+	printf '	vimrc,zshrc,keyboard_layout,awesome\n'
 }
 
 print_headline_and_difference() {
@@ -189,77 +212,79 @@ update_vimrc() {
 	esac
 }
 
+arguments=$(getopt -s 'sh' --options 'h' --longoptions 'help,only:')
+configs='vimrc,zshrc,keyboard_layout,awesome'
+target=''
+
+# shellcheck disable=2086
+set -- $arguments
+
+while [ -n "$1" ]
+do
+	case "$1" in
+		--only)
+			shift 1
+			configs=$(split.sh "$1" ',')
+			;;
+
+		-h|--help)
+			print_help
+			exit 0
+			;;
+
+		--)
+			shift 1
+			break
+			;;
+
+		*)
+			printf 'unrecognized argument: %s\n' "$1"
+			;;
+	esac
+done
+
 case "$1" in
 	diff)
-			print_headline_and_difference 'vimrc' "$CWD/nvim" "$HOME/.config/nvim"
-			print_headline_and_difference 'vimrc' "$CWD/.zshrc" "$HOME/.zshrc"
-			print_headline_and_difference 'keyboard layout' "$CWD/keyboard_layout" '/usr/share/X11/xkb/symbols/faber'
-			print_headline_and_difference 'awesomewm' "$CWD/awesome" "$HOME/.config/awesome"
+		print_headline_and_difference 'vimrc' "$CWD/nvim" "$HOME/.config/nvim"
+		print_headline_and_difference 'vimrc' "$CWD/.zshrc" "$HOME/.zshrc"
+		print_headline_and_difference 'keyboard layout' "$CWD/keyboard_layout" '/usr/share/X11/xkb/symbols/faber'
+		print_headline_and_difference 'awesomewm' "$CWD/awesome" "$HOME/.config/awesome"
+
+		exit 0
 		;;
 
-	local)
-		case "$2" in
-			vimrc)
-				update_vimrc 'local'
-				;;
-
-			zshrc)
-				update_zshrc 'local'
-				;;
-
-			keyboard_layout)
-				update_keyboard_layout 'local'
-				;;
-			
-			awesome)
-				update_awesome 'local'
-				;;
-
-			*)
-				update_vimrc 'local'
-				update_zshrc 'local'
-				update_keyboard_layout 'local'
-				update_awesome 'local'
-				;;
-		esac
-		;;
-
-	repository)
-		case "$2" in
-			vimrc)
-				update_vimrc 'repository'
-				;;
-
-			zshrc)
-				update_zshrc 'repository'
-				;;
-
-			keyboard_layout)
-				update_keyboard_layout 'repository'
-				;;
-
-			awesome)
-				update_awesome 'repository'
-				;;
-
-			*)
-				update_vimrc 'repository'
-				update_zshrc 'repository'
-				update_keyboard_layout 'repository'
-				update_awesome 'repository'
-				;;
-		esac
+	local|repository)
+		target="$1"
 		;;
 
 	*)
-		print_headline 'usage'
-		echo "diff:"
-		echo "	display changes between local dotfiles and those from the repository"
-		echo
-		echo "local [vimrc|zshrc|keyboard_layout]:"
-		echo "	update local dotfiles"
-		echo
-		echo "repository [vimrc|zshrc|keyboard_layout]:"
-		echo "	update the dotfiles inside the repository to the ones present on the local machine"
+		print_help
+
+		exit 0
 		;;
 esac
+
+for config in "$configs"
+do
+	case "$config" in
+		vimrc)
+			update_vimrc "$target"
+			;;
+
+		zshrc)
+			update_zshrc "$target"
+			;;
+
+		keyboard_layout)
+			update_keyboard_layout "$target"
+			;;
+		
+		awesome)
+			update_awesome "$target"
+			;;
+
+		*)
+			printf 'unrecogized config: %s\n' "$config"
+			;;
+	esac
+done
