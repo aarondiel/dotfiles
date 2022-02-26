@@ -26,27 +26,29 @@ print_headline() {
 		printf '#'
 		i=$((i+1))
 	done
+
+	printf '\n'
 }
 
 print_help() {
 	print_headline 'usage'
-	printf 'update.sh [local | repository | diff] [OPTIONS]\n'
-	printf '\n'
-	printf 'diff:\n'
-	printf "	display changes between local dotfiles and those from the repository\n"
-	printf '\n'
-	printf 'local:\n'
-	printf '	update local dotfiles\n'
-	printf '\n'
-	printf 'repository:\n'
-	printf '	update the dotfiles inside the repository to the ones present on the local machine\n'
-	printf '\n'
+	printf -- 'update.sh [local | repository | diff] [OPTIONS]\n'
+	printf -- '\n'
+	printf -- 'diff:\n'
+	printf -- "	display changes between local dotfiles and those from the repository\n"
+	printf -- '\n'
+	printf -- 'local:\n'
+	printf -- '	update local dotfiles\n'
+	printf -- '\n'
+	printf -- 'repository:\n'
+	printf -- '	update the dotfiles inside the repository to the ones present on the local machine\n'
+	printf -- '\n'
 
 	print_headline 'arguments'
-	printf '--only config_names\n'
-	printf '	config_names is a comma-sperated string, listing the dotfiles that will be targeted\n'
-	printf '	by default config_names contains all available options:\n'
-	printf '	vimrc,zshrc,keyboard_layout,awesome\n'
+	printf -- '--only config_names\n'
+	printf -- '	config_names is a comma-sperated string, listing the dotfiles that will be targeted\n'
+	printf -- '	by default config_names contains all available options:\n'
+	printf -- '	vimrc,zshrc,keyboard_layout,awesome\n'
 }
 
 print_headline_and_difference() {
@@ -61,13 +63,17 @@ get_permission() {
 	printf "%s" "$1"
 
 	read -r response
-	case $response in
-		[yY][eE][sS]|[yY]|*)
+	[ -z "$response" ] && return 0
+
+	case "$response" in
+		[yY][eE][sS]|[yY])
 			return 0
 			;;
-	esac
 
-	return 1
+		*)
+			return 1
+			;;
+	esac
 }
 
 pacman_install() {
@@ -127,7 +133,7 @@ update_keyboard_layout() {
 			initial_install='false'
 
 			[ -e '/usr/share/X11/xkb/symbols/faber' ] &&
-				mv '/usr/share/X11/xkb/symbols/faber' "$CWD/.backup/keyboard_layout" ||
+				sudo mv '/usr/share/X11/xkb/symbols/faber' "$CWD/.backup/keyboard_layout" ||
 				initial_install='true'
 
 			sudo cp "$CWD/keyboard_layout" "/usr/share/X11/xkb/symbols/faber"
@@ -212,7 +218,7 @@ update_vimrc() {
 	esac
 }
 
-arguments=$(getopt -s 'sh' --options 'h' --longoptions 'help,only:')
+arguments=$(getopt -s 'sh' --options 'h' --longoptions 'help,only:' -- "$@")
 configs='vimrc,zshrc,keyboard_layout,awesome'
 target=''
 
@@ -224,7 +230,7 @@ do
 	case "$1" in
 		--only)
 			shift 1
-			configs=$(split.sh "$1" ',')
+			configs="$(trim_quotes.sh "$1" | split.sh ',')"
 			;;
 
 		-h|--help)
@@ -241,9 +247,11 @@ do
 			printf 'unrecognized argument: %s\n' "$1"
 			;;
 	esac
+
+	shift 1
 done
 
-case "$1" in
+case $(trim_quotes.sh "$1") in
 	diff)
 		print_headline_and_difference 'vimrc' "$CWD/nvim" "$HOME/.config/nvim"
 		print_headline_and_difference 'vimrc' "$CWD/.zshrc" "$HOME/.zshrc"
@@ -254,7 +262,7 @@ case "$1" in
 		;;
 
 	local|repository)
-		target="$1"
+		target=$(trim_quotes.sh "$1")
 		;;
 
 	*)

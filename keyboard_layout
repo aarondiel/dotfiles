@@ -2,8 +2,8 @@
  // │ ~   │ !   │ @   │ # ⅔ │ $ ¾ │ %   │ ^   │ &   │ *   │ (   │ )   │ _	  │ = ± ┃ ⌫       ┃
  // │ `   │ 1   │ 2 ½ │ 3 ⅓ │ 4 ¼ │ 5 ‰ │ 6   │ 7   │ 8   │ 9   │ 0   │ -   │ + ≠ ┃Backspace┃
  // ┢━━━━━┷━┱───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┺━┳━━━━━━━┫
- // ┃ ↹     ┃ Q Ø │ W   │ E   │ R   │ T τ │ Y   │ U Ü │ I   │ O Ö │ P £ │ {   │ }   ┃ ⏎     ┃
- // ┃ Tab   ┃ q ø │ w   │ e € │ r ® │ t ™ │ y ¥ │ u ü │ i   │ o ö │ p π │ [   │ ]   ┃ Enter ┃
+ // ┃ ↹     ┃ Q Ø │ W   │ E € │ R   │ T τ │ Y   │ U Ü │ I   │ O Ö │ P £ │ {   │ }   ┃ ⏎     ┃
+ // ┃ Tab   ┃ q ø │ w   │ e è │ r ® │ t ™ │ y ¥ │ u ü │ i   │ o ö │ p π │ [   │ ]   ┃ Enter ┃
  // ┣━━━━━━━┻┱────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┺┓      ┃
  // ┃Caps    ┃ A Ä │ S Σ │ D   │ F   │ G   │ H   │ J   │ K   │ L § │ : ’ │ " ” │ | ¶ ┃      ┃
  // ┃Lock  ⇬ ┃ a ä │ s ß │ d Δ │ f   │ g   │ h   │ j   │ k   │ l λ │ ; ‘ │ ' “ │ \ ¦ ┃      ┃
@@ -15,7 +15,7 @@
  // ┃       ┃       ┃       ┃ Space                   ␣         ┃AltGr ┃ Left ┃ Down ┃Right ┃
  // ┗━━━━━━━┻━━━━━━━┻━━━━━━━┹───────────────────────────────────┺━━━━━━┻━━━━━━┻━━━━━━┻━━━━━━┛
 
- // all keysym names are defined in /usr/include/keysymdef.h
+ // all keysym names are defined in /usr/include/X11/keysymdef.h
  // the names are mapped to their hexadecimal presentation, that you can also get from 'xev'
  // here is a helpful guide: https://www.charvolant.org/doug/xkb/html/node5.html
  // some desktop managers look for installed fonts in /usr/share/X11/xkb/rules/evdev.xml
@@ -41,7 +41,7 @@ xkb_symbols "basic" {
 
 	key <AD01>	{ [ q,						Q,						oslash,								Oslash								]	};
 	key <AD02>	{ [ w,						W																													]	};
-	key <AD03>	{ [ e,						E,						EuroSign																		]	};
+	key <AD03>	{ [ e,						E,						egrave,								EuroSign							]	};
 	key <AD04>	{ [ r,						R,						registered																	]	};
 	key <AD05>	{ [ t,						T,						trademark,						Greek_TAU							]	};
 	key <AD06>	{ [ y,						Y,						yen																					]	};
