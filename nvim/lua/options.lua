@@ -29,7 +29,6 @@ vim.opt.signcolumn = 'number'
 vim.opt.updatetime = 100
 
 utils.import('nvim-tree', function(nvim_tree)
-	vim.g.nvim_tree_quit_on_open = 1
 	vim.g.nvim_tree_highlight_opened_files = 3
 	vim.g.nvim_tree_group_empty = 1
 	vim.g.nvim_tree_disable_window_picker = 1
@@ -85,6 +84,9 @@ utils.import('nvim-tree', function(nvim_tree)
 				custom_only = vim.fn.empty(nvim_tree_mappings) == 0,
 				list = nvim_tree_mappings
 			}
+		},
+		actions = {
+			open_file = { quit_on_open = true }
 		}
 	})
 end)

@@ -2,12 +2,8 @@ autoload -Uz compinit vcs_info
 zmodload zsh/complist
 
 pwd_contains_comp_file() {
-	files=($(ls -1 .))
-
-	for file in ${files[@]}
-	do
-		[ -n "$(echo $file | grep -P '^_.+')" ] && return 0
-	done
+	[ -n "$(ls -1 | grep -P '^_.+')" ] &&
+		return 0
 
 	return 1
 }
@@ -16,8 +12,8 @@ chpwd() {
 	pwd_contains_comp_file &&
 		fpath=($fpath $PWD) &&
 		compinit &&
-		return 1 ||
-		return 0
+		return 0 ||
+		return 1
 }
 
 precmd() {
@@ -29,7 +25,7 @@ preexec() {
 	print -Pn '\e]2;$1\a'
 }
 
-chpwd && compinit
+chpwd || compinit
 
 zstyle ':completion:*' menu select
 zstyle ':vcs_info:*' enable git svn
@@ -41,7 +37,7 @@ export PROMPT='%B「%U%F{1}%n%f%u@%U%F{6}%m%f%u%  %c${vcs_info_msg_0_}」%b'
 export EDITOR='nvim'
 export VISUAL='nvim'
 export KEYTIMEOUT=1
-export PATH=$PATH:/home/aaron/.local/bin
+export PATH="$PATH:$HOME/.local/bin:$HOME/Documents/scripts"
 
 alias vim='nvim'
 alias ls='exa'

@@ -219,7 +219,7 @@ update_vimrc() {
 }
 
 arguments=$(getopt -s 'sh' --options 'h' --longoptions 'help,only:' -- "$@")
-configs='vimrc,zshrc,keyboard_layout,awesome'
+configs=$(split.sh 'vimrc,zshrc,keyboard_layout,awesome' ',')
 target=''
 
 # shellcheck disable=2086
@@ -272,7 +272,7 @@ case $(trim_quotes.sh "$1") in
 		;;
 esac
 
-for config in "$configs"
+for config in $configs
 do
 	case "$config" in
 		vimrc)

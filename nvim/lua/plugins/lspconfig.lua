@@ -94,54 +94,76 @@ utils.import('cmp', function (cmp)
 	end)
 end)
 
-utils.import('nvim-lsp-installer', function (lspinstaller)
-	lspinstaller.on_server_ready(function(server)
-		local server_options = {
-			['sumneko_lua'] = {
-				Lua = {
-					runtime = {
-						version = 'LuaJIT',
-						path = vim.split(package.path, ';')
-					},
+local function generate_sumneko_lua_settings()
+	local file_path = vim.fn.expand('%:p')
+	local globals = {}
+	local library = {}
 
-					diagnostics = { globals = { "vim" } },
+	if (utils.starts_with(file_path, vim.fn.expand('~/.config/nvim'))) then
+		globals = { 'vim' }
+		library = {
+			[ vim.fn.expand('$VIMRUNTIME/lua') ] = true,
+			[ vim.fn.expand('$VIMRUNTIME/lua/vim/lsp') ] = true,
+			[ vim.fn.stdpath('config') .. '/lua' ] = true
+		}
+	elseif (utils.starts_with(file_path, vim.fn.expand('~/.config/awesome'))) then
+		globals = { 'awesome' }
+		library = {
+			[ vim.fn.expand('/usr/share/awesome/lib') ] = true
+		}
+	end
 
-					workspace = {
-						library = {
-							[vim.fn.expand('$VIMRUNTIME/lua')] = true,
-							[vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
-							[vim.fn.stdpath('config') .. '/lua'] = true
-						},
-					},
-
-					telemetry = { enable = false },
-
-					hint = { enable = true }
-				}
+	return {
+		Lua = {
+			runtime = {
+				version = 'LuaJIT',
+				path = vim.split(package.path, ';')
 			},
 
-			['jsonls'] = {
-				json = {
-					schemas = {
-						{
-							description = 'npm',
-							fileMatch = { 'package.json' },
-							url = 'https://json.schemastore.org/package.json'
-						}
-					}
+			diagnostics = { globals = globals },
+			workspace = { library = library },
+			telemetry = { enable = false },
+			hint = { enable = true }
+		}
+	}
+end
+
+local function generate_jsonls_settings()
+	return {
+		json = {
+			schemas = {
+				{
+					description = 'npm',
+					fileMatch = { 'package.json' },
+					url = 'https://json.schemastore.org/package.json'
+				},
+				{
+					description = 'tsconfig',
+					fileMatch = { 'tsconfig.json' },
+					url = 'https://json.schemastore.org/tsconfig.json'
 				}
 			}
 		}
+	}
+end
 
-		local config = {
-			on_attach = on_attach,
-			capabilities = capabilities,
-			settings = server_options[server.name] or {}
+utils.import('nvim-lsp-installer', function (lspinstaller)
+	lspinstaller.on_server_ready(function(server)
+		local server_options = {
+			['sumneko_lua'] = generate_sumneko_lua_settings,
+			['jsonls'] = generate_jsonls_settings
 		}
 
-		vim.g.server_settings = config
+		local settings = server_options[server.name] or {}
+		if (type(settings) == 'function') then
+			settings = settings()
+		end
 
-		server:setup(config)
+		server:setup({
+			on_attach = on_attach,
+			capabilities = capabilities,
+			settings = settings
+		})
 	end)
 end)
 
