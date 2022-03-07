@@ -11,6 +11,10 @@ function utils.starts_with(target_string, start_string)
 	) == start_string
 end
 
+--- @param package_name string
+--- @param callback? fun(): nil
+--- @param fallback? fun(): nil
+--- @return any?
 function utils.import(package_name, callback, fallback)
 	local available, package = pcall(require, package_name)
 

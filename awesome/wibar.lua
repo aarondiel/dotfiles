@@ -1,5 +1,6 @@
 local awful = require('awful')
 local wibox = require('wibox')
+local crate_battery_widget = require('widgets.battery')
 local utils = require('utils')
 
 -- target_screen: awful.screen
@@ -16,7 +17,7 @@ local function setup_wibar(target_screen)
 		screen = target_screen,
 		filter = awful.widget.tasklist.filter.currenttags,
 		buttons = {
-			awful.button({}, 1, function (c)
+			awful.button({}, 1, function(c)
 				c:activate({ context = 'tasklist', action = 'toggle_minimization' })
 			end),
 			awful.button({}, 3, function()
@@ -40,10 +41,10 @@ local function setup_wibar(target_screen)
 
 	local right_widgets = {
 		layout = wibox.layout.fixed.horizontal,
-		awful.widget.keyboardlayout(),
+		crate_battery_widget(),
 		wibox.widget.systray(),
 		wibox.widget.textclock(),
-		layout_box,
+		layout_box
 	}
 
 	awful.wibar({

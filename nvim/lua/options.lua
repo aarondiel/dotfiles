@@ -24,14 +24,13 @@ vim.opt.writebackup = false
 vim.opt.undodir = vim.fn.expand('~/.vim/undodir')
 
 vim.opt.shortmess:append({ c = true })
-vim.opt.completeopt = 'menuone,noinsert,noselect'
+vim.opt.completeopt = { 'menuone', 'noinsert', 'noselect' }
 vim.opt.signcolumn = 'number'
 vim.opt.updatetime = 100
 
 utils.import('nvim-tree', function(nvim_tree)
 	vim.g.nvim_tree_highlight_opened_files = 3
 	vim.g.nvim_tree_group_empty = 1
-	vim.g.nvim_tree_disable_window_picker = 1
 
 	local nvim_tree_mappings = {}
 
@@ -76,17 +75,19 @@ utils.import('nvim-tree', function(nvim_tree)
 
 	nvim_tree.setup({
 		auto_close = true,
-		open_on_setup = true,
-		update_cwd = true,
-		open_on_tab = true,
+
 		view = {
 			mappings = {
 				custom_only = vim.fn.empty(nvim_tree_mappings) == 0,
 				list = nvim_tree_mappings
 			}
 		},
+
 		actions = {
-			open_file = { quit_on_open = true }
+			open_file = {
+				quit_on_open = true,
+				window_picker = { enable = false }
+			}
 		}
 	})
 end)

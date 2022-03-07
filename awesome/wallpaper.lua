@@ -1,27 +1,14 @@
-local awful = require('awful')
 local gears = require('gears')
-local wibox = require('wibox')
 local beautiful = require('beautiful')
 
 screen.connect_signal('request::wallpaper', function(target_screen)
-	awful.wallpaper({
-		screen = target_screen,
-		widget = {
-			{
-				image = gears.filesystem.get_random_file_from_dir(
-					beautiful.wallpaper,
-					{ '.jpg', '.png' },
-					true
-				),
-				resize = true,
-				widget = wibox.widget.imagebox
-			},
-			valign = 'center',
-			halign = 'center',
-			tiled  = false,
-			widget = wibox.container.tile
-		}
-	})
+	local file = gears.filesystem.get_random_file_from_dir(
+		beautiful.wallpaper,
+		{ '.jpg', '.png' },
+		true
+	)
+
+	gears.wallpaper.maximized(file, target_screen)
 end)
 
 gears.timer({

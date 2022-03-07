@@ -107,7 +107,7 @@ local function generate_sumneko_lua_settings()
 			[ vim.fn.stdpath('config') .. '/lua' ] = true
 		}
 	elseif (utils.starts_with(file_path, vim.fn.expand('~/.config/awesome'))) then
-		globals = { 'awesome' }
+		globals = { 'awesome', 'client', 'screen', 'root', 'mouse' }
 		library = {
 			[ vim.fn.expand('/usr/share/awesome/lib') ] = true
 		}

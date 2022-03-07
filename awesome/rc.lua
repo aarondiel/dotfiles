@@ -1,6 +1,5 @@
 require('awful.autofocus')
 require('error_handler')
-require('mappings')
 require('rules')
 require('titlebar')
 

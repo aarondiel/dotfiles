@@ -1,19 +1,30 @@
+local mappings = {}
 local modkey = 'Mod4'
 local alt = 'Mod1'
 local alt_gr = 'Mod1'
 local control = 'Control'
 local shift = 'Shift'
 
+--- @module 'awful.init'
 local awful = require('awful')
+--- @module 'gears.init'
 local gears = require('gears')
 local utils = require('utils')
 
--- mapping: {
--- 	combination: string[],
--- 	callback: () => void,
--- 	description: string,
--- 	group: string
--- }
+--- @class Keyboard_Mapping
+--- @field combination string[]
+--- @field callback fun(): nil
+--- @field description string
+--- @field group string
+
+--- @class Mouse_Mapping
+--- @field combination string[]
+--- @field callback fun(): nil
+--- @field description string
+--- @field group string
+
+--- @param mapping Keyboard_Mapping
+--- @return awful.key
 local function mapping_to_key(mapping)
 	assert(
 		type(mapping) == 'table' and #mapping == 4,
@@ -54,12 +65,8 @@ local function mapping_to_key(mapping)
 	})
 end
 
--- mapping: {
---	combination: string[],
--- 	callback: () => void,
--- 	description: string,
--- 	group: string
--- }
+--- @param mapping Mouse_Mapping
+--- @return awful.button
 local function mapping_to_button(mapping)
 	assert(
 		type(mapping) == 'table' and #mapping == 4,
@@ -103,7 +110,7 @@ local function mapping_to_button(mapping)
 	})
 end
 
-local global_mappings = {
+local global_keys = {
 	{ { modkey, shift, 'r' }, awesome.restart, 'reload awesome', 'general' },
 
 	{ { modkey, 'Return' }, utils.open_terminal, 'open terminal', 'general' },
@@ -135,43 +142,33 @@ local global_mappings = {
 	{ { modkey, 'Tab' }, utils.cycle_window(1), 'cycle to the next window', 'general' },
 	{ { modkey, shift, 'Tab' }, utils.cycle_window(-1), 'cycle to the previous window', 'general' },
 
-	{ { modkey, 'n' }, utils.restore_minimized, 'restore minimized windows', 'general' },
+	{ { 'Print' }, utils.screenshot(false), 'take screenshot', 'screenshot' },
+	{ { shift, 'Print' }, utils.screenshot(true), 'capture selection', 'screenshot' },
 
 	{ { modkey, 'space' }, utils.cycle_layouts(1), 'restore minimized windows', 'general' },
 	{ { modkey, shift, 'space' }, utils.cycle_layouts(-1), 'restore minimized windows', 'general' },
 
-	{ { 'XF86AudioLowerVolume' }, utils.change_volume(-5), 'lower volume', 'general' },
-	{ { 'XF86AudioRaiseVolume' }, utils.change_volume(5), 'lower volume', 'general' },
-	{ { 'XF86AudioMute' }, utils.change_volume(0), 'mute audio', 'general' },
-	{ { 'XF86MonBrightnessDown' }, utils.change_brightness(-5), 'decrease monitor brightness', 'general' },
-	{ { 'XF86MonBrightnessUp' }, utils.change_brightness(5), 'increase monitor brightness', 'general' }
-}
+	{ { modkey, 'space' }, utils.cycle_layouts(1), 'cycle layouts', 'general' },
 
-local client_mappings = {
-	{ { modkey, 'f' }, utils.toggle_fullscreen, 'toggle fullscreen on focused window', 'general' },
-	{ { modkey, shift, 'f' }, utils.toggle_maximized, 'toggle maximization on focused window', 'general' },
-	{ { modkey, shift, 'c' }, utils.close_window, 'close focused window', 'general' },
-	{ { modkey, 'space' }, awful.client.floating.toggle, 'change focused window\'s layout to floating', 'general' },
-	{ { modkey, control, 'Return' }, utils.move_to_master, 'swap focused window with master window', 'general' },
-	{ { modkey, 't' }, utils.keep_window_on_top, 'keep window on top', 'general' },
-	{ { modkey, shift, 'n' }, utils.minimize, 'minimize focused window', 'general' }
-}
+	{ { modkey, '=' }, utils.change_gap(5), 'increase gap', 'general' },
+	{ { modkey, shift, '=' }, utils.change_gap(-5), 'decrease gap', 'general' },
 
-local mouse_client_mappings = {
-	{ { 1 }, utils.click_on_window, 'click', 'general' },
-	{ { modkey, 1 }, utils.move_window, 'move window', 'general' },
-	{ { modkey, 3 }, utils.resize_window, 'resize window', 'general' }
+	{ { 'XF86AudioLowerVolume' }, utils.change_volume(-5), 'lower volume', 'audio' },
+	{ { 'XF86AudioRaiseVolume' }, utils.change_volume(5), 'lower volume', 'audio' },
+	{ { 'XF86AudioMute' }, utils.change_volume(0), 'mute audio', 'audio' },
+	{ { 'XF86MonBrightnessDown' }, utils.change_brightness(-5), 'decrease monitor brightness', 'audio' },
+	{ { 'XF86MonBrightnessUp' }, utils.change_brightness(5), 'increase monitor brightness', 'audio' }
 }
 
 for i = 1, 9 do
-	table.insert(global_mappings, {
+	table.insert(global_keys, {
 		{ modkey, tostring(i) },
 		utils.switch_to_tag_index(i),
 		'switch to tag ' .. tostring(i),
 		'general'
 	})
 
-	table.insert(global_mappings, {
+	table.insert(global_keys, {
 		{ modkey, shift, tostring(i) },
 		utils.move_to_tag(i),
 		'move focused window to tag ' .. tostring(i),
@@ -179,18 +176,32 @@ for i = 1, 9 do
 	})
 end
 
-awful.keyboard.append_global_keybindings(
-	gears.table.map(mapping_to_key, global_mappings)
-)
+local client_keys = {
+	{ { modkey, 'f' }, utils.toggle_fullscreen, 'toggle fullscreen on focused window', 'general' },
+	{ { modkey, shift, 'f' }, utils.toggle_maximized, 'toggle maximization on focused window', 'general' },
+	{ { modkey, shift, 'c' }, utils.close_window, 'close focused window', 'general' },
+	{ { modkey, 'space' }, awful.client.floating.toggle, 'change focused window\'s layout to floating', 'general' },
+	{ { modkey, control, 'Return' }, utils.move_to_master, 'swap focused window with master window', 'general' },
+	{ { modkey, 't' }, utils.keep_window_on_top, 'keep window on top', 'general' },
+	{ { modkey, shift, 'n' }, utils.minimize, 'minimize focused window', 'general' },
+	{ { modkey, 'Print' }, utils.client_screenshot, 'take screenshot of focused window', 'screenshot' }
+}
 
-client.connect_signal('request::default_keybindings', function()
-	awful.keyboard.append_client_keybindings(
-		gears.table.map(mapping_to_key, client_mappings)
-	)
-end)
+local global_buttons = {}
 
-client.connect_signal('request::default_mousebindings', function()
-	awful.mouse.append_client_mousebindings(
-		gears.table.map(mapping_to_button, mouse_client_mappings)
-	)
-end)
+local client_buttons = {
+	{ { 1 }, utils.click_on_window, 'click', 'general' },
+	{ { modkey, 1 }, utils.move_window, 'move window', 'general' },
+	{ { modkey, 3 }, utils.resize_window, 'resize window', 'general' }
+}
+
+mappings.global_keys = gears.table.map(mapping_to_key, global_keys)
+mappings.client_keys = gears.table.map(mapping_to_key, client_keys)
+
+mappings.global_butons = gears.table.map(mapping_to_button, global_buttons)
+mappings.client_butons = gears.table.map(mapping_to_button, client_buttons)
+
+root.keys(mappings.global_keys)
+root.buttons(mappings.buttons)
+
+return mappings

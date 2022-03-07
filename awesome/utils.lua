@@ -1,8 +1,13 @@
 local utils = {}
+--- @module 'awful.init'
 local awful = require('awful')
+--- @module 'gears.init'
 local gears = require('gears')
+--- @module 'naughty.init'
+local naughty = require('naughty')
 
--- path: string
+--- @param path string
+--- @return string
 function utils.expand_path(path)
 	assert(type(path) == 'string', 'invalid path for expand_path')
 
@@ -36,15 +41,19 @@ function utils.expand_path(path)
 	return table.concat(split, '/')
 end
 
+
+--- @return nil
 function utils.open_terminal()
 	awful.spawn('kitty -1')
 end
 
+--- @reutrn nil
 function utils.open_rofi()
 	awful.spawn('rofi -show run')
 end
 
--- direction: 'left' | 'up' | 'right' | 'down'
+--- @param direction 'left' | 'up' | 'right' | 'down'
+--- @reutrn fun(): nil
 function utils.focus_window(direction)
 	assert(
 		direction == 'left' or
@@ -59,7 +68,8 @@ function utils.focus_window(direction)
 	end
 end
 
--- direction: 'left' | 'up' | 'right' | 'down'
+--- @param direction 'left' | 'up' | 'right' | 'down'
+--- @reutrn fun(): nil
 function utils.swap_window(direction)
 	assert(
 		direction == 'left' or
@@ -74,7 +84,8 @@ function utils.swap_window(direction)
 	end
 end
 
--- direction: 1 | -1
+--- @param direction 1 | -1
+--- @reutrn fun(): nil
 function utils.cycle_window(direction)
 	assert(
 		direction == 1 or direction == -1,
@@ -86,7 +97,8 @@ function utils.cycle_window(direction)
 	end
 end
 
--- direction: 'left' | 'up' | 'right' | 'down'
+--- @param direction 'left' | 'up' | 'right' | 'down'
+--- @return fun(): nil
 function utils.focus_screen(direction)
 	assert(
 		direction == 'left' or
@@ -101,7 +113,8 @@ function utils.focus_screen(direction)
 	end
 end
 
--- direction: 'left' | 'up' | 'right' | 'down'
+--- @param direction 'left' | 'up' | 'right' | 'down'
+--- @return fun(): nil
 function utils.move_to_screen(direction)
 	assert(
 		direction == 'left' or
@@ -124,6 +137,7 @@ function utils.move_to_screen(direction)
 end
 
 -- TODO: pipe unminimized clients into rofi and select from there
+--- @return nil
 function utils.restore_minimized()
 	-- client: awful.client
 	local function minimized_client(target_client)
@@ -138,7 +152,8 @@ function utils.restore_minimized()
 	end
 end
 
--- direction: 1 | -1
+--- @param direction: 1 | -1
+--- @return fun(): nil
 function utils.cycle_layouts(direction)
 	assert(
 		direction == 1 or direction == -1,
@@ -150,7 +165,21 @@ function utils.cycle_layouts(direction)
 	end
 end
 
--- step: int
+--- @param value integer
+--- @return fun(): nil
+function utils.change_gap(value)
+	assert(
+		type(value) == 'number',
+		'invalid value for change_gap'
+	)
+
+	return function()
+		awful.tag.incgap(value, nil)
+	end
+end
+
+--- @param step integer
+--- @return fun(): nil
 function utils.change_volume(step)
 	assert(
 		type(step) == 'number',
@@ -180,7 +209,8 @@ function utils.change_volume(step)
 	end
 end
 
--- step: int
+--- @param step integer
+--- @return fun(): nil
 function utils.change_brightness(step)
 	assert(
 		type(step) == 'number',
@@ -204,14 +234,16 @@ function utils.change_brightness(step)
 	end
 end
 
--- taget_tag: awful.tag
+--- @param taget_tag awful.tag
+--- @return fun(): nil
 function utils.switch_to_tag(target_tag)
 	return function()
 		target_tag:view_only()
 	end
 end
 
--- index: int
+--- @param index integer
+--- @return fun(): nil
 function utils.switch_to_tag_index(index)
 	assert(
 		index >= 1 and index <= 9,
@@ -226,7 +258,8 @@ function utils.switch_to_tag_index(index)
 	end
 end
 
--- index: int
+--- @param index integer
+--- @return fun(): nil
 function utils.move_to_tag(index)
 	assert(
 		index >= 1 and index <= 9,
@@ -247,52 +280,147 @@ function utils.move_to_tag(index)
 	end
 end
 
--- taget_client: awful.client
+--- @param target_client awful.client
+--- @return nil
 function utils.toggle_fullscreen(target_client)
 	target_client.fullscreen = not target_client.fullscreen
 	target_client:raise()
 end
 
--- target_client: awful.client
+--- @param target_client: awful.client
+--- @return nil
 function utils.toggle_maximized(target_client)
 	target_client.maximized = not target_client.maximized
 	target_client:raise()
 end
 
--- taget_client: awful.client
+--- @param target_client: awful.client
+--- @return nil
 function utils.close_window(target_client)
 	target_client:kill()
 end
 
--- target_client: awful.client
+--- @param target_client: awful.client
+--- @return nil
 function utils.move_to_master(target_client)
 	target_client:swap(awful.client.getmaster())
 end
 
--- target_client: awful.client
+--- @param target_client: awful.client
+--- @return nil
 function utils.keep_window_on_top(target_client)
 	target_client.ontop = not target_client.ontop
 	target_client.raise()
 end
 
--- target_client: awful.client
+--- @param target_client: awful.client
+--- @return nil
 function utils.minimize(target_client)
 	target_client.minimized = true
 end
 
--- target_client: awful.client
+--- @param target_client: awful.client
+--- @return nil
 function utils.click_on_window(target_client)
 	target_client:activate({ context = 'mouse_click', action = 'mouse_click' })
 end
 
--- target_client: awful.client
+--- @param target_client: awful.client
+--- @return nil
 function utils.move_window(target_client)
 	target_client:activate({ context = 'mouse_click', action = 'mouse_move' })
 end
 
--- target_client: awful.client
+--- @param target_client: awful.client
+--- @return nil
 function utils.resize_window(target_client)
 	target_client:activate({ context = 'mouse_click', action = 'mouse_resize' })
+end
+
+--- @param selection boolean
+--- @param window_id integer
+--- @return fun(): nil
+function utils.screenshot(selection, window_id)
+	assert(
+		type(selection) == 'boolean',
+		'selection not valid for utils.screenshot'
+	)
+
+	if window_id ~= nil then
+		assert(
+			type(window_id) == 'number',
+			'pid not valid for utils.screenshot'
+		)
+	end
+
+	return function()
+		local notification_app_name = 'screenshot'
+		local filename = os.date('%Y.%m.%d-%H.%M.%S') .. '.webp'
+		local filepath = utils.expand_path('~/Pictures/screenshots') .. '/' .. filename
+		local cmd = 'maim --hidecursor --quality 10 '
+
+		if window_id ~= nil then
+			cmd = cmd .. '--window ' .. tostring(window_id) .. ' '
+		end
+
+		if selection then
+			cmd = cmd .. '--bordersize 5 --select ' .. filepath
+
+			local capture_notification = naughty.notification({
+				title = 'screenshot',
+				message = 'select area to capture',
+				timeout = -1,
+				app_name = notification_app_name
+			})
+
+			awful.spawn.easy_async_with_shell(cmd, function(_stdout, _stderr, _exitreason, exitcode)
+				naughty.destroy(capture_notification)
+
+				if (exitcode ~= 0) then
+					return
+				end
+
+				naughty.notification({
+					title = 'screenshot',
+					message = 'selection captured',
+					app_name = 'screenshot'
+				})
+			end)
+
+			return
+		end
+
+		cmd = cmd .. filepath
+		awful.spawn.easy_async_with_shell(cmd, function(_stdout, _stderr, _exitreason, exitcode)
+			if (exitcode ~= 0) then
+				return
+			end
+
+			naughty.notification({
+				title = 'screenshot',
+				message = 'screenshot taken',
+				app_name = 'screenshot'
+			})
+		end)
+	end
+end
+
+--- @param target_client awful.client
+--- @return fun(): nil | nil
+function utils.client_screenshot(target_client)
+	local window_id = target_client.window
+
+	if window_id == nil then
+		return function()
+			naughty.notification({
+				title = 'screenshot',
+				message = 'could not determine process id for window'
+			})
+		end
+	end
+
+	local take_screenshot = utils.screenshot(false, window_id)
+	take_screenshot()
 end
 
 return utils
