@@ -6,7 +6,10 @@ local gears = require('gears')
 --- @module 'naughty.init'
 local naughty = require('naughty')
 
---- @param path string
+--- @alias position 'top' | 'right' | 'bottom' | 'left'
+--- @alias direction 'up' | 'right' | 'down' | 'left'
+
+-- @param path string
 --- @return string
 function utils.expand_path(path)
 	assert(type(path) == 'string', 'invalid path for expand_path')
@@ -52,7 +55,7 @@ function utils.open_rofi()
 	awful.spawn('rofi -show run')
 end
 
---- @param direction 'left' | 'up' | 'right' | 'down'
+--- @param direction direction
 --- @reutrn fun(): nil
 function utils.focus_window(direction)
 	assert(
@@ -68,7 +71,7 @@ function utils.focus_window(direction)
 	end
 end
 
---- @param direction 'left' | 'up' | 'right' | 'down'
+--- @param direction direction
 --- @reutrn fun(): nil
 function utils.swap_window(direction)
 	assert(
@@ -97,7 +100,7 @@ function utils.cycle_window(direction)
 	end
 end
 
---- @param direction 'left' | 'up' | 'right' | 'down'
+--- @param direction direction
 --- @return fun(): nil
 function utils.focus_screen(direction)
 	assert(
@@ -113,7 +116,7 @@ function utils.focus_screen(direction)
 	end
 end
 
---- @param direction 'left' | 'up' | 'right' | 'down'
+--- @param direction direction
 --- @return fun(): nil
 function utils.move_to_screen(direction)
 	assert(
@@ -421,6 +424,17 @@ function utils.client_screenshot(target_client)
 
 	local take_screenshot = utils.screenshot(false, window_id)
 	take_screenshot()
+end
+
+--- @param target_client awful.client
+--- @param position? position
+--- @return nil
+function utils.diable_titlebar(target_client, position)
+	if position == nil then
+		position = 'top'
+	end
+
+	awful.titlebar.hide(target_client, position)
 end
 
 return utils

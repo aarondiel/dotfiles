@@ -180,7 +180,7 @@ local client_keys = {
 	{ { modkey, 'f' }, utils.toggle_fullscreen, 'toggle fullscreen on focused window', 'general' },
 	{ { modkey, shift, 'f' }, utils.toggle_maximized, 'toggle maximization on focused window', 'general' },
 	{ { modkey, shift, 'c' }, utils.close_window, 'close focused window', 'general' },
-	{ { modkey, 'space' }, awful.client.floating.toggle, 'change focused window\'s layout to floating', 'general' },
+	{ { modkey, alt, 'space' }, awful.client.floating.toggle, 'change focused window\'s layout to floating', 'general' },
 	{ { modkey, control, 'Return' }, utils.move_to_master, 'swap focused window with master window', 'general' },
 	{ { modkey, 't' }, utils.keep_window_on_top, 'keep window on top', 'general' },
 	{ { modkey, shift, 'n' }, utils.minimize, 'minimize focused window', 'general' },

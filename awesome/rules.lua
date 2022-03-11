@@ -3,6 +3,7 @@ local awful = require('awful')
 local naughty = require('naughty')
 local beautiful = require('beautiful')
 local mappings = require('mappings')
+local utils = require('utils')
 local dpi = beautiful.xresources.apply_dpi
 
 --- @param target_client awful.client
@@ -24,6 +25,42 @@ local function floating_client_placement(target_client)
 		honor_workarea=true,
 		margins = beautiful.useless_gap * 2
 	})
+end
+
+--- @param client_class_name string
+--- @param tag_num integer
+--- @param screen_num? integer
+--- @return table
+local function position_client_on_tag(client_class_name, tag_num, screen_num)
+	assert(
+		type(client_class_name) == 'string',
+		'invalid client_class_name for position_client_on_tag'
+	)
+
+	assert(
+		type(tag_num) == 'number',
+		'invalid tag_num for position_client_on_tag'
+	)
+
+	if screen_num == nil then
+		screen_num = 1
+	end
+
+	assert(
+		type(screen_num) == 'number',
+		'invalid screen_num for position_client_on_tag'
+	)
+
+	return {
+		rule = {
+			class = { client_class_name }
+		},
+
+		properties = {
+			screen = screen_num,
+			tag = screen[screen_num].tags[tag_num]
+		}
+	}
 end
 
 naughty.config = {
@@ -80,6 +117,31 @@ local global_client_config = {
 	}
 }
 
+local floating_client_config = {
+	rule_any = {
+		type = { 'dialog' }
+	},
+
+	properties = {
+		floating = true
+	}
+}
+
+local disable_titlebars = {
+	rule_any = {
+		class = { 'kitty' },
+		type = { 'splash' }
+	},
+
+	callback = utils.diable_titlebar
+}
+
 awful.rules.rules = {
-	global_client_config
+	global_client_config,
+	disable_titlebars,
+	floating_client_config,
+	position_client_on_tag('kitty', 1),
+	position_client_on_tag('firefox', 2),
+	position_client_on_tag('discord', 3),
+	position_client_on_tag('thunderbird', 4)
 }

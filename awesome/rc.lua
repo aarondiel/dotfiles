@@ -7,6 +7,7 @@ local beautiful = require('beautiful')
 local naughty = require('naughty')
 local setup_tags = require('tags')
 local setup_wibar = require('wibar')
+local setup_autorun = require('autorun')
 local utils = require('utils')
 
 beautiful.init(utils.expand_path('~/.config/awesome/theme.lua'))
@@ -24,3 +25,5 @@ end)
 client.connect_signal('mouse::enter', function(target_client)
 	target_client:activate({ context = 'mouse_enter', raise = false })
 end)
+
+setup_autorun()
