@@ -91,29 +91,41 @@ is_true() {
 	exit 1
 }
 
+create_backup() {
+	origin_path="$1"
+	destination_name=$(basename "${2:-${1}}")
+
+	[ -e "$origin_path" ] || return 0
+	[ -e "$CWD/.backup/$destination_name" ] &&
+		rm -r "$CWD/.backup/$destination_name" ||
+		return 0
+
+	mv "$origin_path" "$CWD/.backup/$destination_name"
+}
+
 update_awesome() {
 	case "$1" in
 		local)
-			print_headline_and_difference 'awesomewm' "$CWD/awesome" "$HOME/.config/awesome" || return 1
+			print_headline_and_difference 'awesomewm' "$CWD/awesome" "$HOME/.config/awesome" || return 0
 
 			is_true "$2" ||
 				get_permission 'do you want to update your awesomewm config [Y/n]? ' ||
-				return 1
+				return 0
 
 			pacman_install 'awesome'
 			pacman_install 'rofi'
 			pacman_install 'kitty'
 			pacman_install 'light'
 
-			[ -e "$HOME/.config/awesome" ] && mv "$HOME/.config/awesome" "$CWD/.backup/awesome"
+			create_backup "$HOME/.config/awesome"
 			cp -r "$CWD/awesome" "$HOME/.config/awesome"
 			;;
 		repository)
-			print_headline_and_difference 'awesomewm' "$HOME/.config/awesome" "$CWD/awesome"  || return 1
+			print_headline_and_difference 'awesomewm' "$HOME/.config/awesome" "$CWD/awesome"  || return 0
 
 			is_true "$2" ||
 				get_permission 'do you want to update the awesomewm config inside the repository [Y/n]? ' ||
-				return 1
+				return 0
 
 			rm -r "$CWD/awesome"
 			cp -r "$HOME/.config/awesome" "$CWD/awesome"
@@ -124,17 +136,16 @@ update_awesome() {
 update_keyboard_layout() {
 	case "$1" in
 		local)
-			print_headline_and_difference 'keyboard layout' "$CWD/keyboard_layout" '/usr/share/X11/xkb/symbols/faber' || return 1
+			print_headline_and_difference 'keyboard layout' "$CWD/keyboard_layout" '/usr/share/X11/xkb/symbols/faber' || return 0
 
 			is_true "$2" ||
 				get_permission 'do you want to update your keyboard layout [Y/n]? ' ||
-				return 1
+				return 0
 
 			initial_install='false'
 
-			[ -e '/usr/share/X11/xkb/symbols/faber' ] &&
-				sudo mv '/usr/share/X11/xkb/symbols/faber' "$CWD/.backup/keyboard_layout" ||
-				initial_install='true'
+			[ -f '/usr/share/X11/xkb/symbols/faber' ] || initial_install='true'
+			sudo create_backup '/usr/share/X11/xkb/symbols/faber' 'keyboard_layout'
 
 			sudo cp "$CWD/keyboard_layout" "/usr/share/X11/xkb/symbols/faber"
 			is_true "$initial_install" && localectl set-x11-keymap faber
@@ -146,7 +157,7 @@ update_keyboard_layout() {
 
 			is_true "$2" ||
 				get_permission 'do you want to update the keyboard layout inside the repository [Y/n]? ' ||
-				return 1
+				return 0
 
 			sudo rm "$CWD/keyboard_layout"
 			sudo cp '/usr/share/X11/xkb/symbols/faber' "$CWD/keyboard_layout"
@@ -157,26 +168,26 @@ update_keyboard_layout() {
 update_zshrc() {
 	case "$1" in
 		local)
-			print_headline_and_difference 'zshrc' "$CWD/.zshrc" "$HOME/.zshrc" || return 1
+			print_headline_and_difference 'zshrc' "$CWD/.zshrc" "$HOME/.zshrc" || return 0
 
 			is_true "$2" ||
 				get_permission 'do you want to update your zshrc [Y/n]? ' ||
-				return 1
+				return 0
 
 			pacman_install 'zsh'
 			pacman_install 'zsh-autosuggestions'
 			pacman_install 'zsh-syntax-highlighting'
 
-			[ -e "$HOME/.zshrc" ] && mv "$HOME/.zshrc" "$CWD/.backup/.zshrc"
+			create_backup "$HOME/.zshrc"
 			cp "$CWD/.zshrc" "$HOME/.zshrc"
 			;;
 
 		repository)
-			print_headline_and_difference 'zshrc' "$HOME/.zshrc" "$CWD/.zshrc" || return 1
+			print_headline_and_difference 'zshrc' "$HOME/.zshrc" "$CWD/.zshrc" || return 0
 
 			is_true "$2" ||
 				get_permission 'do you want to update the zshrc inside the repository [Y/n]? ' ||
-				return 1
+				return 0
 
 			rm "$CWD/.zshrc"
 			cp "$HOME/.zshrc" "$CWD/.zshrc"
@@ -187,11 +198,11 @@ update_zshrc() {
 update_vimrc() {
 	case "$1" in
 		local)
-			print_headline_and_difference 'vimrc' "$CWD/nvim" "$HOME/.config/nvim" || return 1
+			print_headline_and_difference 'vimrc' "$CWD/nvim" "$HOME/.config/nvim" || return 0
 
 			is_true "$2" ||
 				get_permission 'do you want to update your vimrc [Y/n]? ' ||
-				return 1
+				return 0
 
 			pacman_install 'neovim'
 			pacman_install 'unzip'
@@ -201,16 +212,16 @@ update_vimrc() {
 			pacman_install 'npm'
 			pacman_install 'xclip'
 
-			[ -e "$HOME/.config/nvim" ] && mv "$HOME/.config/nvim" "$CWD/.backup/nvim"
+			create_backup "$HOME/.config/nvim"
 			cp -r "$CWD/nvim" "$HOME/.config/nvim"
 			;;
 
 		repository)
-			print_headline_and_difference 'vimrc' "$HOME/.config/nvim" "$CWD/nvim" || return 1
+			print_headline_and_difference 'vimrc' "$HOME/.config/nvim" "$CWD/nvim" || return 0
 
 			is_true "$2" ||
 				get_permission 'do you want to update the vimrc inside the repository [Y/n]? ' ||
-				return 1
+				return 0
 
 			rm -r "$CWD/nvim"
 			cp -r "$HOME/.config/nvim" "$CWD/nvim"
