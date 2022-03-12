@@ -52,11 +52,21 @@ print_help() {
 }
 
 print_headline_and_difference() {
-	difference=$(diff --color=always --tabsize=2 -trNd "$2" "$3")
-	[ -z "$difference" ] && return 1
+	[ -e "$2" ] || (printf "file does not exist: %s\n" "$2" && return 0)
+	[ -e "$3" ] || (printf "file does not exist: %s\n" "$3" && return 0)
+
+	difference=$(diff \
+		--color=always \
+		--expand-tabs \
+		--tabsize=2 \
+		--recursive \
+		"$2" "$3" || :
+	)
+
+	[ -z "$difference" ] && return 0
 
 	print_headline "$1"
-	echo "$difference"
+	printf "$difference\n"
 }
 
 get_permission() {
@@ -77,9 +87,9 @@ get_permission() {
 }
 
 pacman_install() {
-	[ -z "$PACKAGES_CASH" ] && PACKAGES_CASH=$(sudo pacman -Q)
+	[ -z "$PACKAGES_CASH" ] && printf "testing what packages are installed...\n" && PACKAGES_CASH=$(sudo pacman -Q)
 
-	echo "$PACKAGES_CASH" | grep -q "$1" || sudo pacman -S "$1"
+	printf "%s\n" "$PACKAGES_CASH" | grep -q "$1" || sudo pacman -S "$1"
 	return 0
 }
 
@@ -96,9 +106,7 @@ create_backup() {
 	destination_name=$(basename "${2:-${1}}")
 
 	[ -e "$origin_path" ] || return 0
-	[ -e "$CWD/.backup/$destination_name" ] &&
-		rm -r "$CWD/.backup/$destination_name" ||
-		return 0
+	[ -e "$CWD/.backup/$destination_name" ] && rm -r "$CWD/.backup/$destination_name"
 
 	mv "$origin_path" "$CWD/.backup/$destination_name"
 }
@@ -120,6 +128,7 @@ update_awesome() {
 			create_backup "$HOME/.config/awesome"
 			cp -r "$CWD/awesome" "$HOME/.config/awesome"
 			;;
+
 		repository)
 			print_headline_and_difference 'awesomewm' "$HOME/.config/awesome" "$CWD/awesome"  || return 0
 
@@ -265,7 +274,7 @@ done
 case $(trim_quotes.sh "$1") in
 	diff)
 		print_headline_and_difference 'vimrc' "$CWD/nvim" "$HOME/.config/nvim"
-		print_headline_and_difference 'vimrc' "$CWD/.zshrc" "$HOME/.zshrc"
+		print_headline_and_difference 'zshrc' "$CWD/.zshrc" "$HOME/.zshrc"
 		print_headline_and_difference 'keyboard layout' "$CWD/keyboard_layout" '/usr/share/X11/xkb/symbols/faber'
 		print_headline_and_difference 'awesomewm' "$CWD/awesome" "$HOME/.config/awesome"
 
