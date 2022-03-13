@@ -1,0 +1,78 @@
+set shellopts '-e'
+set ifs "\n"
+set scrolloff 10
+set icons
+set period 1
+set previewer '~/.config/lf/previewer.sh'
+set cleaner '~/.config/lf/cleaner.sh'
+
+cmd open ${{
+	mime_type=$(file --brief --mime-type --dereference "$f")
+
+	case "$mime-type" in
+		text/*|application/json)
+			$EDITOR "$fx"
+			;;
+
+		image/x-xcf)
+			setsid -f gimp $f >/dev/null 2>&1
+			;;
+
+		image/*)
+			setsid -f feh "$f"
+			;;
+
+		audio/*)
+			setsid -f vlc "$f"
+			;;
+
+		video/*)
+			setsid -f vlc "$f" >/dev/null 2>&1
+			;;
+
+		application/pdf|application/vnd*|application/epub*)
+			setsid -f evince "$f" >/dev/null 2>&1
+			;;
+	esac
+}}
+
+cmd mkdir $mkdir -p "$(echo $* | tr ' ' '\ ')"
+
+cmd delete ${{
+	clear
+	tput cup $(($(tput lines)/3))
+	tput bold
+
+	set -f
+	printf "%s\n" "$fx"
+	printf "\tdelete?[Y/n]"
+	read ans
+	([ "$ans" = "n" ] || [ "$ans" = "N" ]) && return 0
+
+	rm -rf -- $fx
+}}
+
+cmd bulkrename $vidir
+
+map D delete
+map <c-n> push :mkdir<space>
+map <c-r> reload
+map zh set hidden!
+map o &mimeopen "$f"
+map <enter> $mimeopen "$f"
+map B bulkrename
+
+# rename & place cursor at the end
+map A rename
+
+# rename & place cursor at the beginning
+map I push A<c-a>
+
+# rename & delete old name
+map c push A<c-u>
+
+# rename & keep extention
+map C push I<a-d>
+
+# rename & place cursor before extention
+map i push A<a-b><a-b><a-f>
