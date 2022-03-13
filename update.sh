@@ -48,7 +48,7 @@ print_help() {
 	printf -- '--only config_names\n'
 	printf -- '	config_names is a comma-sperated string, listing the dotfiles that will be targeted\n'
 	printf -- '	by default config_names contains all available options:\n'
-	printf -- '	vimrc,zshrc,keyboard_layout,awesome\n'
+	printf -- '	vimrc,zshrc,keyboard_layout,awesome,lf\n'
 }
 
 print_headline_and_difference() {
@@ -238,8 +238,37 @@ update_vimrc() {
 	esac
 }
 
+update_lf() {
+	case "$1" in
+		local)
+			print_headline_and_difference 'lf' "$CWD/lf" "$HOME/.config/lf" || return 0
+
+			is_true "$2" ||
+				get_permission 'do you want to update your lfrc [Y/n]? ' ||
+				return 0
+
+			pacman_install 'moreutils'
+			pacman_install 'kitty'
+
+			create_backup "$HOME/.config/lf"
+			cp -r "$CWD/lf" "$HOME/.config/lf"
+			;;
+
+		repository)
+			print_headline_and_difference 'lf' "$HOME/.config/lf" "$CWD/lf" || return 0
+
+			is_true "$2" ||
+				get_permission 'do you want to update the lfrc inside the repository [Y/n]? ' ||
+				return 0
+
+			rm -r "$CWD/lf"
+			cp -r "$HOME/.config/lf" "$CWD/lf"
+			;;
+	esac
+}
+
 arguments=$(getopt -s 'sh' --options 'h' --longoptions 'help,only:' -- "$@")
-configs=$(split.sh 'vimrc,zshrc,keyboard_layout,awesome' ',')
+configs=$(split.sh 'vimrc,zshrc,keyboard_layout,awesome,lf' ',')
 target=''
 
 # shellcheck disable=2086
@@ -277,6 +306,7 @@ case $(trim_quotes.sh "$1") in
 		print_headline_and_difference 'zshrc' "$CWD/.zshrc" "$HOME/.zshrc"
 		print_headline_and_difference 'keyboard layout' "$CWD/keyboard_layout" '/usr/share/X11/xkb/symbols/faber'
 		print_headline_and_difference 'awesomewm' "$CWD/awesome" "$HOME/.config/awesome"
+		print_headline_and_difference 'lf' "$CWD/lf" "$HOME/.config/lf"
 
 		exit 0
 		;;
@@ -309,6 +339,10 @@ do
 		
 		awesome)
 			update_awesome "$target"
+			;;
+		
+		lf)
+			update_lf "$target"
 			;;
 
 		*)
