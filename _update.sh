@@ -10,7 +10,7 @@ _arguments \
 case "$state" in
 	configs)
 		_values -s ',' 'actions' \
-			'vimrc' 'zshrc' 'keyboard_layout' 'awesome'
+			'vimrc' 'zshrc' 'keyboard_layout' 'awesome' 'lf'
 		;;
 
 	action)

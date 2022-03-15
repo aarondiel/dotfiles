@@ -66,7 +66,7 @@ print_headline_and_difference() {
 	[ -z "$difference" ] && return 0
 
 	print_headline "$1"
-	printf "$difference\n"
+	printf "%s\n" "$difference"
 }
 
 get_permission() {
@@ -248,6 +248,7 @@ update_lf() {
 				return 0
 
 			pacman_install 'moreutils'
+			pacman_install 'ffmpegthumbnailer'
 			pacman_install 'kitty'
 
 			create_backup "$HOME/.config/lf"
