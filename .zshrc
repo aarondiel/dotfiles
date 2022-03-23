@@ -33,6 +33,8 @@ zstyle ':vcs_info:git:*' formats ' %F{#989719}%f %F{#689d69}%b%f'
 
 setopt prompt_subst
 
+source "${HOME}/.config/lf/icons.sh"
+
 export PROMPT='%B「%U%F{1}%n%f%u@%U%F{6}%m%f%u%  %c${vcs_info_msg_0_}」%b'
 export EDITOR='nvim'
 export VISUAL='nvim'
@@ -47,7 +49,8 @@ alias vim='nvim'
 alias cp='cp -r'
 alias less='less -r'
 alias ranger='TERM=kitty ranger'
-alias resolution='ffprobe -v warning -select_streams v:0 -show_entries format=filename:stream=width,height -of csv=s=x:p=0'
+alias icat='kitty +kitten icat'
+alias du='du -sch'
 
 bindkey -v
 bindkey '^[[Z' reverse-menu-complete
