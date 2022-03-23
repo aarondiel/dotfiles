@@ -53,7 +53,11 @@ case "$mime_type" in
 		;;
 
 	audio/* | application/octet-stream)
-		mediainfo "$1"
+		mediainfo "$file"
+		;;
+
+	application/zip)
+		unzip -Z1 "$file"
 		;;
 esac
 

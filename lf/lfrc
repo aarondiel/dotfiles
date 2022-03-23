@@ -29,6 +29,14 @@ cmd open ${{
 		application/pdf)
 			setsid -f evince "$f" >/dev/null 2>&1
 			;;
+
+		application/zip)
+			dirname="${f%.*}"
+			[ -d "$dirname" ] && return 1
+
+			mkdir "$dirname"
+			unzip "$f" -d "${dirname}"
+			;;
 	esac
 }}
 
