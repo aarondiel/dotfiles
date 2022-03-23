@@ -19,7 +19,7 @@ cmd open ${{
 			;;
 
 		image/*)
-			setsid -f feh "$f" >/dev/null
+			setsid -f feh "$f" >/dev/null 2>&1
 			;;
 
 		video/* | audio/*)
