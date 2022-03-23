@@ -9,8 +9,8 @@ set cleaner '~/.config/lf/cleaner.sh'
 cmd open ${{
 	mime_type=$(file --brief --mime-type --dereference "$f")
 
-	case "$mime-type" in
-		text/*|application/json)
+	case "$mime_type" in
+		text/* | application/json)
 			$EDITOR "$fx"
 			;;
 
@@ -19,18 +19,14 @@ cmd open ${{
 			;;
 
 		image/*)
-			setsid -f feh "$f"
+			setsid -f feh "$f" >/dev/null
 			;;
 
-		audio/*)
-			setsid -f vlc "$f"
-			;;
-
-		video/*)
+		video/* | audio/*)
 			setsid -f vlc "$f" >/dev/null 2>&1
 			;;
 
-		application/pdf|application/vnd*|application/epub*)
+		application/pdf)
 			setsid -f evince "$f" >/dev/null 2>&1
 			;;
 	esac
@@ -58,8 +54,6 @@ map D delete
 map <c-n> push :mkdir<space>
 map <c-r> reload
 map zh set hidden!
-map o &mimeopen "$f"
-map <enter> $mimeopen "$f"
 map B bulkrename
 
 # rename & place cursor at the end
