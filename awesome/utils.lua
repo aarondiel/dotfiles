@@ -193,19 +193,17 @@ function utils.change_volume(step)
 	local command = ''
 
 	if step == 0 then
-		return function()
-			awful.spawn.with_shell('pactl set-sink-mute @DEFAULT_SINK@ toggle')
-		end
-	end
-
-	local sign = ''
-	if step < 0 then
-		sign = ''
+		command = 'pactl set-sink-mute @DEFAULT_SINK@ toggle'
 	else
-		sign = '+'
-	end
+		local sign = ''
+		if step < 0 then
+			sign = ''
+		else
+			sign = '+'
+		end
 
-	command = 'pactl set-sink-volume @DEFAULT_SINK@ ' .. sign .. tostring(step) .. '%'
+		command = 'pactl set-sink-volume @DEFAULT_SINK@ ' .. sign .. tostring(step) .. '%'
+	end
 
 	return function()
 		awful.spawn.with_shell(command)

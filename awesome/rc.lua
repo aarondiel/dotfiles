@@ -26,4 +26,4 @@ client.connect_signal('mouse::enter', function(target_client)
 	target_client:activate({ context = 'mouse_enter', raise = false })
 end)
 
-setup_autorun()
+setup_autorun(false)

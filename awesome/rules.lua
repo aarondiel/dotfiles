@@ -110,7 +110,7 @@ local global_client_config = {
 		honor_workarea = true,
 		honor_padding = true,
 		maximized = false,
-		titlebars_enabled = true,
+		titlebars_enabled = false,
 		maximized_horizontal = false,
 		maximized_vertical = false,
 		placement = floating_client_placement
@@ -127,9 +127,19 @@ local floating_client_config = {
 	}
 }
 
-local disable_titlebars = {
+local explicitly_enable_titlebars = {
 	rule_any = {
-		class = { 'kitty' },
+		type = { 'normal', 'dialog' }
+	},
+
+	properties = {
+		titlebars_enabled = true
+	}
+}
+
+local explicitly_disable_titlebars = {
+	rule_any = {
+		class = { 'kitty', 'firefox' },
 		type = { 'splash' }
 	},
 
@@ -138,7 +148,8 @@ local disable_titlebars = {
 
 awful.rules.rules = {
 	global_client_config,
-	disable_titlebars,
+	explicitly_disable_titlebars,
+	explicitly_enable_titlebars,
 	floating_client_config,
 	position_client_on_tag('kitty', 1),
 	position_client_on_tag('firefox', 2),

@@ -145,10 +145,10 @@ local global_keys = {
 	{ { 'Print' }, utils.screenshot(false), 'take screenshot', 'screenshot' },
 	{ { shift, 'Print' }, utils.screenshot(true), 'capture selection', 'screenshot' },
 
-	{ { modkey, 'space' }, utils.cycle_layouts(1), 'restore minimized windows', 'general' },
-	{ { modkey, shift, 'space' }, utils.cycle_layouts(-1), 'restore minimized windows', 'general' },
+	{ { modkey, 'n' }, utils.restore_minimized, 'restore minimized windows', 'general' },
 
 	{ { modkey, 'space' }, utils.cycle_layouts(1), 'cycle layouts', 'general' },
+	{ { modkey, shift, 'space' }, utils.cycle_layouts(-1), 'cycle layouts backwards', 'general' },
 
 	{ { modkey, '=' }, utils.change_gap(5), 'increase gap', 'general' },
 	{ { modkey, shift, '=' }, utils.change_gap(-5), 'decrease gap', 'general' },

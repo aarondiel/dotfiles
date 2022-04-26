@@ -1,8 +1,8 @@
 local awful = require('awful')
 local wibox = require('wibox')
-local naughty = require('naughty')
 
--- target_client: awful.client
+--- @param target_client awful.client
+--- @return fun(): nil
 local function move_window(target_client)
 	return function()
 		target_client:activate({
@@ -14,6 +14,10 @@ local function move_window(target_client)
 end
 
 client.connect_signal('request::titlebars', function(target_client)
+	if target_client.requests_no_titlebar then
+		return
+	end
+
 	local buttons = {
 		awful.button({}, 1, move_window(target_client))
 	}
