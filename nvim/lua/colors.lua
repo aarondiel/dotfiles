@@ -1,4 +1,7 @@
 return {
+	foreground = { '15', '#c5c8c6' },
+	background = { '0', '#1d1f21' },
+
 	black = {'0', '#282a2e'},
 	red = { '1', '#a54242' },
 	green = { '2', '#8c9440' },

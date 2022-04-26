@@ -16,14 +16,20 @@ local highlight_groups = {
 	{ group='TSPunctBracket', style=nil, fg=colors.lightcyan, bg=nil },
 	{ group='TSParameter', style=nil, fg=colors.white, bg=nil },
 	{ group='NormalFloat', style=nil, fg=colors.white, bg=colors.black },
+	{ group='FloatBorder', style=nil, fg=colors.white, bg=colors.black },
 	{ group='PMenu', style=nil, fg=colors.white, bg=colors.black },
-	{ group='PMenuSel', style=nil, fg=colors.black, bg=colors.white },
+	{ group='PMenuSel', style=nil, fg=colors.white, bg=colors.darkgrey },
 	{ group='EndOfBuffer', style=nil, fg=colors.darkgrey, bg=nil },
 	{ group='LineNr', style=nil, fg=colors.white, bg=nil },
 	{ group='LineNrBelow', style=nil, fg=colors.lightgrey, bg=nil },
 	{ group='LineNrAbove', style=nil, fg=colors.lightgrey, bg=nil },
 	{ group='Comment', style=nil, fg=colors.lightgrey, bg=nil },
-	{ group='ErrorMsg', style=nil, fg=colors.white, bg=colors.red }
+	{ group='ErrorMsg', style=nil, fg=colors.white, bg=colors.red },
+	{ group='SignColumn', style=nil, fg=colors.white, bg=colors.background },
+	{ group='GitSignsAdd', style=nil, fg=colors.green, bg=colors.background },
+	{ group='GitSignsChange', style=nil, fg=colors.yellow, bg=colors.background },
+	{ group='GitSignsDelete', style=nil, fg=colors.red, bg=colors.background },
+	{ group='NvimTreeRootFolder', style=nil, fg=colors.lightcyan, bg=nil }
 }
 
 for _, highlight_group in pairs(highlight_groups) do
