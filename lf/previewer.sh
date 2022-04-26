@@ -59,6 +59,10 @@ case "$mime_type" in
 	application/zip)
 		unzip -Z1 "$file"
 		;;
+
+	application/x-rar)
+		unrar lb "$file"
+		;;
 esac
 
 exit 1

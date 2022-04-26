@@ -6,6 +6,14 @@ set period 1
 set previewer '~/.config/lf/previewer.sh'
 set cleaner '~/.config/lf/cleaner.sh'
 
+cmd to_webp ${{
+	echo "$fx" | while read -r file
+	do
+		cwebp -q 100 "$file" -o "${file%.*}.webp" &&
+			rm "$file"
+	done
+}}
+
 cmd open ${{
 	mime_type=$(file --brief --mime-type --dereference "$f")
 
@@ -37,6 +45,14 @@ cmd open ${{
 			mkdir "$dirname"
 			unzip "$f" -d "${dirname}"
 			;;
+
+		application/x-rar)
+			dirname="${f%.*}"
+			[ -d "$dirname" ] && return 1
+
+			mkdir "$dirname"
+			unrar e "$f" "${dirname}"
+			;;
 	esac
 }}
 
@@ -56,7 +72,7 @@ cmd delete ${{
 	rm -rf -- $fx
 }}
 
-cmd bulkrename $vidir
+cmd bulkrename !~/.config/lf/bulkrename.sh "$fx"
 
 map D delete
 map <c-n> push :mkdir<space>
