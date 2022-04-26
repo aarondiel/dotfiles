@@ -87,9 +87,7 @@ get_permission() {
 }
 
 pacman_install() {
-	[ -z "$PACKAGES_CASH" ] && printf "testing what packages are installed...\n" && PACKAGES_CASH=$(sudo pacman -Q)
-
-	printf "%s\n" "$PACKAGES_CASH" | grep -q "$1" || sudo pacman -S "$1"
+	pacman -T "$1" || sudo pacman -S "$1"
 	return 0
 }
 
