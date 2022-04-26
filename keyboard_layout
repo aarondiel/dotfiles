@@ -11,7 +11,7 @@
  // ┃ ⇧    ┃ > ≥ │ Z   │ X ÷ │ C © │ V   │ B   │ N   │ M   │ < « │ > » │ ?   ┃ ↑    ┃ ⇧     ┃
  // ┃Shift ┃ < ≤ │ z   │ x × │ c ¢ │ v   │ b   │ n   │ m µ │ , · │ . … │ /   ┃ Up   ┃ Shift ┃
  // ┣━━━━━━┻┳━━━━┷━━┳━━┷━━━━┱┴─────┴─────┴─────┴─────┴─────┴────┲┷━━━━━╈━━━━━┻┳━━━━━┻┳━━━━━━┫
- // ┃Ctrl   ┃ Fn    ┃Alt    ┃ Non-breaking Space      ⍽         ┃      ┃ ←    ┃ ↓    ┃ →    ┃
+ // ┃Ctrl   ┃ Fn    ┃Alt    ┃                         ⍽         ┃      ┃ ←    ┃ ↓    ┃ →    ┃
  // ┃       ┃       ┃       ┃ Space                   ␣         ┃AltGr ┃ Left ┃ Down ┃Right ┃
  // ┗━━━━━━━┻━━━━━━━┻━━━━━━━┹───────────────────────────────────┺━━━━━━┻━━━━━━┻━━━━━━┻━━━━━━┛
 
@@ -78,9 +78,10 @@ xkb_symbols "basic" {
 	key <BKSL>	{ [ backslash,		bar,					brokenbar,						paragraph							]	};
 	key <LSGT>	{ [ less,					greater,			lessthanequal,				greaterthanequal			] };
 	key <TAB>		{ [ tab,					VoidSymbol,		U21b9																				] };
-	key <UP>		{ [ Up,						uparrow																										] };
-	key <RGHT>	{ [ Right,				rightarrow																								] };
-	key <DOWN>	{ [ Down,					downarrow																									] };
-	key <LEFT>	{ [ Left,					leftarrow																									] };
+	key <UP>		{ [ Up,						VoidSymbol,		uparrow																			] };
+	key <RGHT>	{ [ Right,				VoidSymbol,		rightarrow																	] };
+	key <DOWN>	{ [ Down,					VoidSymbol,		downarrow																		] };
+	key <LEFT>	{ [ Left,					VoidSymbol,		leftarrow																		] };
 	key <SPCE>	{ [ Space,				VoidSymbol,		nobreakspace,					signifblank						] };
+	key <RTRN>	{ [ Return,				VoidSymbol,		Linefeed																		] };
 };
