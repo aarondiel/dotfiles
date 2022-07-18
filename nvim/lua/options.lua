@@ -12,7 +12,7 @@ vim.opt.breakindent = true
 
 vim.opt.number = true
 vim.opt.relativenumber = true
-vim.opt.signcolumn = 'number'
+vim.opt.signcolumn = "yes"
 vim.opt.cmdheight = 2
 vim.opt.colorcolumn = "80"
 vim.opt.scrolloff = 4

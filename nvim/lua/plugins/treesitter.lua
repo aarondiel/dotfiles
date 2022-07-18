@@ -9,6 +9,15 @@ treesitter_config.setup({
 		additional_vim_regex_highlighting = false
 	},
 
+	incremental_selection = {
+		enable = true,
+		keymaps = {
+			init_selection = "<leader>s",
+			node_incremental = "<leader>n",
+			node_decremental = "<leader>m"
+		}
+	},
+
 	indent = {
 		enable = true
 	},

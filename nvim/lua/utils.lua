@@ -58,6 +58,40 @@ function utils.map(list, func)
 	return result
 end
 
+function utils.filter(list, func)
+	local result = {}
+
+	for _, element in ipairs(list) do
+		if func(list) == true then
+			table.insert(result, element)
+		end
+	end
+
+	return result
+end
+
+function utils.any(list)
+	for _, element in ipairs(list) do
+		if element == true then
+			return true
+		end
+	end
+
+	return false
+end
+
+function utils.combine(...)
+	local result = {}
+
+	for _, current_table in pairs({ ... }) do
+		for index, element in pairs(current_table) do
+			result[index] = element
+		end
+	end
+
+	return result
+end
+
 function utils.create_augroup(name)
 	return vim.api.nvim_create_augroup(
 		name,

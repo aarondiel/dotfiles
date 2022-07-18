@@ -40,6 +40,14 @@ packer.startup(function(use)
 	use("nvim-lua/plenary.nvim")
 
 	use({
+		"lewis6991/gitsigns.nvim",
+		config = function()
+			local gitsigns = require("gitsigns")
+			gitsigns.setup({})
+		end
+	})
+
+	use({
 		"norcalli/nvim-colorizer.lua",
 		config = function()
 			local colorizer = require("colorizer")
@@ -124,6 +132,7 @@ packer.startup(function(use)
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-path",
 			"hrsh7th/cmp-cmdline",
+			"davidsierradz/cmp-conventionalcommits",
 			"tamago324/cmp-zsh"
 		},
 
@@ -148,9 +157,45 @@ packer.startup(function(use)
 	})
 
 	use({
+		"sindrets/diffview.nvim",
+		config = function()
+			local diffview = require("diffview")
+
+			diffview.setup({
+				enhanced_diff_hl = true,
+				keymaps = {
+					disable_defaults = true
+				}
+			})
+		end
+	})
+
+	use({
+		"TimUntersberger/neogit",
+		after = { "plenary.nvim", "diffview.nvim" },
+		config = function()
+			local neogit = require("neogit")
+
+			neogit.setup({
+				integrations = { diffview = true }
+			})
+		end
+	})
+
+	use("mfussenegger/nvim-dap")
+
+	use({
 		"aarondiel/faber-colorscheme",
 		config = function()
 			vim.cmd("colorscheme faber")
+		end
+	})
+
+	use({
+		"feline-nvim/feline.nvim",
+		after = { "nvim-web-devicons", "gitsigns.nvim", "faber-colorscheme" },
+		config = function()
+			require("plugins.statusline")
 		end
 	})
 end)

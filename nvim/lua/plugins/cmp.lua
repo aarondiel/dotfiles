@@ -11,9 +11,25 @@ local function add_zsh_source()
 	vim.api.nvim_create_autocmd("FileType", {
 		desc = "add the completion source for zsh when entering a shellscript file",
 		pattern = "sh",
+		group = group,
 		callback = function()
 			cmp.setup.buffer({ sources = {
-				{ name = "cmp-zsh" }
+				{ name = "zsh" }
+			}})
+		end
+	})
+end
+
+local function add_conventional_commits_source()
+	local group = utils.create_augroup("")
+
+	vim.api.nvim_create_autocmd("FileType", {
+		desc = "add conventional commits source when entering a git commit",
+		pattern = "gitcommit",
+		group = group,
+		callback = function()
+			cmp.setup.buffer({ sources = {
+				{ name = "conventionalcommits" }
 			}})
 		end
 	})
@@ -91,3 +107,4 @@ cmp.setup({
 })
 
 add_zsh_source()
+add_conventional_commits_source()

@@ -24,7 +24,7 @@ local function on_attach(_, buffer_number)
 		{ "n", "<leader>D", vim.lsp.buf.type_definition, buffer },
 		{ "n", "<leader>rn", vim.lsp.buf.rename, buffer },
 		{ "n", "<leader>ca", vim.lsp.buf.code_action, buffer },
-		{ "n", "gr", vim.lsp.buf.references, buffer },
+		{ "n", "<leader>gr", vim.lsp.buf.references, buffer },
 		{ "n", "<leader>f", vim.lsp.buf.formatting, buffer }
 	}
 
@@ -55,9 +55,9 @@ end
 local function setup_lsp_signs()
 	local signs = {
 		Error = "",
+		Warn = "",
 		Info = "",
-		Hint = "",
-		Warn = ""
+		Hint = ""
 	}
 
 	for sign_name, sign in pairs(signs) do
