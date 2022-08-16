@@ -198,6 +198,21 @@ packer.startup(function(use)
 			require("plugins.statusline")
 		end
 	})
+
+	use({
+		"aarondiel/spread.nvim",
+		after = "nvim-treesitter",
+		config = function()
+			local spread = require("spread")
+			local default_options = {
+				silent = true,
+				noremap = true
+			}
+
+			vim.keymap.set("n", "<leader>ss", spread.out, default_options)
+			vim.keymap.set("n", "<leader>ssc", spread.combine, default_options)
+		end
+	})
 end)
 
 if first_install then
