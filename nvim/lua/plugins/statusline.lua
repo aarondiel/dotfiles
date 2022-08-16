@@ -333,6 +333,10 @@ local function lsp_errors(foreground, background)
 		local signs = vim.fn.sign_getdefined("DiagnosticSignError")
 		local sign = signs[1]
 
+		if sign == nil then
+			return ""
+		end
+
 		local diagnostics = vim.diagnostic.get(
 			0,
 			{ severity = vim.diagnostic.severity.ERROR }
@@ -358,6 +362,10 @@ local function lsp_warnings(foreground, background)
 	function component.provider()
 		local signs = vim.fn.sign_getdefined("DiagnosticSignWarn")
 		local sign = signs[1]
+
+		if sign == nil then
+			return ""
+		end
 
 		local diagnostics = vim.diagnostic.get(
 			0,
@@ -385,6 +393,10 @@ local function lsp_infos(foreground, background)
 		local signs = vim.fn.sign_getdefined("DiagnosticSignInfo")
 		local sign = signs[1]
 
+		if sign == nil then
+			return ""
+		end
+
 		local diagnostics = vim.diagnostic.get(
 			0,
 			{ severity = vim.diagnostic.severity.INFO }
@@ -410,6 +422,10 @@ local function lsp_hints(foreground, background)
 	function component.provider()
 		local signs = vim.fn.sign_getdefined("DiagnosticSignHint")
 		local sign = signs[1]
+
+		if sign == nil then
+			return ""
+		end
 
 		local diagnostics = vim.diagnostic.get(
 			0,
