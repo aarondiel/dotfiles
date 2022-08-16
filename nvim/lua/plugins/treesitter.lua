@@ -18,6 +18,8 @@ treesitter_config.setup({
 		}
 	},
 
+	query_linter = { enable = true },
+
 	indent = {
 		enable = true
 	},
@@ -29,4 +31,4 @@ treesitter_config.setup({
 
 vim.opt.foldexpr="nvim_treesitter#foldexpr()"
 
-utils.keymap({ "n", "<leader>g", "<cmd>TSHighlightCapturesUnderCursor<cr>" })
+utils.keymap("n", "<leader>g", "<cmd>TSCaptureUnderCursor<cr>")
