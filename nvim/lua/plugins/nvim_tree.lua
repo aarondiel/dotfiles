@@ -37,10 +37,8 @@ nvim_tree.setup({
 	}
 })
 
-local mappings = {
+utils.keymaps({
 	{ "n", "<leader>e", open_nvim_tree },
 	{ "n", "<leader>sv", split_vertically },
 	{ "n", "<leader>sh", split_horizontally }
-}
-
-utils.map(mappings, utils.keymap)
+})

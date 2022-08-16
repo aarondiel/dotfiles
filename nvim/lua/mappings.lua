@@ -1,7 +1,7 @@
 local utils = require("utils")
 local reindent_pasted_text = "'[=']"
 
-local mappings = {
+utils.keymaps({
 	{ "n", "<leader>h", "<cmd>wincmd h<cr>" },
 	{ "n", "<leader>l", "<cmd>wincmd l<cr>" },
 	{ "n", "<leader>j", "<cmd>wincmd j<cr>" },
@@ -13,8 +13,5 @@ local mappings = {
 	{ "n", "<leader>p", "\"+p" .. reindent_pasted_text },
 	{ { "n", "v" }, "p", "p" .. reindent_pasted_text },
 
-	{ "n", "<esc>", "<cmd>nohlsearch<cr>" },
-	{ "n", "<leader>r", "<cmd>w <bar> source %<cr>" },
-}
-
-utils.map(mappings, utils.keymap)
+	{ "n", "<esc>", "<cmd>nohlsearch<cr>" }
+})

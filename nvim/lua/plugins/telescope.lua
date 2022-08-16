@@ -7,11 +7,9 @@ assert(telescope_builtin ~= nil, "could not import telescope.builtin")
 
 telescope.setup({})
 
-local mappings = {
+utils.keymaps({
 	{ "n", "<leader>ff", telescope_builtin.find_files },
 	{ "n", "<leader>fg", telescope_builtin.live_grep },
 	{ "n", "<leader>fb", telescope_builtin.buffers },
 	{ "n", "<leader>fh", telescope_builtin.help_tags }
-}
-
-utils.map(mappings, utils.keymap)
+})
