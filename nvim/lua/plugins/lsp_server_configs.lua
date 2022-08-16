@@ -14,17 +14,16 @@ local function is_vim_lua()
 	return false
 end
 
-configs["sumneko_lua"] = function()
-	local globals = {}
+function configs.sumneko_lua()
+	local globals = { "require" }
 	local library = {}
 
 	if is_vim_lua() then
-		globals = { "vim" }
-		library = {
-			[ vim.fn.expand("$VIMRUNTIME/lua") ] = true,
-			[ vim.fn.expand("$VIMRUNTIME/lua/vim/lsp") ] = true,
-			[ vim.fn.stdpath("config") .. "/lua" ] = true
-		}
+		table.insert(globals, "vim")
+
+		library[vim.fn.expand("$VIMRUNTIME/lua")] = true
+		library[vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true
+		library[vim.fn.stdpath("config") .. "/lua"] = true
 	end
 
 	return {
@@ -41,5 +40,74 @@ configs["sumneko_lua"] = function()
 		}
 	}
 end
+
+function configs.tsserver()
+	local config = {}
+
+	config.javascript = {
+		autoClosingTags = true,
+		format = {
+			enable = true,
+			insertSpaceAfterConstructor = true,
+			insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets = true,
+			insertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis = true,
+			semicolons = "remove"
+		},
+
+		preferences = {
+			importModuleSpecifier = "non-relative",
+			quoteStyle = "double"
+		}
+	}
+
+	config.typescript = {
+		format = config.javascript.format,
+		locale = "en",
+		preferences = config.javascript.format,
+		surveys = { enabled = false }
+	}
+
+	return config
+end
+
+configs.html = {
+	format = { indentInnerHtml = true }
+}
+
+configs.jsonls = {
+	json = {
+		schemas = {
+			{
+				description = 'npm',
+				fileMatch = { 'package.json' },
+				url = 'https://json.schemastore.org/package.json'
+			},
+			{
+				description = 'tsconfig',
+				fileMatch = { 'tsconfig.json' },
+				url = 'https://json.schemastore.org/tsconfig.json'
+			}
+		}
+	}
+}
+
+configs.svelte = {
+	svelte = {
+		["eable-ts-plugin"] = true,
+		plugin = {
+			svelte = { defaultScriptLanguage = "ts" }
+		}
+	}
+}
+
+configs.volar = {
+	volar = {
+		autoCompleteRefs = true,
+		codeLens = { scriptSetupTools = true }
+	}
+}
+
+configs.clangd = {}
+configs.cssls = {}
 
 return configs

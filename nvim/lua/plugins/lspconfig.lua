@@ -10,7 +10,7 @@ local function on_attach(_, buffer_number)
 	vim.opt.omnifunc = "v:lua.vim.lsp.omnifunc"
 
 	local buffer = { buffer = buffer_number }
-	local mappings = {
+	utils.keymaps({
 		{ "n", "<leader>d", vim.diagnostic.open_float, buffer },
 		{ "n", "[d", vim.diagnostic.goto_prev, buffer },
 		{ "n", "]d", vim.diagnostic.goto_next, buffer },
@@ -26,17 +26,34 @@ local function on_attach(_, buffer_number)
 		{ "n", "<leader>ca", vim.lsp.buf.code_action, buffer },
 		{ "n", "<leader>gr", vim.lsp.buf.references, buffer },
 		{ "n", "<leader>f", vim.lsp.buf.formatting, buffer }
-	}
-
-	utils.map(mappings, utils.keymap)
+	})
 end
 
 local function generate_capabilities()
-	return utils.import("cmp_nvim_lsp", function(cmp_nvim_lsp)
-		local original_capabilities = vim.lsp.protocol.make_client_capabilities()
+	local original_capabilities = vim.lsp.protocol.make_client_capabilities()
+	local cmp_nvim_lsp = utils.import("cmp_nvim_lsp")
 
-		return cmp_nvim_lsp.update_capabilities(original_capabilities)
-	end)
+	if cmp_nvim_lsp == nil then
+		return original_capabilities
+	end
+
+	return cmp_nvim_lsp.update_capabilities(original_capabilities)
+end
+
+local function get_installed_lsp_servers()
+	local lsp_installer = utils.import("nvim-lsp-installer")
+	local result = {}
+
+	if lsp_installer == nil then
+		return result
+	end
+
+	local installed_servers = lsp_installer.get_installed_servers()
+	for _, server in ipairs(installed_servers) do
+		result[server.name] = {}
+	end
+
+	return result
 end
 
 local function suppress_lsp_error_messages()
@@ -111,8 +128,10 @@ end
 
 local function load_lsp_configs()
 	local capabilities = generate_capabilities()
+	local installed_servers = get_installed_lsp_servers()
+	local lsp_servers = utils.combine(installed_servers, lsp_server_configs)
 
-	for server_name, server_config in pairs(lsp_server_configs) do
+	for server_name, server_config in pairs(lsp_servers) do
 		local config = {}
 
 		if type(server_config) == "table" then
