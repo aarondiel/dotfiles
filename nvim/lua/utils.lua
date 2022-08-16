@@ -26,26 +26,24 @@ function utils.starts_with(target_string, start_string)
 	) == start_string
 end
 
-function utils.keymap(keymap)
-	local mode = keymap[1]
-	local left = keymap[2]
-	local right = keymap[3]
-	local options = keymap[4]
-	local default_options = {
-		silent = true,
-		noremap = true
-	}
-
-	if options == nil then
-		options = default_options
-	else
-		options = vim.fn.extend(
-			default_options,
-			options
-		)
-	end
+function utils.keymap(mode, left, right, opts)
+	local options = utils.combine(
+		{ silent = true, noremap = true },
+		opts or {}
+	)
 
 	vim.keymap.set(mode, left, right, options)
+end
+
+function utils.keymaps(mappings)
+	for _, mapping in ipairs(mappings) do
+		local mode = mapping[1]
+		local left = mapping[2]
+		local right = mapping[3]
+		local opts = mapping[4]
+
+		utils.keymap(mode, left, right, opts)
+	end
 end
 
 function utils.map(list, func)
