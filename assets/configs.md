@@ -1,0 +1,3 @@
+# update.sh - configs
+
+- `nvim`
