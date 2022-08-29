@@ -18,6 +18,24 @@ function utils.import(package_name, callback, fallback)
 	return nil
 end
 
+function utils.unpack(array)
+	local value = table.remove(array)
+
+	if #array == 0 then
+		return value
+	end
+
+	return value, unpack(array)
+end
+
+function utils.partial(func, ...)
+	local args = { ... }
+
+	return function (...)
+		func(utils.unpack(args), ...)
+	end
+end
+
 function utils.starts_with(target_string, start_string)
 	return string.sub(
 		target_string,

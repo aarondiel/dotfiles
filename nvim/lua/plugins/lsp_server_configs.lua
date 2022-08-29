@@ -109,5 +109,6 @@ configs.volar = {
 
 configs.clangd = {}
 configs.cssls = {}
+configs.pyright = {}
 
 return configs

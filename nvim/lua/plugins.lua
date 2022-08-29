@@ -182,7 +182,18 @@ packer.startup(function(use)
 		end
 	})
 
-	use("mfussenegger/nvim-dap")
+	use({
+		"mfussenegger/nvim-dap",
+		requires = {
+			"rcarriga/nvim-dap-ui",
+			"theHamsta/nvim-dap-virtual-text",
+			"nvim-telescope/telescope-dap.nvim"
+		},
+
+		config = function()
+			require("plugins.dap")
+		end
+	})
 
 	use({
 		"aarondiel/faber-colorscheme",
