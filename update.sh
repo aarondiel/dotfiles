@@ -10,7 +10,7 @@ get_current_directory() {
 
 CWD="$(get_current_directory)"
 PATH="${PATH}:${CWD}/scripts"
-CONFIGS="nvim"
+CONFIGS="nvim,zsh"
 
 print_help() {
 	glow "${CWD}/assets/helpmessage.md"
@@ -24,8 +24,15 @@ link_config() {
 	from="$1"
 	to="$2"
 
-	[ -d "$from" ] || echo "no config dir specified" && return 1
-	[ -e "$to" ] || echo "${to} already exists" && return 1
+	[ -e "$from" ] || {
+		echo "no config specified"
+		return 1
+	}
+
+	[ -e "$to" ] && {
+		echo "${to} already exists"
+		return 1
+	}
 
 	ln -s "$from" "$to"
 	echo " ${from} → ${to}"
@@ -35,7 +42,11 @@ make_backup() {
 	target="$1"
 	backupdir="${CWD}/.backup"
 
-	[ -e "$target" ] || echo "$target does not exist" && return 1
+	[ -e "$target" ] || {
+		echo " ${target} does not exist"
+		return 1
+	}
+
 	[ -d "$backupdir" ] || mkdir "$backupdir"
 
 	mv "$target" "$backupdir"
@@ -92,7 +103,16 @@ do
 			from="${CWD}/nvim"
 			to="${HOME}/.config/nvim"
 
-			make_backup "$from" && link_nvim_config "$from" "$to"
+			make_backup "$to" || :
+			link_config "$from" "$to"
+			;;
+
+		zsh)
+			from="${CWD}/.zshrc"
+			to="${HOME}/.zshrc"
+
+			make_backup "$to" || :
+			link_config "$from" "$to"
 			;;
 
 		*)
