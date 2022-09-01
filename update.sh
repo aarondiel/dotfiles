@@ -20,15 +20,26 @@ print_configs() {
 	glow "${CWD}/assets/configs.md"
 }
 
-link_nvim_config() {
-	from="${CWD}/nvim"
-	to="${HOME}/.config/nvim"
+link_config() {
+	from="$1"
+	to="$2"
 
 	[ -d "$from" ] || echo "no config dir specified" && return 1
-	[ -n "$to" ] || echo "no target specified" && return 1
-	[ -f "$to" ] || echo "${to} already exists" && return 1
+	[ -e "$to" ] || echo "${to} already exists" && return 1
 
-	echo "$from -> $to"
+	ln -s "$from" "$to"
+	echo " ${from} → ${to}"
+}
+
+make_backup() {
+	target="$1"
+	backupdir="${CWD}/.backup"
+
+	[ -e "$target" ] || echo "$target does not exist" && return 1
+	[ -d "$backupdir" ] || mkdir "$backupdir"
+
+	mv "$target" "$backupdir"
+	echo " moved \"${target}\" to \"${backupdir}/${target}\""
 }
 
 parse_arguments() {
@@ -78,7 +89,10 @@ for config in $CONFIGS
 do
 	case "$config" in
 		nvim)
-			link_nvim_config
+			from="${CWD}/nvim"
+			to="${HOME}/.config/nvim"
+
+			make_backup "$from" && link_nvim_config "$from" "$to"
 			;;
 
 		*)
