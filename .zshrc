@@ -9,15 +9,33 @@ zstyle ":vcs_info:*" formats " %F{12}%f %F{2}%b%f"
 
 source "${HOME}/.config/lf/icons.sh"
 
-pwd_contains_comp_file() {
-	[ -n "$(ls -1 | grep -P "^_.+")" ] && return 0
+contains_comp_file() {
+	directory="$1"
+	[ -d "$directory" ] || return 1
+
+	underscore_files=$(ls -1 "$directory" | grep -P "^_.+$")
+	[ -n "$underscore_files" ] || return 1
+
+	for underscore_file in $underscore_files
+	do
+		underscore_file=$(readlink -f "$underscore_file")
+
+		[ -f "$underscore_file" ] || continue
+
+		contains_compdef=$(head -n 1 "$underscore_file" | grep -P "^#compdef.*$")
+		[ -n "$contains_compdef" ] && return 0
+	done
 
 	return 1
 }
 
 chpwd() {
-	pwd_contains_comp_file &&
-		fpath=($fpath $PWD) &&
+	contains_comp_file "$PWD" &&
+		[ "${fpath[(Ie)$PWD]}" = "0" ] &&
+		echo " PWD CONTAINS COMPLETION FILE -> adding to fpath..." ||
+		return 1
+
+	fpath=($fpath $PWD) &&
 		compinit &&
 		return 0 ||
 		return 1
