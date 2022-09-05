@@ -8,5 +8,5 @@ _arguments \
 	"-h[show help message]" \
 	"--help[show help message]" \
 	"--configs[list available configs]" \
-	"-o[only install certain configs]:configs:configs:describe_configs" \
+	"-o[only install certain configs]:configs:describe_configs" \
 	"--only[only install certain configs]:configs:describe_configs"
