@@ -9,8 +9,12 @@ get_current_directory() {
 }
 
 CWD="$(get_current_directory)"
-PATH="${PATH}:${CWD}/scripts"
+PATH="${CWD}/scripts:${PATH}"
 CONFIGS="nvim,zsh"
+
+get_filename() {
+	echo "${1##*/}"
+}
 
 print_help() {
 	glow "${CWD}/assets/helpmessage.md"
@@ -49,8 +53,14 @@ make_backup() {
 
 	[ -d "$backupdir" ] || mkdir "$backupdir"
 
-	mv "$target" "$backupdir"
-	echo " moved \"${target}\" to \"${backupdir}/${target}\""
+	target_filename=$(get_filename "$1")
+	backup_file="${backupdir}/${target_filename}" 
+	[ -e "$backup_file" ] &&
+		echo " deleting previous backup for ${target_filename}" &&
+		rm -Ir "$backup_file"
+
+	mv "$target" "$backup_file"
+	echo " moved \"${target}\" to \"${target_filename}\""
 }
 
 parse_arguments() {
