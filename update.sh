@@ -60,7 +60,7 @@ make_backup() {
 		rm -Ir "$backup_file"
 
 	mv "$target" "$backup_file"
-	echo " moved \"${target}\" to \"${target_filename}\""
+	echo " moved \"${target}\" to \"${backup_file}\""
 }
 
 parse_arguments() {
