@@ -213,6 +213,7 @@ packer.startup(function(use)
 	use({
 		"aarondiel/spread.nvim",
 		after = "nvim-treesitter",
+		run = "TSUpdate",
 		config = function()
 			local spread = require("spread")
 			local default_options = {
