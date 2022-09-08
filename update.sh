@@ -56,8 +56,9 @@ make_backup() {
 	target_filename=$(get_filename "$1")
 	backup_file="${backupdir}/${target_filename}" 
 	[ -e "$backup_file" ] &&
-		echo " deleting previous backup for ${target_filename}" &&
-		rm -Ir "$backup_file"
+		gum confirm "delete previous backup for ${target_filename}?" &&
+		rm -r "$backup_file" ||
+		return 1
 
 	mv "$target" "$backup_file"
 	echo " moved \"${target}\" to \"${backup_file}\""
@@ -113,16 +114,14 @@ do
 			from="${CWD}/nvim"
 			to="${HOME}/.config/nvim"
 
-			make_backup "$to" || :
-			link_config "$from" "$to"
+			make_backup "$to" && link_config "$from" "$to"
 			;;
 
 		zsh)
 			from="${CWD}/.zshrc"
 			to="${HOME}/.zshrc"
 
-			make_backup "$to" || :
-			link_config "$from" "$to"
+			make_backup "$to" && link_config "$from" "$to"
 			;;
 
 		*)
