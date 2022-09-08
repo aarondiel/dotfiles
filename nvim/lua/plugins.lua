@@ -67,7 +67,7 @@ packer.startup(function(use)
 		"nvim-treesitter/nvim-treesitter",
 		requires = "nvim-treesitter/playground",
 		config = function()
-			require("plugins/treesitter")
+			require("plugins.treesitter")
 		end
 	})
 
@@ -102,23 +102,30 @@ packer.startup(function(use)
 		"numToStr/Comment.nvim",
 		after = "nvim-treesitter",
 		config = function()
-			require("plugins/comment")
+			require("plugins.comment")
 		end
 	})
 
-	use("neovim/nvim-lspconfig")
+	use({
+		"williamboman/mason.nvim",
+		requires = {
+			"williamboman/mason-lspconfig.nvim",
+			"WhoIsSethDaniel/mason-tool-installer.nvim"
+		},
+
+		config = function()
+			require("plugins.mason")
+		end
+	})
 
 	use({
-		"williamboman/nvim-lsp-installer",
-		after = "nvim-lspconfig",
-		config = function()
-			require("plugins.lspinstaller")
-		end
+		"neovim/nvim-lspconfig",
+		after = "mason.nvim"
 	})
 
 	use({
 		"L3MON4D3/LuaSnip",
-		after = "nvim-lsp-installer"
+		after = "nvim-lspconfig"
 	})
 
 	use({
@@ -137,6 +144,7 @@ packer.startup(function(use)
 		},
 
 		config = function()
+			require("plugins.cmp")
 			require("plugins.lspconfig")
 		end
 	})
@@ -213,7 +221,6 @@ packer.startup(function(use)
 	use({
 		"aarondiel/spread.nvim",
 		after = "nvim-treesitter",
-		run = "TSUpdate",
 		config = function()
 			local spread = require("spread")
 			local default_options = {

@@ -1,10 +1,8 @@
 local utils = require("utils")
 local lspconfig = utils.import("lspconfig")
-local lsp_server_configs = utils.import("plugins.lsp_server_configs")
 utils.import("plugins.cmp")
 
 assert(lspconfig ~= nil, "could not import lspconfig")
-assert(lsp_server_configs ~= nil, "could not import lsp_server_configs")
 
 local function on_attach(_, buffer_number)
 	vim.opt.omnifunc = "v:lua.vim.lsp.omnifunc"
@@ -41,16 +39,17 @@ local function generate_capabilities()
 end
 
 local function get_installed_lsp_servers()
-	local lsp_installer = utils.import("nvim-lsp-installer")
-	local result = {}
+	local mason_lspconfig = utils.import("mason-lspconfig")
 
-	if lsp_installer == nil then
-		return result
+	if mason_lspconfig == nil then
+		return {}
 	end
 
-	local installed_servers = lsp_installer.get_installed_servers()
+	local result = {}
+	local installed_servers = mason_lspconfig.get_installed_servers()
+
 	for _, server in ipairs(installed_servers) do
-		result[server.name] = {}
+		result[server] = {}
 	end
 
 	return result
@@ -129,6 +128,9 @@ end
 local function load_lsp_configs()
 	local capabilities = generate_capabilities()
 	local installed_servers = get_installed_lsp_servers()
+	local lsp_server_configs = utils.import("plugins.lsp_server_configs")
+	assert(lsp_server_configs ~= nil, "could not import lsp_server_configs")
+
 	local lsp_servers = utils.combine(installed_servers, lsp_server_configs)
 
 	for server_name, server_config in pairs(lsp_servers) do
@@ -149,6 +151,10 @@ local function load_lsp_configs()
 		})
 	end
 end
+
+utils.import("mason-lspconfig", function(mason_lspconfig)
+	mason_lspconfig.setup({ automatic_installation = true })
+end)
 
 setup_lsp_config()
 load_lsp_configs()
