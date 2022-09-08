@@ -4,8 +4,8 @@ zmodload zsh/complist
 
 zstyle ":completion:*" menu select
 zstyle ":vcs_info:*" enable git
-zstyle ":vcs_info:*" actionformats " %F{12}%f %F{2}%b%f | %F{3}%a%f"
-zstyle ":vcs_info:*" formats " %F{12}%f %F{2}%b%f"
+zstyle ":vcs_info:*" actionformats " %F{12}%f %F{2}%b%f | %F{3}%a%f"
+zstyle ":vcs_info:*" formats " %F{12}%f %F{2}%b%f"
 
 source "${HOME}/.config/lf/icons.sh"
 
