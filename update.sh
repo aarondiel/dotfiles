@@ -10,7 +10,7 @@ get_current_directory() {
 
 CWD="$(get_current_directory)"
 PATH="${CWD}/scripts:${PATH}"
-CONFIGS="nvim,zsh"
+CONFIGS="nvim,zsh,keyboard_layout"
 
 get_filename() {
 	echo "${1##*/}"
@@ -48,7 +48,7 @@ make_backup() {
 
 	[ -e "$target" ] || {
 		echo " ${target} does not exist"
-		return 1
+		return 0
 	}
 
 	[ -d "$backupdir" ] || mkdir "$backupdir"
@@ -57,8 +57,7 @@ make_backup() {
 	backup_file="${backupdir}/${target_filename}" 
 	[ -e "$backup_file" ] &&
 		gum confirm "delete previous backup for ${target_filename}?" &&
-		rm -r "$backup_file" ||
-		return 1
+		rm -r "$backup_file"
 
 	mv "$target" "$backup_file"
 	echo " moved \"${target}\" to \"${backup_file}\""
@@ -107,6 +106,16 @@ parse_arguments() {
 
 parse_arguments "$@"
 
+case "$CONFIGS" in
+	*keyboard_layout*)
+		[ -w "/usr/share/X11/xkb/symbols" ] || {
+			echo " no permission to write to \"/usr/share/X11/xkb/symbols\""
+			echo " please run as root to install \"keyboard_layout\""
+			exit 1
+		}
+		;;
+esac
+
 for config in $CONFIGS
 do
 	case "$config" in
@@ -120,6 +129,13 @@ do
 		zsh)
 			from="${CWD}/.zshrc"
 			to="${HOME}/.zshrc"
+
+			make_backup "$to" && link_config "$from" "$to"
+			;;
+
+		keyboard_layout)
+			from="${CWD}/keyboard_layout"
+			to="/usr/share/X11/xkb/symbols/faber"
 
 			make_backup "$to" && link_config "$from" "$to"
 			;;

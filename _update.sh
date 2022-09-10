@@ -1,7 +1,7 @@
 #compdef update.sh
 
 describe_configs() {
-	_values -s "," "configs" "nvim" "zsh"
+	_values -s "," "configs" "nvim" "zsh" "keyboard_layout"
 }
 
 _arguments \

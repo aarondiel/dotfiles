@@ -1,0 +1,87 @@
+ // ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┲━━━━━━━━━┓
+ // │ ~   │ !   │ @   │ # ⅔ │ $ ¾ │ %   │ ^   │ &   │ *   │ (   │ )   │ _	  │ = ± ┃ ⌫       ┃
+ // │ `   │ 1   │ 2 ½ │ 3 ⅓ │ 4 ¼ │ 5 ‰ │ 6   │ 7   │ 8   │ 9   │ 0   │ -   │ + ≠ ┃Backspace┃
+ // ┢━━━━━┷━┱───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┴─┬───┺━┳━━━━━━━┫
+ // ┃ ↹     ┃ Q Ø │ W   │ E € │ R   │ T τ │ Y   │ U Ü │ I   │ O Ö │ P £ │ {   │ }   ┃ ⏎     ┃
+ // ┃ Tab   ┃ q ø │ w   │ e è │ r ® │ t ™ │ y ¥ │ u ü │ i   │ o ö │ p π │ [   │ ]   ┃ Enter ┃
+ // ┣━━━━━━━┻┱────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┺┓      ┃
+ // ┃Caps    ┃ A Ä │ S Σ │ D   │ F   │ G   │ H   │ J   │ K   │ L § │ : ’ │ " ” │ | ¶ ┃      ┃
+ // ┃Lock  ⇬ ┃ a ä │ s ß │ d Δ │ f   │ g   │ h   │ j   │ k   │ l λ │ ; ‘ │ ' “ │ \ ¦ ┃      ┃
+ // ┣━━━━━━┳━┹───┬─┴───┬─┴───┬─┴───┬─┴───┬─┴───┬─┴───┬─┴───┬─┴───┬─┴───┬─┴───┲━┷━━━━┲┻━━━━━━┫
+ // ┃ ⇧    ┃ > ≥ │ Z   │ X ÷ │ C © │ V   │ B   │ N   │ M   │ < « │ > » │ ?   ┃ ↑    ┃ ⇧     ┃
+ // ┃Shift ┃ < ≤ │ z   │ x × │ c ¢ │ v   │ b   │ n   │ m µ │ , · │ . … │ /   ┃ Up   ┃ Shift ┃
+ // ┣━━━━━━┻┳━━━━┷━━┳━━┷━━━━┱┴─────┴─────┴─────┴─────┴─────┴────┲┷━━━━━╈━━━━━┻┳━━━━━┻┳━━━━━━┫
+ // ┃Ctrl   ┃ Fn    ┃Alt    ┃                         ⍽         ┃      ┃ ←    ┃ ↓    ┃ →    ┃
+ // ┃       ┃       ┃       ┃ Space                   ␣         ┃AltGr ┃ Left ┃ Down ┃Right ┃
+ // ┗━━━━━━━┻━━━━━━━┻━━━━━━━┹───────────────────────────────────┺━━━━━━┻━━━━━━┻━━━━━━┻━━━━━━┛
+
+ // all keysym names are defined in /usr/include/X11/keysymdef.h
+ // the names are mapped to their hexadecimal presentation, that you can also get from 'xev'
+ // here is a helpful guide: https://www.charvolant.org/doug/xkb/html/node5.html
+ // some desktop managers look for installed fonts in /usr/share/X11/xkb/rules/evdev.xml
+
+default
+xkb_symbols "basic" {
+	name[Group1] = "faber";
+	include "level3(ralt_switch)"
+
+	key <TLDE>	{ [ grave,				asciitilde																								]	};
+	key <AE01>	{ [ 1,						exclam																										]	};
+	key <AE02>	{ [ 2,						at,						onehalf																			]	};
+	key <AE03>	{ [ 3,						numbersign,		onethird,							twothirds							]	};
+	key <AE04>	{ [ 4,						dollar,				onequarter,						threequarters					]	};
+	key <AE05>	{ [ 5,						percent,			permille																		]	};
+	key <AE06>	{ [ 6,						asciicircum																								]	};
+	key <AE07>	{ [ 7,						ampersand																									]	};
+	key <AE08>	{ [ 8,						asterisk																									]	};
+	key <AE09>	{ [ 9,						parenleft																									]	};
+	key <AE10>	{ [ 0,						parenright																								]	};
+	key <AE11>	{ [ minus,				underscore																								]	};
+	key <AE12>	{ [ equal,				plus,					plusminus,						notequal							]	};
+
+	key <AD01>	{ [ q,						Q,						oslash,								Oslash								]	};
+	key <AD02>	{ [ w,						W																													]	};
+	key <AD03>	{ [ e,						E,						egrave,								EuroSign							]	};
+	key <AD04>	{ [ r,						R,						registered																	]	};
+	key <AD05>	{ [ t,						T,						trademark,						Greek_TAU							]	};
+	key <AD06>	{ [ y,						Y,						yen																					]	};
+	key <AD07>	{ [ u,						U,						udiaeresis,						Udiaeresis						]	};
+	key <AD08>	{ [ i,						I																													]	};
+	key <AD09>	{ [ o,						O,						odiaeresis,						Odiaeresis						]	};
+	key <AD10>	{ [ p,						P,						Greek_pi,							sterling							]	};
+	key <AD11>	{ [ bracketleft,	braceleft																									]	};
+	key <AD12>	{ [ bracketright,	braceright																								]	};
+
+	key <AC01>	{ [ a,						A,						adiaeresis,						Adiaeresis						]	};
+	key <AC02>	{ [ s,						S,						ssharp,								Greek_SIGMA						]	};
+	key <AC03>	{ [ d,						D,						Greek_delta																	]	};
+	key <AC04>	{ [ f,						F																													]	};
+	key <AC05>	{ [ g,						G																													]	};
+	key <AC06>	{ [ h,						H																													]	};
+	key <AC07>	{ [ j,						J																													]	};
+	key <AC08>	{ [ k,						K																													]	};
+	key <AC09>	{ [ l,						L,						Greek_lambda,					section								]	};
+	key <AC10>	{ [ semicolon,		colon,				leftsinglequotemark,	rightsinglequotemark	]	};
+	key <AC11>	{ [ apostrophe,		quotedbl,			leftdoublequotemark,	rightdoublequotemark	]	};
+
+	key <AB01>	{ [ z,						Z																													]	};
+	key <AB02>	{ [ x,						X,						multiply,							division							]	};
+	key <AB03>	{ [ c,						C,						cent,									copyright							]	};
+	key <AB04>	{ [ v,						V																													]	};
+	key <AB05>	{ [ b,						B																													]	};
+	key <AB06>	{ [ n,						N,						mu																					]	};
+	key <AB07>	{ [ m,						M																													]	};
+	key <AB08>	{ [ comma,				less,					periodcentered,				guillemotleft					]	};
+	key <AB09>	{ [ period,				greater,			ellipsis,							guillemotright				]	};
+	key <AB10>	{ [ slash,				question,			U30b7																				]	};
+
+	key <BKSL>	{ [ backslash,		bar,					brokenbar,						paragraph							]	};
+	key <LSGT>	{ [ less,					greater,			lessthanequal,				greaterthanequal			] };
+	key <TAB>		{ [ tab,					VoidSymbol,		U21b9																				] };
+	key <UP>		{ [ Up,						VoidSymbol,		uparrow																			] };
+	key <RGHT>	{ [ Right,				VoidSymbol,		rightarrow																	] };
+	key <DOWN>	{ [ Down,					VoidSymbol,		downarrow																		] };
+	key <LEFT>	{ [ Left,					VoidSymbol,		leftarrow																		] };
+	key <SPCE>	{ [ Space,				VoidSymbol,		nobreakspace,					signifblank						] };
+	key <RTRN>	{ [ Return,				VoidSymbol,		Linefeed																		] };
+};
