@@ -54,7 +54,7 @@ xkb_symbols "basic" {
 
 	key <AC01>	{ [ a,						A,						adiaeresis,						Adiaeresis						]	};
 	key <AC02>	{ [ s,						S,						ssharp,								Greek_SIGMA						]	};
-	key <AC03>	{ [ d,						D,						Greek_delta																	]	};
+	key <AC03>	{ [ d,						D,						Greek_DELTA																	]	};
 	key <AC04>	{ [ f,						F																													]	};
 	key <AC05>	{ [ g,						G																													]	};
 	key <AC06>	{ [ h,						H																													]	};
