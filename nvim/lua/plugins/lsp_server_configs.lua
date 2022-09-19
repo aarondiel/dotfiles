@@ -110,5 +110,6 @@ configs.volar = {
 configs.clangd = {}
 configs.cssls = {}
 configs.pyright = {}
+configs.rust_analyzer = {}
 
 return configs

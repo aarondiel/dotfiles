@@ -69,8 +69,8 @@ cmp.setup({
 			behavior = cmp.SelectBehavior.Insert
 		}),
 
-		[ '<c-b>' ] = cmp.mapping.scroll_docs(-4),
-		[ '<c-f>' ] = cmp.mapping.scroll_docs(4),
+		[ '<c-u>' ] = cmp.mapping.scroll_docs(-4),
+		[ '<c-d>' ] = cmp.mapping.scroll_docs(4),
 
 		[ '<c-space>' ] = cmp.mapping.complete(),
 		[ '<c-e>' ] = cmp.mapping.abort(),
