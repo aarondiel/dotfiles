@@ -6,7 +6,7 @@ local function update_with_packer()
 	local group = utils.create_augroup("UpdateLspWithPacker")
 
 	vim.api.nvim_create_autocmd("User", {
-		desc = "update lsp servers with packer",
+		desc = "update mason with packer",
 		pattern = "PackerComplete",
 		group = group,
 		command = "MasonToolsUpdate"

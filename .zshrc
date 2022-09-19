@@ -72,6 +72,7 @@ alias less="less -r"
 alias icat="kitty +kitten icat"
 alias du="du -sch"
 alias compress_folder="tar -czf"
+alias curl="curl -L"
 
 bindkey -v
 bindkey "^[[Z" reverse-menu-complete
