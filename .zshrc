@@ -7,7 +7,8 @@ zstyle ":vcs_info:*" enable git
 zstyle ":vcs_info:*" actionformats " %F{12}%f %F{2}%b%f | %F{3}%a%f"
 zstyle ":vcs_info:*" formats " %F{12}%f %F{2}%b%f"
 
-source "${HOME}/.config/lf/icons.sh"
+lf_icons="${HOME}/.config/lf/icons.sh"
+[ -f "$lf_icons" ] && source "$lf_icons"
 
 contains_comp_file() {
 	directory="$1"
