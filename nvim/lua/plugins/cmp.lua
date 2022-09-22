@@ -1,9 +1,11 @@
 local utils = require("utils")
 local cmp = utils.import("cmp")
 local lspkind = utils.import("lspkind")
+local luasnip = utils.import("luasnip")
 
 assert(cmp ~= nil, "could not import cmp")
 assert(lspkind ~= nil, "could not import lspkind")
+assert(luasnip ~= nil, "could not import luasnip")
 
 local function add_zsh_source()
 	local group = utils.create_augroup("cmp_zsh_source")
@@ -35,6 +37,34 @@ local function add_conventional_commits_source()
 	})
 end
 
+local function tab_complete(fallback)
+	if cmp.visible() then
+		cmp.select_next_item()
+		return
+	end
+
+	if luasnip.expand_or_jumpable() then
+		luasnip.expand_or_jump()
+		return
+	end
+
+	fallback()
+end
+
+local function shift_tab_complete(fallback)
+	if cmp.visible() then
+		cmp.select_prev_item()
+		return
+	end
+
+	if luasnip.jumpable(-1) then
+		luasnip.jump(-1)
+		return
+	end
+
+	fallback()
+end
+
 local function setup_autopairs(cmp_autopairs)
 	cmp.event:on(
 		"confirm_done",
@@ -42,39 +72,69 @@ local function setup_autopairs(cmp_autopairs)
 	)
 end
 
-utils.import(
-	"nvim-autopairs.completion.cmp",
-	setup_autopairs
-)
+local function replace_highlight_groups(highlight_groups)
+	local result = {}
+
+	for key, value in pairs(highlight_groups) do
+		table.insert(result, key .. ":" .. value)
+	end
+
+	return table.concat(result, ",")
+end
+
+local function add_cmp_highlighting(faber)
+	faber.highlight_groups({
+		CmpPmenu = { link = "Normal" },
+		CmpPmenuBorder = {
+			fg = faber.colors.light_grey,
+			bg = faber.colors.none,
+			style = nil
+		},
+
+		CmpPmenuDocBorder = { link = "CmpPmenuBorder" }
+	})
+end
+
+utils.import("nvim-autopairs.completion.cmp", setup_autopairs)
 
 cmp.setup({
+	window = {
+		completion = {
+			border = "rounded",
+			winhighlight = replace_highlight_groups({
+				Normal = "CmpPmenu",
+				CursorLine = "PmenuSel",
+				Search = "None",
+				FloatBorder = "CmpPmenuBorder"
+			})
+		},
+
+		documentation = {
+			border = "rounded",
+			winhighlight = replace_highlight_groups({
+				Normal = "CmpPmenu",
+				Search = "None",
+				FloatBorder = "CmpPmenuDocBorder"
+			})
+		},
+	},
+
 	snippet = {
 		expand = function(args)
-			local luasnip = utils.import("luasnip")
-
-			if luasnip == nil then
-				return
-			end
-
 			luasnip.lsp_expand(args.body)
 		end
 	},
 
 	mapping = {
-		[ '<tab>' ] = cmp.mapping.select_next_item({
-			behavior = cmp.SelectBehavior.Insert
-		}),
+		[ "<tab>" ] = cmp.mapping(tab_complete, { "i", "s", }),
+    [ "<s-tab>" ] = cmp.mapping(shift_tab_complete, { "i", "s" }),
 
-		[ '<s-tab>' ] = cmp.mapping.select_prev_item({
-			behavior = cmp.SelectBehavior.Insert
-		}),
+		[ "<c-u>" ] = cmp.mapping.scroll_docs(-4),
+		[ "<c-d>" ] = cmp.mapping.scroll_docs(4),
 
-		[ '<c-u>' ] = cmp.mapping.scroll_docs(-4),
-		[ '<c-d>' ] = cmp.mapping.scroll_docs(4),
-
-		[ '<c-space>' ] = cmp.mapping.complete(),
-		[ '<c-e>' ] = cmp.mapping.abort(),
-		[ '<cr>' ] = cmp.mapping.confirm()
+		[ "<c-space>" ] = cmp.mapping.complete(),
+		[ "<c-e>" ] = cmp.mapping.abort(),
+		[ "<cr>" ] = cmp.mapping.confirm()
 	},
 
 	sources = {
@@ -110,3 +170,4 @@ cmp.setup({
 
 add_zsh_source()
 add_conventional_commits_source()
+utils.import("faber", add_cmp_highlighting)

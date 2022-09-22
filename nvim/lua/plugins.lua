@@ -125,15 +125,12 @@ packer.startup(function(use)
 
 	use({
 		"L3MON4D3/LuaSnip",
-		after = "nvim-lspconfig",
-		config = function()
-			require("plugins.luasnip")
-		end
+		after = "nvim-lspconfig"
 	})
 
 	use({
 		"hrsh7th/nvim-cmp",
-		after = { "LuaSnip", "nvim-autopairs" },
+		after = { "LuaSnip", "nvim-autopairs", "faber-colorscheme" },
 		requires = {
 			"onsails/lspkind.nvim",
 			"lukas-reineke/cmp-under-comparator",
