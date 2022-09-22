@@ -59,7 +59,7 @@ export PROMPT="%B「%U%F{1}%n%f%u@%U%F{6}%m%f%u %c\${vcs_info_msg_0_} 」%b"
 export EDITOR="nvim"
 export VISUAL="nvim"
 export KEYTIMEOUT=1
-export PATH="$PATH:$HOME/.local/bin"
+export PATH="$PATH:$HOME/.local/bin:$HOME/.cargo/bin"
 
 alias vim="nvim"
 alias ssh="kitty +kitten ssh"
