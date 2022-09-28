@@ -38,6 +38,7 @@ vim.opt.termguicolors = true
 vim.opt.menuitems = 50
 vim.opt.shortmess:append({ c = true })
 vim.opt.completeopt = { "menuone", "preview", "noinsert", "noselect" }
+vim.opt.nrformats = { "bin", "hex", "alpha" }
 
 vim.opt.bufhidden = "hide"
 
