@@ -27,17 +27,6 @@ local function on_attach(_, buffer_number)
 	})
 end
 
-local function generate_capabilities()
-	local original_capabilities = vim.lsp.protocol.make_client_capabilities()
-	local cmp_nvim_lsp = utils.import("cmp_nvim_lsp")
-
-	if cmp_nvim_lsp == nil then
-		return original_capabilities
-	end
-
-	return cmp_nvim_lsp.update_capabilities(original_capabilities)
-end
-
 local function get_installed_lsp_servers()
 	local mason_lspconfig = utils.import("mason-lspconfig")
 
@@ -126,7 +115,10 @@ local function setup_lsp_config()
 end
 
 local function load_lsp_configs()
-	local capabilities = generate_capabilities()
+	local capabilities = utils.import("cmp_nvim_lsp", function(nvim_lsp)
+			return nvim_lsp.default_capabilities()
+	end)
+
 	local installed_servers = get_installed_lsp_servers()
 	local lsp_server_configs = utils.import("plugins.lsp_server_configs")
 	assert(lsp_server_configs ~= nil, "could not import lsp_server_configs")
