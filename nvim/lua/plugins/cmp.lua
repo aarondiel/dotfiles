@@ -43,22 +43,12 @@ local function tab_complete(fallback)
 		return
 	end
 
-	if luasnip.expand_or_jumpable() then
-		luasnip.expand_or_jump()
-		return
-	end
-
 	fallback()
 end
 
 local function shift_tab_complete(fallback)
 	if cmp.visible() then
 		cmp.select_prev_item()
-		return
-	end
-
-	if luasnip.jumpable(-1) then
-		luasnip.jump(-1)
 		return
 	end
 
