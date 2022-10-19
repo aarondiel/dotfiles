@@ -62,9 +62,9 @@ export VISUAL="nvim"
 export KEYTIMEOUT=1
 export PATH="$PATH:$HOME/.local/bin:$HOME/.cargo/bin"
 
+[ -e "/bin/exa" ] && alias ls="exa"
 alias vim="nvim"
 alias ssh="kitty +kitten ssh"
-alias ls="exa"
 alias grep="grep -P --color=auto"
 alias mkdir="mkdir -p"
 alias vim="nvim"
