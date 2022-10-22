@@ -3,3 +3,4 @@
 - `nvim`
 - `zsh`
 - `keyboard_layout`
+- `lf`

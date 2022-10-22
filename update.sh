@@ -10,7 +10,7 @@ get_current_directory() {
 
 CWD="$(get_current_directory)"
 PATH="${CWD}/scripts:${PATH}"
-CONFIGS="nvim,zsh,keyboard_layout"
+CONFIGS="nvim,zsh,keyboard_layout,lf"
 
 get_filename() {
 	echo "${1##*/}"
@@ -136,6 +136,13 @@ do
 		keyboard_layout)
 			from="${CWD}/keyboard_layout"
 			to="/usr/share/X11/xkb/symbols/faber"
+
+			make_backup "$to" && link_config "$from" "$to"
+			;;
+
+		lf)
+			from="${CWD}/lf"
+			to="${HOME}/.config/lf"
 
 			make_backup "$to" && link_config "$from" "$to"
 			;;
