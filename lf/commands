@@ -1,0 +1,5 @@
+cmd mkdir !mkdir -p "$(echo $* | tr ' ' '\ ')"
+cmd open !~/.config/lf/open.sh "$fx"
+cmd to_webp !~/.config/lf/to_webp.sh "$fx"
+cmd delete !~/.config/lf/delete.sh "$fx"
+cmd bulk_rename !~/.config/lf/bulkrename.sh "$fx"

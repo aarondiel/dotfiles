@@ -1,0 +1,11 @@
+set cleaner '~/.config/lf/scripts/cleaner.sh'
+set icons on
+set number on
+set previewer '~/.config/lf/scripts/previewer.sh'
+set promptfmt "「\033[1;31m%u\033[0m@\033[1;36m%h\033[0m 」\033[1;34m%d\033[0m\033[1m%f\033[0m"
+set relativenumber on
+set scrolloff 10
+set shellopts '-e'
+set sortby 'name'
+set tabstop 2
+set truncatechar '…'
