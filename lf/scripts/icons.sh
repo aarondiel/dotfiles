@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -e
-
 export LF_ICONS="\
 	tw=:\
 	st=:\

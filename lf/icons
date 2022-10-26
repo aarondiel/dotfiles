@@ -11,7 +11,7 @@ bd      b       # BLK
 cd      c       # CHR
 su      u       # SETUID
 sg      g       # SETGID
-ex             # EXEC
+ex             # EXEC
 fi             # FILE
 
 # file extensions (vim-devicons)
@@ -283,15 +283,15 @@ Vagrantfile             
 *.svgz  
 *.mng   
 *.pcx   
-*.mov   
+*.mov   
 *.mpg   
 *.mpeg  
 *.m2v   
-*.mkv   
-*.webm  
+*.mkv   
+*.webm  
 *.ogm   
-*.mp4   
-*.m4v   
+*.mp4   
+*.m4v   
 *.mp4v  
 *.vob   
 *.qt    
@@ -315,22 +315,22 @@ Vagrantfile             
 *.ogx   
 
 # audio formats (extensions from dircolors defaults)
-*.aac   
-*.au    
-*.flac  
-*.m4a   
-*.mid   
-*.midi  
-*.mka   
-*.mp3   
-*.mpc   
-*.ogg   
-*.ra    
-*.wav   
-*.oga   
-*.opus  
-*.spx   
-*.xspf  
+*.aac   
+*.au    
+*.flac  
+*.m4a   
+*.mid   
+*.midi  
+*.mka   
+*.mp3   
+*.mpc   
+*.ogg   
+*.ra    
+*.wav   
+*.oga   
+*.opus  
+*.spx   
+*.xspf  
 
 # other formats
 *.pdf   

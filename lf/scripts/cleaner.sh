@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -Qef
+set -Cef
 
 file=$(readlink -f "$1")
 mime_type=$(file --brief --mime-type --dereference "$1")
