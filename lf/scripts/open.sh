@@ -1,16 +1,19 @@
+set -Cef
+
 files="$1"
 num_files="$(echo "$files" | wc --lines)"
 
 single_file() {
-	mime_type=$(file --brief --mime-type --dereference "$files")
+	file=$(readlink -f "$1")
+	mime_type=$(file --brief --mime-type --dereference "$file")
 
 	case "$mime_type" in
 		text/* | inode/x-empty)
-			$EDITOR "$files"
+			$EDITOR "$file"
 			;;
 
 		image/*)
-			feh "$files"
+			feh "$file"
 			;;
 	esac
 }

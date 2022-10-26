@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -Cf
+set -Cef
 
 file=$(readlink -f "$1")
 width="$2"
