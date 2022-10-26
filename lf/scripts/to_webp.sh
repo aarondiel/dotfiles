@@ -15,23 +15,19 @@ delete_file() {
 	response=$(gum choose "yes" "skip" "delete all" "exit")
 
 	case "$response" in
-		"yes")
-			rm -r "$file"
-			;;
+		"yes") rm -r "$file";;
 
-		"skip")
-			return 1
-			;;
+		"skip") return 1;;
 
 		"delete all")
 			delete_all="true"
 			rm -r "$file"
 			;;
 
-		"exit")
-			return 2
-			;;
+		"exit") return 2;;
 	esac
+
+	return 0
 }
 
 append_to_new_files() {
@@ -57,16 +53,8 @@ read_new_files() {
 
 		delete_file "$new_file"
 		case $? in
-			0)
-				append_to_new_files "$file" "$new_file"
-				;;
-
-			1)
-				;;
-
-			2)
-				return 1
-				;;
+			0) append_to_new_files "$file" "$new_file";;
+			2) return 1;;
 		esac
 	done
 }
