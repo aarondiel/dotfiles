@@ -6,10 +6,22 @@ files="$1"
 tempfile=$(mktemp)
 delete_all="false"
 
-# todo optionally take off pwd
+remove_pwd() {
+	for file in $files
+	do
+		case "$file" in
+			$PWD*) continue;;
+			*) echo "$files" && return 0;;
+		esac
+	done
 
-echo "$files" >> "$tempfile"
-$EDITOR "$tempfile"
+	for file in $files
+	do
+		echo "${file##$PWD/}"
+	done
+
+	return 0
+}
 
 print_unequal_number_of_lines() {
 	gum format \
@@ -80,6 +92,11 @@ rename_files() {
 		esac
 	done < "$tempfile"
 }
+
+files=$(remove_pwd)
+
+echo "$files" >> "$tempfile"
+$EDITOR "$tempfile"
 
 check_num_files &&
 	rename_files ||
