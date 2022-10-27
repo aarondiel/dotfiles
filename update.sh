@@ -57,7 +57,7 @@ make_backup() {
 	backup_file="${backupdir}/${target_filename}" 
 	[ -e "$backup_file" ] &&
 		gum confirm "delete previous backup for ${target_filename}?" &&
-		rm -r "$backup_file"
+		rm -rf "$backup_file"
 
 	mv "$target" "$backup_file"
 	echo " moved \"${target}\" to \"${backup_file}\""

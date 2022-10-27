@@ -12,4 +12,4 @@ generate_prompt_text() {
 prompt=$(generate_prompt_text)
 
 gum confirm "$prompt" &&
-	rm -r $files
+	rm -rf $files

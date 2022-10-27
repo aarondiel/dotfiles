@@ -8,20 +8,20 @@ delete_file() {
 	file="$1"
 
 	[ "$delete_all" = "true" ] &&
-		rm -r "$file" &&
+		rm -rf "$file" &&
 		return 0
 
 	echo "\"${file}\" already exists, delete it?"
 	response=$(gum choose "yes" "skip" "delete all" "exit")
 
 	case "$response" in
-		"yes") rm -r "$file";;
+		"yes") rm -rf "$file";;
 
 		"skip") return 1;;
 
 		"delete all")
 			delete_all="true"
-			rm -r "$file"
+			rm -rf "$file"
 			;;
 
 		"exit") return 2;;
