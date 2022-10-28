@@ -19,6 +19,7 @@ single_file() {
 }
 
 multiple_files() {
+	:
 }
 
 [ "$num_files" = "1" ] &&
