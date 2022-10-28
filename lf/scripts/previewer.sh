@@ -13,12 +13,12 @@ cache_file() {
 	thumbnail_folder="/tmp/.cache/lf/thumbnails"
 	mkdir --parents "$thumbnail_folder"
 
-	thumbnail_file=$(stat --printf '%i-%w-%n' "$1")
-	thumbnail_file=$(basename "$thumbnail_file")
-	thumbnail_file="${thumbnail_file%.*}"
-	thumbnail_file="${thumbnail_folder}/${thumbnail_file}"
+	thumbnail_stats=$(stat --printf '%i-%w-%n' "$1")
+	thumbnail_hash=$(echo "$thumbnail_stats" | sha256sum | cut -d' ' -f1)
+	thumbnail_name=$(basename "$1")
+	thumbnail_name="${thumbnail_name%.*}"
 
-	echo "$thumbnail_file"
+	echo "${thumbnail_folder}/${thumbnail_hash} - ${thumbnail_name}"
 }
 
 text() {
@@ -53,6 +53,18 @@ pdf() {
 	image "${cache_file}.webp"
 }
 
+video() {
+	cache_file=$(cache_file "$1")
+
+	[ -f "${cache_file}.webp" ] ||
+		ffmpegthumbnailer \
+			-i "$1" \
+			-s 0 \
+			-o "${cache_file}.webp"
+
+	image "${cache_file}.webp"
+}
+
 case "$mime_type" in
 	text/* | \
 	application/json | \
@@ -64,6 +76,8 @@ case "$mime_type" in
 	application/octet-stream) mediainfo "$file";;
 
 	application/pdf) pdf "$file";;
+
+	video/*) video "$file";;
 
 	*) echo "$mime_type";;
 esac
