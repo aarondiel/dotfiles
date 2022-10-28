@@ -4,6 +4,7 @@ map B bulk_rename
 map <c-r> reload
 
 map A rename
+map a touch
 
 map i push A<a-b><a-b><a-f>
 map I push A<c-a>
