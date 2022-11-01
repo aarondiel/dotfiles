@@ -2,6 +2,9 @@
 
 set -Cef
 
+IFS=$(echo -e '\n+')
+IFS=${IFS%?}
+
 file=$(readlink -f "$1")
 width="$2"
 height="$3"
@@ -76,6 +79,7 @@ case "$mime_type" in
 	application/octet-stream) mediainfo "$file";;
 
 	application/pdf) pdf "$file";;
+	application/zip) zipinfo -1 "$file";;
 
 	video/*) video "$file";;
 

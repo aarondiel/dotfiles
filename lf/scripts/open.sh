@@ -1,7 +1,30 @@
+#!/bin/sh
+
 set -Cef
 
 files="$1"
 num_files="$(echo "$files" | wc --lines)"
+
+delete_file() {
+	file="$1"
+
+	gum confirm "\"$file\" already exists, delete it?" &&
+		rm -rf "$file" ||
+		return 1
+
+	return 0
+}
+
+unzip_file() {
+	file="$1"
+	archive_dir="${file%\.zip}"
+
+	[ -e "$archive_dir" ] &&
+		delete_file "$archive_dir"
+
+	mkdir "$archive_dir" &&
+		unzip "$file" -d "$archive_dir"
+}
 
 get_mime_index() {
 	mime_type="$1"
@@ -11,18 +34,20 @@ get_mime_index() {
 		image/*) echo "image";;
 		application/pdf) echo "pdf";;
 		image/x-xcf) echo "gimp";;
+		application/zip) echo "zip";;
 	esac
 }
 
 single_file() {
-	file=$(readlink -f "$1")
-	mime_type=$(file --brief --mime-type --dereference "$file")
+	file=$(readlink -f "$files")
+	mime_type=$(file --brief --mime-type "$file")
 
 	case $(get_mime_index "$mime_type") in
 		text) $EDITOR "$file";;
 		image) setsid -f feh "$file" > /dev/null;;
 		pdf) setsid -f evince "$file" > /dev/null;;
 		gimp) setsid -f gimp "$file" > /dev/null;;
+		zip) unzip_file "$file";;
 	esac
 }
 
