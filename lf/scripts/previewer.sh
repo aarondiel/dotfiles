@@ -16,12 +16,8 @@ cache_file() {
 	thumbnail_folder="/tmp/.cache/lf/thumbnails"
 	mkdir --parents "$thumbnail_folder"
 
-	thumbnail_stats=$(stat --printf '%i-%w-%n' "$1")
-	thumbnail_hash=$(echo "$thumbnail_stats" | sha256sum | cut -d' ' -f1)
-	thumbnail_name=$(basename "$1")
-	thumbnail_name="${thumbnail_name%.*}"
-
-	echo "${thumbnail_folder}/${thumbnail_hash} - ${thumbnail_name}"
+	thumbnail_hash=$(hash_file.sh "$1")
+	echo "${thumbnail_folder}/${thumbnail_hash}"
 }
 
 text() {
