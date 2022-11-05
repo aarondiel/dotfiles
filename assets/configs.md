@@ -3,4 +3,5 @@
 - `nvim`
 - `zsh`
 - `keyboard_layout`
-- `lf`
+- `lf` **(requires `scripts`)**
+- `scripts`

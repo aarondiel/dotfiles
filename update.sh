@@ -25,21 +25,21 @@ print_configs() {
 }
 
 link_config() {
-	from="$1"
-	to="$2"
+	link_from="$1"
+	link_to="$2"
 
-	[ -e "$from" ] || {
-		echo "no config specified"
+	[ -e "$link_from" ] || {
+		echo "config \"${link_from}\" does not exist"
 		return 1
 	}
 
-	[ -e "$to" ] && {
-		echo "${to} already exists"
+	[ -e "$link_to" ] && {
+		echo "${link_to} already exists"
 		return 1
 	}
 
-	ln -s "$from" "$to"
-	echo " ${from} → ${to}"
+	ln -s "$link_from" "$link_to"
+	echo " ${link_from} → ${link_to}"
 }
 
 make_backup() {
@@ -67,35 +67,25 @@ parse_arguments() {
 	options="h,o:"
 	longoptions="help,configs,only:"
 
-	arguments=$( \
-		getopt \
-		-s 'sh' \
-		--options "$options" \
-		--longoptions "$longoptions" \
-		-- \
-		"$@" \
-	)
-
-	# shellcheck disable=2086
-	set -- $arguments
-
 	while [ -n "$1" ]
 	do
 		case "$1" in
-			-h | --help)
-				print_help
-				exit 0
+			-o | --only)
+				shift 1
+				CONFIGS=$(split.sh "$1")
 				;;
 
 			--configs)
-				print_configs
-				exit 0
+				return 1
 				;;
 
-			-o | --only)
-				shift 1
-				CONFIGS=$(trim_quotes.sh "$1")
+			-h | --help)
+				return 1
 				;;
+
+			*)
+				echo "unrecognized option: ${1}"
+				return 2
 		esac
 
 		shift 1
@@ -145,6 +135,20 @@ do
 			to="${HOME}/.config/lf"
 
 			make_backup "$to" && link_config "$from" "$to"
+			;;
+
+		scripts)
+			from="${CWD}/scripts"
+			to="${HOME}/.scripts.sh"
+
+			files=$(cat "assets/active scripts.txt")
+
+			mkdir -p "$to"
+
+			for file in $files
+			do
+				link_config "${from}/${file}" "${to}/${file}" || :
+			done
 			;;
 
 		*)

@@ -1,0 +1,4 @@
+lines.sh
+split.sh
+trim_quotes.sh
+hash_file.sh
