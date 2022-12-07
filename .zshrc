@@ -53,6 +53,9 @@ chpwd || compinit
 
 setopt prompt_subst
 
+lf_icons="${HOME}/.config/lf/icons.sh"
+[ -e "$lf_icons" ] && source "$lf_icons"
+
 export PROMPT="%B「%U%F{1}%n%f%u@%U%F{6}%m%f%u %c\${vcs_info_msg_0_} 」%b"
 export EDITOR="nvim"
 export VISUAL="nvim"
