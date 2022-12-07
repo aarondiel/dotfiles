@@ -127,7 +127,9 @@ do
 			from="${CWD}/keyboard_layout"
 			to="/usr/share/X11/xkb/symbols/faber"
 
-			make_backup "$to" && link_config "$from" "$to"
+			make_backup "$to" &&
+				link_config "$from" "$to" &&
+				setxkbmap "faber"
 			;;
 
 		lf)
