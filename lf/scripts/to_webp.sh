@@ -1,3 +1,5 @@
+#!/bin/sh
+
 set -Cef
 
 files="$1"
