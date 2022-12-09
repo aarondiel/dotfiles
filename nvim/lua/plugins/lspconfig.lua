@@ -144,9 +144,5 @@ local function load_lsp_configs()
 	end
 end
 
-utils.import("mason-lspconfig", function(mason_lspconfig)
-	mason_lspconfig.setup({ automatic_installation = true })
-end)
-
 setup_lsp_config()
 load_lsp_configs()

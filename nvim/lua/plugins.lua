@@ -106,13 +106,11 @@ packer.startup(function(use)
 		end
 	})
 
-	use({
-		"williamboman/mason.nvim",
-		requires = {
-			"williamboman/mason-lspconfig.nvim",
-			"WhoIsSethDaniel/mason-tool-installer.nvim"
-		},
+	use("williamboman/mason.nvim")
 
+	use({
+		"williamboman/mason-lspconfig.nvim",
+		after = "mason.nvim",
 		config = function()
 			require("plugins.mason")
 		end
@@ -120,7 +118,7 @@ packer.startup(function(use)
 
 	use({
 		"neovim/nvim-lspconfig",
-		after = "mason.nvim"
+		after = "mason-lspconfig.nvim"
 	})
 
 	use({

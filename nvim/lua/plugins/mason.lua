@@ -1,17 +1,8 @@
 local utils = require("utils")
 local mason = utils.import("mason")
+local mason_lspconfig = utils.import("mason-lspconfig")
 assert(mason ~= nil, "could not import mason")
-
-local function update_with_packer()
-	local group = utils.create_augroup("UpdateLspWithPacker")
-
-	vim.api.nvim_create_autocmd("User", {
-		desc = "update mason with packer",
-		pattern = "PackerComplete",
-		group = group,
-		command = "MasonToolsUpdate"
-	})
-end
+assert(mason_lspconfig ~= nil, "could not import mason-lspconfig")
 
 mason.setup({
 	ui = {
@@ -20,4 +11,6 @@ mason.setup({
 	}
 })
 
-update_with_packer()
+mason_lspconfig.setup({
+	automatic_installation = true
+})
