@@ -2,11 +2,11 @@ local utils = require("utils")
 local configs = {}
 
 local function is_vim_lua()
-	local file_path = vim.fn.expand('%:p')
+	local file_path = vim.fn.resolve(vim.fn.expand('%:p'))
 	local runtime_paths = vim.api.nvim_list_runtime_paths()
 
 	for _, runtime_path in ipairs(runtime_paths) do
-		if utils.starts_with(file_path, runtime_path) then
+		if utils.starts_with(file_path, vim.fn.resolve(runtime_path)) then
 			return true
 		end
 	end
@@ -109,8 +109,8 @@ configs.volar = {
 
 configs.clangd = {}
 configs.cssls = {}
-configs.pyright = {}
 configs.rust_analyzer = {}
 configs.jdtls = {}
+configs.pyright = {}
 
 return configs

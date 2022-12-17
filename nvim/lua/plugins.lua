@@ -86,11 +86,6 @@ packer.startup(function(use)
 	})
 
 	use({
-		"nvim-treesitter/playground",
-		after = "nvim-treesitter"
-	})
-
-	use({
 		"andymass/vim-matchup",
 		after = "nvim-treesitter",
 		config = function()

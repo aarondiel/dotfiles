@@ -267,6 +267,8 @@ local function file_percentage(foreground, background)
 		return " " .. tostring(percent) .. "%% "
 	end
 
+	component.short_provider = ""
+
 	component.hl = {
 		fg = foreground,
 		bg = background,
@@ -345,6 +347,8 @@ local function lsp_errors(foreground, background)
 		return " " .. sign.text .. tostring(#diagnostics) .. " "
 	end
 
+	component.short_provider = ""
+
 	component.hl = {
 		fg = foreground,
 		bg = background,
@@ -374,6 +378,8 @@ local function lsp_warnings(foreground, background)
 
 		return " " .. sign.text .. tostring(#diagnostics) .. " "
 	end
+
+	component.short_provider = ""
 
 	component.hl = {
 		fg = foreground,
@@ -405,6 +411,8 @@ local function lsp_infos(foreground, background)
 		return " " .. sign.text .. tostring(#diagnostics) .. " "
 	end
 
+	component.short_provider = ""
+
 	component.hl = {
 		fg = foreground,
 		bg = background,
@@ -434,6 +442,8 @@ local function lsp_hints(foreground, background)
 
 		return " " .. sign.text .. tostring(#diagnostics) .. " "
 	end
+
+	component.short_provider = ""
 
 	component.hl = {
 		fg = foreground,

@@ -115,5 +115,4 @@ function utils.create_augroup(name)
 	)
 end
 
-
 return utils

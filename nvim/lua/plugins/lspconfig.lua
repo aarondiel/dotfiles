@@ -139,7 +139,8 @@ local function load_lsp_configs()
 		lspconfig[server_name].setup({
 			on_attach = on_attach,
 			capabilities = capabilities,
-			settings = config
+			settings = config,
+			root_dir = lspconfig.util.root_pattern(".git")
 		})
 	end
 end

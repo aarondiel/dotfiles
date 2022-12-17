@@ -22,18 +22,13 @@ nvim_tree.setup({
 		relativenumber = true,
 		mappings = {
 			custom_only = false,
-			list = {
-				{ key = { "<cr>", "l" }, action = "edit_in_place" }
-			},
-		},
+			list = { { key = { "<cr>", "l" }, action = "edit_in_place" } }
+		}
 	},
 
 	renderer = {
 		highlight_opened_files = "name",
-
-		icons = {
-			show = { git = false }
-		}
+		icons = { show = { git = false } }
 	}
 })
 
