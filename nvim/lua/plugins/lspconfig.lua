@@ -4,6 +4,14 @@ utils.import("plugins.cmp")
 
 assert(lspconfig ~= nil, "could not import lspconfig")
 
+local function clear_jdtls()
+	local jdtls_cache = vim.fn.expand("~/.cache/jdtls")
+	vim.fn.delete(jdtls_cache, "rf")
+	vim.cmd("LspRestart")
+end
+
+vim.api.nvim_create_user_command("ClearJdtls", clear_jdtls, { nargs = 0 })
+
 local function on_attach(_, buffer_number)
 	vim.opt.omnifunc = "v:lua.vim.lsp.omnifunc"
 
