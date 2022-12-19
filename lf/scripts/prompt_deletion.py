@@ -1,36 +1,29 @@
 #!/bin/python
 
-from subprocess import PIPE, Popen
 from sys import argv
+from typing import Iterable
+from utils import get_confirmation
+from subprocess import PIPE, Popen
 from concurrent.futures import ThreadPoolExecutor as Pool
 
 def trash(file: str) -> bool:
     return Popen(["trash", file]).wait(32) == 0
 
 def prompt_delete(file: str) -> bool:
-    response = Popen(
-        ["gum", "confirm", f"do you want to delete \"{file}\"?"],
-        stdin=PIPE
-    ).wait()
+    response = get_confirmation(f"do you want to delete \"{file}\"?")
 
-    if response != 0:
-        return False
+    if response:
+        trash(file)
 
-    trash(file)
-
-    return True
+    return response
 
 def prompt_delete_all(files: list[str]) -> bool:
     for file in files:
         print(file)
 
-    response = Popen(
-        ["gum", "confirm", "do you want to delete these files?"],
-        stdout=PIPE,
-        stdin=PIPE
-    ).wait()
+    response = get_confirmation("do you want to delete these files?")
 
-    if response != 0:
+    if not response:
         return False
 
     with Pool() as pool:
@@ -39,7 +32,7 @@ def prompt_delete_all(files: list[str]) -> bool:
     return True
     
 
-def prompt_deletion(files: list[str], after="") -> list[str] | None:
+def prompt_deletion(files: Iterable[str], after="") -> list[str] | None:
     skipped = []
     to_delete = []
     delete_all = False

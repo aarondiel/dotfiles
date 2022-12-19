@@ -1,121 +1,134 @@
 #!/bin/python
 
 from sys import argv
-from os import environ, system, path, popen, remove, makedirs
-from shutil import move
-from tempfile import NamedTemporaryFile, TemporaryDirectory
+from typing import Iterable
+from subprocess import Popen
+from os import listdir, path, environ
+from utils import get_confirmation
+from prompt_deletion import prompt_deletion
+from tempfile import NamedTemporaryFile
+from concurrent.futures import ThreadPoolExecutor as Pool
 
-def remove_common_paths(files: list[str]) -> str:
-    longest_common_path: list[str] = files[0].split("/")[:-1]
+def longest_common_path(files: list[str]) -> tuple[Iterable[str], str]:
+    common_path = (
+        path.dirname(files[0])
+        if len(files) == 1
+        else path.commonpath(files)
+    )
 
-    for file in files[1:]:
-        split_path: list[str] = file.split("/")[:-1]
+    if not common_path.endswith("/"):
+        common_path += "/"
 
-        minimum_length = min(len(longest_common_path), len(split_path))
+    return (
+        (file[len(common_path):] for file in files),
+        common_path
+    )
 
-        for i in range(minimum_length):
-            if longest_common_path[i] == split_path[i]:
-                continue
 
-            longest_common_path = longest_common_path[:i]
-            break
-
-    return "/".join(longest_common_path) + "/"
-
-def get_new_filenames(filenames: list[str]) -> list[str]:
+def get_new_filenames(filenames: Iterable[str]) -> Iterable[str]:
     with NamedTemporaryFile(mode="w+") as temp_file:
         temp_file.write("\n".join(filenames))
         temp_file.flush()
 
-        editor = environ["EDITOR"]
+        editor = environ.get("EDITOR")
         if editor == None:
             editor = "vi"
 
-        cmd = editor + " '" + temp_file.name + "'"
-        system(cmd)
+        Popen([editor, temp_file.name]).wait()
 
         temp_file.seek(0)
-        new_filenames = [
+
+        return (
             line.removesuffix("\n")
             for line in temp_file.readlines()
-        ]
+        )
 
-        return new_filenames
 
-def remove_file(file_path: str, overwrite_all: bool) -> str:
-    if overwrite_all:
-        return "yes"
+def create_temp_dir(common_path: str) -> str | None:
+    directory_path = path.join(common_path, ".lf")
 
-    print(f"file \"{file_path}\" already exists, overwrite it?")
-    return popen("gum choose 'yes' 'no' 'overwrite all' 'exit'").read()
-
-def restore_original_files(move_operations: list[tuple[str, str, str]]) -> None:
-    for from_file, temp_file, _ in move_operations:
-        move(temp_file, from_file)
-
-def remove_existing_paths(
-    move_operations: list[tuple[str, str, str]]
-) -> list[tuple[str, str, str]] | None:
-    result = []
-    to_remove = []
-
-    overwrite_all = False
-    move_files_back = False
-
-    for from_path, temp_path, to_path in move_operations:
-        if not path.exists(to_path):
-            result.append((from_path, temp_path, to_path))
-            continue
-
-        response = remove_file(to_path, overwrite_all)
-
-        if response == "yes":
-            result.append((from_path, temp_path, to_path))
-            to_remove.append(to_path)
-        elif response == "no":
-            pass
-        elif response == "overwrite all":
-            result.append((from_path, temp_path, to_path))
-            to_remove.append(to_path)
-            overwrite_all = True
-        elif response == "exit":
-            move_files_back = True
-
-    if move_files_back:
-        restore_original_files(move_operations)
+    if path.exists(directory_path):
         return None
 
-    for file in to_remove:
-        remove(file)
+    Popen(["mkdir", "-p", directory_path]).wait(32)
 
-    return result
+    return directory_path
+
+
+def remove_temp_dir(temp_dir: str) -> None:
+    if len(listdir(temp_dir)) != 0:
+        print("something went wrong!")
+        print(f"please recover the files in \"{temp_dir}\"")
+        return
+
+    Popen(["rmdir", temp_dir])
+
+
+def move(from_file: str, to_file: str) -> None:
+    Popen(["mv", from_file, to_file]).wait()
+
 
 if __name__ == "__main__":
     files: list[str] = argv[1].splitlines()
-    longest_common_path = remove_common_paths(files)
-    filenames = [ file.removeprefix(longest_common_path) for file in files ]
-    new_filenames = get_new_filenames(filenames)
+    shortened_files, common_path = longest_common_path(files)
+    renamed_files = list(get_new_filenames(shortened_files))
 
-    if len(filenames) != len(set(new_filenames)):
-        print("unmatched number of filenames")
+    if (len(files) != len(renamed_files)):
+        print("unmatched number of files")
+        exit(1)
 
+    for from_file, to_file in zip(files, renamed_files):
+          print(f"\"{from_file}\" -> \"{to_file}\"")
 
-    with TemporaryDirectory() as temp_dir:
-        overwrite_all = False
+    if not get_confirmation("do you want to rename these files?"):
+        exit(0)
 
-        move_operations: list[tuple[str, str, str]] | None = [ (
-            longest_common_path + original_name,
-            temp_dir + "/" + new_name,
-            longest_common_path + new_name
-        ) for original_name, new_name in zip(filenames, new_filenames) ]
+    temp_dir = create_temp_dir(common_path)
+    if temp_dir == None:
+        temp_dir_path = path.join(common_path, ".lf")
+        print(f"could not create temporary directory at \"{temp_dir_path}\"")
+        exit(2)
 
-        for from_path, temp_path, _ in move_operations:
-            makedirs(path.dirname(temp_path), exist_ok=True)
-            move(from_path, temp_path) 
+    with Pool() as pool:
+        temp_files = [
+            path.join(temp_dir, f"{hex(abs(hash(file)))} - {path.basename(file)}")
+            for file in files
+        ]
 
-        move_operations = remove_existing_paths(move_operations)
-        if move_operations == None:
-            exit(0)
-        
-        for _, temp_path, to_path in move_operations:
-            move(temp_path, to_path)
+        pool.map(move, files, temp_files)
+
+        to_files = [common_path + file for file in renamed_files]
+
+        move_tuple = lambda operation: move(operation[0], operation[1])
+        while True:
+            to_delete = (file for file in to_files if path.exists(file))
+            skipped = prompt_deletion(to_delete, " already exists")
+
+            if skipped == None:
+                pool.map(move, temp_files, files)
+                remove_temp_dir(temp_dir)
+                exit(0)
+
+            if len(skipped) == 0:
+                break
+
+            move_back = (
+                (from_file, to_file)
+                for from_file, to_file in zip(temp_files, to_files)
+                if to_file in skipped
+            )
+
+            pool.map(move_tuple, move_back)
+
+            keep = (
+                (temp_file, to_file)
+                for temp_file, to_file in zip(temp_files, to_files)
+                if to_file not in skipped
+            )
+
+            temp_files = [file for file, _ in keep]
+            to_files = [file for _, file in keep]
+
+        pool.map(move, temp_files, to_files)
+
+    remove_temp_dir(temp_dir)
