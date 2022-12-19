@@ -1,12 +1,17 @@
 #!/bin/python
 
 from sys import argv
-from os import popen, path
-from typing import Optional
-from multiprocessing import Pool
+from os import path
+from subprocess import DEVNULL, PIPE, Popen
+from prompt_deletion import prompt_deletion, trash
+from concurrent.futures import ThreadPoolExecutor as Pool
 
 def get_mime_type(file: str) -> str:
-    return popen(f"file --brief --mime-type '{file}'").read()
+    return Popen(
+        ["file", "--brief", "--mime-type", file],
+        stdout=PIPE,
+        text=True
+    ).communicate()[0]
 
 def filter_images(file: str) -> bool:
     return get_mime_type(file).startswith("image")
@@ -22,44 +27,22 @@ def print_operations(operations: list[tuple[str, str]]) -> None:
         print(f"{from_file} -> {to_file}")
 
 def get_confirmation() -> bool:
-    prompt = popen("gum confirm 'do you want to convert these files?'")
+    return Popen(
+        ["gum", "confirm", "do you want to convert these files?"],
+        stdout=PIPE,
+        stdin=PIPE
+    ).wait() == 0
 
-    return prompt.close() == None
-
-def prompt_deletion(files: list[str]) -> Optional[list[str]]:
-    skipped = []
-    to_delete = []
-    delete_all = False
-
-    for file in files:
-        if delete_all:
-            to_delete.append(file)
-            continue
-
-        response = popen("gum choose 'yes' 'skip' 'delete all' 'exit'").read()
-
-        if response == "yes":
-            to_delete.append(file)
-        elif response == "delete_all":
-            to_delete.append(file)
-            delete_all = True
-        elif response == "exit":
-            return None
-        else:
-            skipped.append(file)
-
-    for file in to_delete:
-        popen(f"trash '{file}'")
-
-    return skipped
-        
 
 def convert(from_file: str, to_file: str):
-    status = popen(f"cwebp -q 100 '{from_file}' -o '{to_file}'") \
-        .close()
+    status = Popen(
+        ["cwebp", "-q", "100", from_file, "-o", to_file],
+        stdout=DEVNULL,
+        stderr=DEVNULL
+    ).wait(32)
 
-    if status == None:
-        popen(f"trash '{from_file}'")
+    if status == 0:
+        trash(from_file)
 
 def convert_files(operations: list[tuple[str, str]]):
     to_delete = [
@@ -68,7 +51,7 @@ def convert_files(operations: list[tuple[str, str]]):
         if path.exists(to_file)
     ]
 
-    skipped = prompt_deletion(to_delete)
+    skipped = prompt_deletion(to_delete, after=" already exists")
 
     if skipped == None:
         return
@@ -78,8 +61,10 @@ def convert_files(operations: list[tuple[str, str]]):
         operations
     )
 
-    with Pool(processes=4) as pool:
-        pool.starmap(convert, new_operations)
+    tuple_convert = lambda operation: convert(operation[0], operation[1])
+
+    with Pool() as pool:
+        pool.map(tuple_convert, new_operations)
 
 if __name__ == "__main__":
     files: list[str] = argv[1].splitlines()

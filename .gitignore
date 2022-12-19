@@ -1,2 +1,4 @@
 nvim/plugin
+*.log
+lf/scripts/__pycache__
 .backup
