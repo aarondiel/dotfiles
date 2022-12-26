@@ -59,6 +59,10 @@ end
 
 --- @return awful.widget
 local function create_battery_widget()
+	if io.popen("upower -e | grep 'BAT'"):read() == nil then
+		return wibox.widget.textbox('')
+	end
+
 	local battery_widget = wibox.widget.textbox('?%')
 
 	local battery_tooltip = awful.tooltip({})

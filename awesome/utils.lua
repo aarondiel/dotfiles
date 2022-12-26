@@ -441,4 +441,10 @@ function utils.change_wallpapers()
 	end
 end
 
+---@param message string
+---@return nil
+function utils.debug(message)
+	naughty.notification({ message = message })
+end
+
 return utils
