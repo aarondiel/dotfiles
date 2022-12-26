@@ -39,7 +39,7 @@ def convert(from_file: str, to_file: str):
         ["cwebp", "-q", "100", from_file, "-o", to_file],
         stdout=DEVNULL,
         stderr=DEVNULL
-    ).wait(32)
+    ).wait()
 
     if status == 0:
         trash(from_file)
