@@ -10,7 +10,7 @@ get_current_directory() {
 
 CWD="$(get_current_directory)"
 PATH="${CWD}/scripts:${PATH}"
-CONFIGS="nvim,zsh,keyboard_layout,lf"
+CONFIGS="nvim,zsh,keyboard_layout,lf,awesome"
 
 get_filename() {
 	echo "${1##*/}"
@@ -151,6 +151,13 @@ do
 			do
 				link_config "${from}/${file}" "${to}/${file}" || :
 			done
+			;;
+
+		awesome)
+			from="${CWD}/awesome"
+			to="${HOME}/.config/awesome"
+
+			make_backup "$to" && link_config "$from" "$to"
 			;;
 
 		*)
