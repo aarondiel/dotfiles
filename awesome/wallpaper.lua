@@ -66,8 +66,13 @@ local function random_choice(target)
 	return target[index]
 end
 
+local files = list_files(beautiful.wallpaper, true)
+files = utils.filter(files, function (file)
+	local search_string = ".webp"
+	return file:sub(1, #file - #search_string) == search_string
+end)
+
 screen.connect_signal('request::wallpaper', function(target_screen)
-	local files = list_files(beautiful.wallpaper, true)
 	local file = random_choice(files)
 
 	gears.wallpaper.maximized(file, target_screen)

@@ -447,4 +447,20 @@ function utils.debug(message)
 	naughty.notification({ message = message })
 end
 
+---@generic T
+---@param target T[]
+---@param fn fun(arg: T): boolean
+---@reurn T[]
+function utils.filter(target, fn)
+	local result = {}
+
+	for _, element in ipairs(target) do
+		if fn(element) then
+			table.insert(result, element)
+		end
+	end
+
+	return result
+end
+
 return utils
