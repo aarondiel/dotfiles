@@ -447,10 +447,17 @@ function utils.debug(message)
 	naughty.notification({ message = message })
 end
 
+---@param target string
+---@param search_string string
+---@return boolean
+function utils.ends_with(target, search_string)
+	return target:sub(#target - #search_string + 1, #target) == search_string
+end
+
 ---@generic T
 ---@param target T[]
 ---@param fn fun(arg: T): boolean
----@reurn T[]
+---@return T[]
 function utils.filter(target, fn)
 	local result = {}
 
