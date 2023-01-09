@@ -16,7 +16,7 @@ cache_file() {
 	thumbnail_folder="/tmp/.cache/lf/thumbnails"
 	mkdir --parents "$thumbnail_folder"
 
-	thumbnail_hash=$(hash_file.sh "$1")
+	thumbnail_hash=$(~/.config/lf/scripts/hash_file.sh "$1")
 	echo "${thumbnail_folder}/${thumbnail_hash}"
 }
 
@@ -41,27 +41,27 @@ image() {
 }
 
 pdf() {
-	cache_file=$(cache_file "$1")
+	cached_preview=$(cache_file "$1")
 
-	[ -f "${cache_file}.webp" ] || {
-		pdftoppm -jpeg -f 1 -singlefile "$1" "$cache_file" &&
-			cwebp -q 100 "${cache_file}.jpg" -o "${cache_file}.webp" &&
-			rm "${cache_file}.jpg"
+	[ -f "${cached_preview}.webp" ] || {
+		pdftoppm -jpeg -f 1 -singlefile "$1" "$cached_preview" &&
+			cwebp -q 100 "${cached_preview}.jpg" -o "${cached_preview}.webp" &&
+			rm "${cached_preview}.jpg"
 	}
 
-	image "${cache_file}.webp"
+	image "${cached_preview}.webp"
 }
 
 video() {
-	cache_file=$(cache_file "$1")
+	cached_preview=$(cache_file "$1")
 
-	[ -f "${cache_file}.webp" ] ||
+	[ -f "${cached_preview}.webp" ] ||
 		ffmpegthumbnailer \
 			-i "$1" \
 			-s 0 \
-			-o "${cache_file}.webp"
+			-o "${cached_preview}.webp"
 
-	image "${cache_file}.webp"
+	image "${cached_preview}.webp"
 }
 
 case "$mime_type" in
