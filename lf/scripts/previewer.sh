@@ -73,6 +73,7 @@ case "$mime_type" in
 
 	audio/* | \
 	application/octet-stream) mediainfo "$file";;
+	application/java-archive) jar tf "$file";;
 
 	application/pdf) pdf "$file";;
 	application/zip) zipinfo -1 "$file";;
