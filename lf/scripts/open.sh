@@ -35,6 +35,7 @@ get_mime_index() {
 		application/pdf) echo "pdf";;
 		image/x-xcf) echo "gimp";;
 		application/zip) echo "zip";;
+		video/*) echo "video";;
 	esac
 }
 
@@ -44,6 +45,7 @@ single_file() {
 
 	case $(get_mime_index "$mime_type") in
 		text) $EDITOR "$file";;
+		video) setsid -f vlc "$file";;
 		image) setsid -f feh "$file" > /dev/null;;
 		pdf) setsid -f evince "$file" > /dev/null;;
 		gimp) setsid -f gimp "$file" > /dev/null;;

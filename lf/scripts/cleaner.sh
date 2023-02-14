@@ -12,7 +12,7 @@ case "$mime_type" in
 		kitty +kitten icat \
 			--silent \
 			--stdin 'no' \
-			--transfer-mode 'file' \
-			--clear
+			--transfer-mode 'memory' \
+			--clear < /dev/null > /dev/tty
 	;;
 esac

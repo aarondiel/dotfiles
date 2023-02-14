@@ -2,8 +2,8 @@
 
 set -Cef
 
-IFS=$(echo -e '\n+')
-IFS=${IFS%?}
+IFS=$(printf '\n+')
+IFS=${IFS%+}
 
 file=$(readlink -f "$1")
 width="$2"
@@ -32,10 +32,10 @@ image() {
 	kitty +kitten icat \
 		--silent \
 		--stdin 'no' \
-		--transfer-mode 'file' \
+		--transfer-mode 'memory' \
 		--align 'center' \
 		--place "${width}x${height}@${panel_x}x${panel_y}" \
-		"$1"
+		"$1" < /dev/null > /dev/tty
 
 	exit 1
 }

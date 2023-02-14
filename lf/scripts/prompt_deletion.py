@@ -1,6 +1,7 @@
 #!/bin/python
 
 from sys import argv
+from os import environ
 from typing import Iterable
 from utils import get_confirmation
 from subprocess import PIPE, Popen
@@ -9,11 +10,17 @@ from concurrent.futures import ThreadPoolExecutor as Pool
 def trash(file: str) -> bool:
     return Popen(["trash", file]).wait(32) == 0
 
+def rm(file: str) -> bool:
+    return Popen(["rm", "-rf", file]).wait(32) == 0
+
 def prompt_delete(file: str) -> bool:
     response = get_confirmation(f"do you want to delete \"{file}\"?")
 
     if response:
-        trash(file)
+        if environ.get("NO_TRASH") == "true":
+            rm(file)
+        else:
+            trash(file)
 
     return response
 
@@ -27,8 +34,11 @@ def prompt_delete_all(files: list[str]) -> bool:
         return False
 
     with Pool() as pool:
-        pool.map(trash, files)
-        
+        if environ.get("NO_TRASH") == "true":
+            pool.map(rm, files)
+        else:
+            pool.map(trash, files)
+            
     return True
     
 
