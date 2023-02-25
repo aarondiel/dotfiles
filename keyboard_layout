@@ -6,7 +6,7 @@
  // ┃ Tab   ┃ q ø │ w   │ e è │ r ® │ t ™ │ y ¥ │ u ü │ i   │ o ö │ p π │ [   │ ]   ┃ Enter ┃
  // ┣━━━━━━━┻┱────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┴┬────┺┓      ┃
  // ┃Caps    ┃ A Ä │ S Σ │ D   │ F   │ G   │ H   │ J   │ K   │ L § │ : ’ │ " ” │ | ¶ ┃      ┃
- // ┃Lock  ⇬ ┃ a ä │ s ß │ d Δ │ f   │ g   │ h   │ j   │ k   │ l λ │ ; ‘ │ ' “ │ \ ¦ ┃      ┃
+ // ┃Lock  ⇬ ┃ a ä │ s ß │ d Δ │ f   │ g   │ h   │ j   │ k   │ l λ │ ; ‘ │ ' “ │ \ ⎖ ┃      ┃
  // ┣━━━━━━┳━┹───┬─┴───┬─┴───┬─┴───┬─┴───┬─┴───┬─┴───┬─┴───┬─┴───┬─┴───┬─┴───┲━┷━━━━┲┻━━━━━━┫
  // ┃ ⇧    ┃ > ≥ │ Z   │ X ÷ │ C © │ V   │ B   │ N   │ M   │ < « │ > » │ ?   ┃ ↑    ┃ ⇧     ┃
  // ┃Shift ┃ < ≤ │ z   │ x × │ c ¢ │ v   │ b   │ n   │ m µ │ , · │ . … │ / シ┃ Up   ┃ Shift ┃
@@ -75,7 +75,7 @@ xkb_symbols "basic" {
 	key <AB09>	{ [ period,				greater,			ellipsis,							guillemotright				]	};
 	key <AB10>	{ [ slash,				question,			U30b7																				]	};
 
-	key <BKSL>	{ [ backslash,		bar,					brokenbar,						paragraph							]	};
+	key <BKSL>	{ [ backslash,		bar,					U2396,								paragraph							]	};
 	key <LSGT>	{ [ less,					greater,			lessthanequal,				greaterthanequal			] };
 	key <TAB>		{ [ tab,					VoidSymbol,		U21b9																				] };
 	key <UP>		{ [ Up,						VoidSymbol,		uparrow																			] };
