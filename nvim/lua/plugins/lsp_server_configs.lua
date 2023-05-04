@@ -14,7 +14,7 @@ local function is_vim_lua()
 	return false
 end
 
-function configs.sumneko_lua()
+function configs.lua_ls()
 	local globals = { "require" }
 	local library = {}
 

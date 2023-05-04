@@ -72,9 +72,10 @@ alias vim="nvim"
 alias cp="cp -r"
 alias less="less -r"
 alias icat="kitty +kitten icat"
-alias du="du -sch"
-alias compress_folder="tar -czf"
 alias curl="curl -L"
+alias diff="kitty +kitten diff"
+# alias compress_folder="tar -czf"
+# alias du="du -sch"
 
 bindkey -v
 bindkey "^[[Z" reverse-menu-complete
