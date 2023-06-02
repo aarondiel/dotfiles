@@ -14,6 +14,10 @@ utils.keymaps({
 	{ "n", "<leader>p", "\"+p" .. reindent_pasted_text },
 	{ { "n", "v" }, "p", "p" .. reindent_pasted_text },
 
+	{ "n", "<leader>qh", "<cmd>cprev<cr>" },
+	{ "n", "<leader>ql", "<cmd>cnext<cr>" },
+	{ "n", "<leader>qc", "<cmd>cclose<cr>" },
+
 	{ "n", "<esc>", "<cmd>nohlsearch<cr>" },
 
 	{ "n", "<leader>tt", "<ctrl-w>T" }

@@ -67,10 +67,10 @@ end
 
 local function setup_lsp_signs()
 	local signs = {
-		Error = "",
+		Error = "",
 		Warn = "",
-		Info = "",
-		Hint = ""
+		Info = "",
+		Hint = "󰌵"
 	}
 
 	for sign_name, sign in pairs(signs) do
