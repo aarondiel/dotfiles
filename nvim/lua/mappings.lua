@@ -10,15 +10,12 @@ utils.keymaps({
 	{ "n", "Y", "y$" },
 	{ "n", "<leader>m", "<cmd>messages<cr>" },
 	{ "v", "<leader>y", "\"+y" },
-	{ "n", "<leader>i", reindent_pasted_text },
-	{ "n", "<leader>p", "\"+p" .. reindent_pasted_text },
+	
+	{ { "n", "v" }, "<leader>p", "\"+p" .. reindent_pasted_text },
 	{ { "n", "v" }, "p", "p" .. reindent_pasted_text },
 
-	{ "n", "<leader>qh", "<cmd>cprev<cr>" },
-	{ "n", "<leader>ql", "<cmd>cnext<cr>" },
-	{ "n", "<leader>qc", "<cmd>cclose<cr>" },
+	{ "n", "<leader>N", "<cmd>cprev<cr>" },
+	{ "n", "<leader>n", "<cmd>cnext<cr>" },
 
-	{ "n", "<esc>", "<cmd>nohlsearch<cr>" },
-
-	{ "n", "<leader>tt", "<ctrl-w>T" }
+	{ "n", "<esc>", "<cmd>nohlsearch<cr>" }
 })

@@ -1,5 +1,4 @@
-local utils = require("utils")
-
+utils = require("utils")
 utils.import("options")
 utils.import("mappings")
 utils.import("autocommands")

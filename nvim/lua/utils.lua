@@ -18,6 +18,12 @@ function utils.import(package_name, callback, fallback)
 	return nil
 end
 
+function utils.load_config(name)
+	return function()
+		utils.import("plugins.configs." .. name)
+	end
+end
+
 function utils.unpack(array)
 	local value = table.remove(array)
 
